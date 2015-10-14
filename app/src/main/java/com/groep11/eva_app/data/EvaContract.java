@@ -50,5 +50,9 @@ public class EvaContract {
         public static Uri buildCurrentChallengeUri() {
             return CONTENT_URI.buildUpon().appendPath("current").build();
         }
+
+        public static long getIdFromUri(Uri uri){
+            return Long.parseLong(uri.getLastPathSegment());
+        }
     }
 }

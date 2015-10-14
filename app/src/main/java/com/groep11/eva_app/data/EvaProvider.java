@@ -58,17 +58,17 @@ public class EvaProvider extends ContentProvider {
             // "challenge/current"
             case CHALLENGE_CURRENT:
             {
-                retCursor = getCurrentChallenge(uri, projection, selection, selectionArgs, sortOrder);
+                retCursor = getCurrentChallenge(uri, projection, sortOrder);
                 break;
             }
             // "challenge/*"
             case CHALLENGE_WITH_ID: {
-                retCursor = getChallengeById(uri, projection, selection, selectionArgs, sortOrder);
+                retCursor = getChallengeById(uri, projection, sortOrder);
                 break;
             }
             // "challenge"
             case CHALLENGE: {
-                retCursor = getChallenge(uri, projection, selection, selectionArgs, sortOrder);
+                retCursor = getChallenge(projection, selection, selectionArgs, sortOrder);
                 break;
             }
             default:
@@ -78,7 +78,7 @@ public class EvaProvider extends ContentProvider {
         return retCursor;
     }
 
-    private Cursor getChallenge(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder){
+    private Cursor getChallenge(String[] projection, String selection, String[] selectionArgs, String sortOrder){
         return mOpenHelper.getReadableDatabase().query(
                 ChallengeEntry.TABLE_NAME,
                 projection,
@@ -90,14 +90,25 @@ public class EvaProvider extends ContentProvider {
         );
     }
 
-    private Cursor getChallengeById(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        // TODO: implement
-        throw new UnsupportedOperationException("Not yet implemented");
+    private Cursor getChallengeById(Uri uri, String[] projection, String sortOrder) {
+        long id = ChallengeEntry.getIdFromUri(uri);
+        String selection = ChallengeEntry._ID + " = ? ";
+        String[] selectionArgs = new String[]{""+id};
+
+        return mOpenHelper.getReadableDatabase().query(
+                ChallengeEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
     }
 
-    private Cursor getCurrentChallenge(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    private Cursor getCurrentChallenge(Uri uri, String[] projection, String sortOrder) {
         // TODO: implement
-        return getChallenge(uri, projection, selection, selectionArgs, ChallengeEntry._ID+" DESC");
+        return getChallenge(projection, null, null, ChallengeEntry._ID+" DESC");
     }
 
     /*
