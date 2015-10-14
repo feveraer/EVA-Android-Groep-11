@@ -3,4 +3,4 @@
     android:name="com.groep11.eva_app.ui.fragment.ShowChallengeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_show_challenge_details" />
+    tools:layout="@layout/fragment_show_challenge" />

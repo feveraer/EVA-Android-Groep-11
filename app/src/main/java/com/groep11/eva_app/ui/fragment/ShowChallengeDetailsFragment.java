@@ -60,7 +60,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         }
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_show_challenge, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_show_challenge_details, container, false);
         mIdView = (TextView) rootView.findViewById(R.id.text_challenge_id);
         mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
         mDescriptionView = (TextView) rootView.findViewById(R.id.text_challenge_description);
