@@ -101,6 +101,13 @@ public class TestProvider extends AndroidTestCase {
         // vnd.android.cursor.dir/com.example.android.sunshine.app/weather
         assertEquals("Error: the ChallengeEntry CONTENT_URI with location should return ChallengeEntry.CONTENT_TYPE",
                 ChallengeEntry.CONTENT_TYPE, type);
+
+        // content://com.groep11.eva_app/challenge/current
+        type = mContext.getContentResolver().getType(
+                ChallengeEntry.buildCurrentChallengeUri());
+        // vnd.android.cursor.dir/com.example.android.sunshine.app/weather
+        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+                ChallengeEntry.CONTENT_TYPE, type);
     }
 
 

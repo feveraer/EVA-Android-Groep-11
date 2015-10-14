@@ -17,4 +17,15 @@ public class TestEvaContract extends AndroidTestCase{
                 challengeUri.toString(),
                 "content://com.groep11.eva_app/challenge/1419033600");
     }
+
+    public void testBuildCurrentChallengeUri() {
+        Uri challengeUri = EvaContract.ChallengeEntry.buildCurrentChallengeUri();
+        assertNotNull("Error: Null Uri returned.  You must fill-in testBuildCurrentChallengeUri in EvaContract.",
+                challengeUri);
+        assertEquals("Error: Challenge id not properly appended to the end of the Uri",
+                "current", challengeUri.getLastPathSegment());
+        assertEquals("Error: Challenge Uri doesn't match our expected result",
+                challengeUri.toString(),
+                "content://com.groep11.eva_app/challenge/current");
+    }
 }
