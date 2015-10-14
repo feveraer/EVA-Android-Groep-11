@@ -9,12 +9,11 @@ public class TestEvaContract extends AndroidTestCase{
 
     public void testBuildChallengeUri() {
         Uri challengeUri = EvaContract.ChallengeEntry.buildChallengeUri(TEST_CHALLENGE_ID);
-        assertNotNull("Error: Null Uri returned.  You must fill-in buildWeatherLocation in " +
-                        "WeatherContract.",
+        assertNotNull("Error: Null Uri returned.  You must fill-in testBuildChallengeUri in EvaContract.",
                 challengeUri);
-        assertEquals("Error: Weather location not properly appended to the end of the Uri",
+        assertEquals("Error: Challenge id not properly appended to the end of the Uri",
                 new Long(TEST_CHALLENGE_ID).toString(), challengeUri.getLastPathSegment());
-        assertEquals("Error: Weather location Uri doesn't match our expected result",
+        assertEquals("Error: Challenge Uri doesn't match our expected result",
                 challengeUri.toString(),
                 "content://com.groep11.eva_app/challenge/1419033600");
     }
