@@ -9,6 +9,7 @@ import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
 import com.groep11.eva_app.utils.PollingCheck;
+import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,12 @@ import java.util.Set;
  */
 public class TestUtilities extends AndroidTestCase {
     public static ContentValues createDummyChallengeValues() {
-        throw new UnsupportedOperationException();
+        ContentValues weatherValues = new ContentValues();
+        weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge title 1");
+        weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Challenge desc 1");
+        weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, "Challenge diff 1");
+
+        return weatherValues;
     }
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+
 public class EvaDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
@@ -17,11 +19,19 @@ public class EvaDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        final String SQL_CREATE_CHALLENGE_TABLE = "CREATE TABLE " + ChallengeEntry.TABLE_NAME + " (" +
+                ChallengeEntry._ID + " INTEGER PRIMARY KEY," +
+                ChallengeEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                ChallengeEntry.COLUMN_DESCTRIPTION + " TEXT NOT NULL, " +
+                ChallengeEntry.COLUMN_DIFFICULTY + " TEXT NOT NULL " +
+                " );";
+
+        db.execSQL(SQL_CREATE_CHALLENGE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        db.execSQL("DROP TABLE IF EXISTS " + ChallengeEntry.TABLE_NAME);
+        onCreate(db);
     }
 }
