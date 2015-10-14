@@ -20,6 +20,11 @@
             android:name=".ui.activity.ShowChallengeDetailsActivity"
             android:label="@string/title_activity_show_challenge_details" >
         </activity>
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".data.EvaProvider"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
 </manifest>
