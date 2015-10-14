@@ -58,25 +58,17 @@ public class EvaProvider extends ContentProvider {
             // "challenge/current"
             case CHALLENGE_CURRENT:
             {
-                retCursor = getCurrentChallenge(uri, projection, sortOrder);
+                retCursor = getCurrentChallenge(uri, projection, selection, selectionArgs, sortOrder);
                 break;
             }
             // "challenge/*"
             case CHALLENGE_WITH_ID: {
-                retCursor = getChallengeById(uri, projection, sortOrder);
+                retCursor = getChallengeById(uri, projection, selection, selectionArgs, sortOrder);
                 break;
             }
             // "challenge"
             case CHALLENGE: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        ChallengeEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
+                retCursor = getChallenge(uri, projection, selection, selectionArgs, sortOrder);
                 break;
             }
             default:
@@ -86,14 +78,26 @@ public class EvaProvider extends ContentProvider {
         return retCursor;
     }
 
-    private Cursor getChallengeById(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getChallenge(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder){
+        return mOpenHelper.getReadableDatabase().query(
+                ChallengeEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+    private Cursor getChallengeById(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // TODO: implement
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private Cursor getCurrentChallenge(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getCurrentChallenge(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // TODO: implement
-        throw new UnsupportedOperationException("Not yet implemented");
+        return getChallenge(uri, projection, selection, selectionArgs, sortOrder);
     }
 
     /*
