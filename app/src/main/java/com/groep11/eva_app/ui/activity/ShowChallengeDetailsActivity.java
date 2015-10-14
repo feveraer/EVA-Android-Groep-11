@@ -1,18 +1,34 @@
 package com.groep11.eva_app.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.ui.fragment.ShowChallengeDetailsFragment;
 
-public class ShowChallengeDetailsActivity extends AppCompatActivity {
+public class ShowChallengeDetailsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_challenge_details);
+
+        if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, getIntent().getData());
+
+            ShowChallengeDetailsFragment fragment = new ShowChallengeDetailsFragment();
+            fragment.setArguments(arguments);
+
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment_show_challenge_detail_container, fragment)
+                    .commit();
+        }
     }
 
 
@@ -32,6 +48,7 @@ public class ShowChallengeDetailsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            // TODO: implement
             return true;
         }
 

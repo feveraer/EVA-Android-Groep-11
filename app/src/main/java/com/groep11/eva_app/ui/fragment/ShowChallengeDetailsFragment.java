@@ -20,7 +20,7 @@ import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
  */
 public class ShowChallengeDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    static final String DETAIL_URI = "URI";
+    public static final String DETAIL_URI = "URI";
 
     private Uri mUri;
 
