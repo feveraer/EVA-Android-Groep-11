@@ -8,12 +8,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+
+import java.util.zip.Inflater;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -53,6 +58,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -68,7 +74,28 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         return rootView;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.fragment_show_challenge_details, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_dummy_current) {
+            insertDummyChallenge();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void insertDummyChallenge(){
+        // TODO: implement
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

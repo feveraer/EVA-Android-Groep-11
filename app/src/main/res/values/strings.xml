@@ -5,14 +5,15 @@
     <string name="action_settings">Settings</string>
 
     <!--challenge ui defaults -->
-    <string name="challenge_id_default">Challenge Id</string>
-    <string name="challenge_title_default">Challenge Title</string>
-    <string name="challenge_description_default">Challenge Description</string>
-    <string name="challenge_difficulty_default">Challenge Difficulty</string>
+    <string name="challenge_id_default">Challenge Id (default)</string>
+    <string name="challenge_title_default">Challenge Title (default)</string>
+    <string name="challenge_description_default">Challenge Description (default)</string>
+    <string name="challenge_difficulty_default">Challenge Difficulty (default)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_show_challenge_details">Challenge Details</string>
 
     <string name="content_authority">com.groep11.eva_app</string>
+    <string name="action_dummy_current">create dummy challenge</string>
 </resources>
