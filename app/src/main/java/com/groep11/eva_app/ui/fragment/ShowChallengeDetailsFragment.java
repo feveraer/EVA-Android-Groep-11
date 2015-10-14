@@ -2,6 +2,7 @@ package com.groep11.eva_app.ui.fragment;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
 import java.util.zip.Inflater;
@@ -88,13 +91,33 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             insertDummyChallenge();
             return true;
         }
+        else if (id == R.id.action_clear_all) {
+            clearAllChallenges();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     private void insertDummyChallenge(){
-        // TODO: implement
-        throw new UnsupportedOperationException("Not yet implemented");
+        ContentValues values = new ContentValues();
+        values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
+        values.put(ChallengeEntry.COLUMN_DESCTRIPTION, "dummy description");
+        values.put(ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
+        Uri uri = getActivity().getContentResolver().insert(
+                ChallengeEntry.CONTENT_URI,
+                values
+        );
+        Toast.makeText(getActivity(), "Added challenge to row  "+uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearAllChallenges(){
+        int rowsDeleted = getActivity().getContentResolver().delete(
+                ChallengeEntry.CONTENT_URI,
+                null,
+                null
+        );
+        Toast.makeText(getActivity(), "Deleted "+rowsDeleted+" rows!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

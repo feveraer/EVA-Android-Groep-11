@@ -4,4 +4,6 @@
     tools:context="com.groep11.eva_app.ui.activity.ShowChallengeDetailsActivity">
     <item android:id="@+id/action_dummy_current" android:title="@string/action_dummy_current"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_clear_all" android:title="@string/action_clear_all"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

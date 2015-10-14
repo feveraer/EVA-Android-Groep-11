@@ -97,7 +97,7 @@ public class EvaProvider extends ContentProvider {
 
     private Cursor getCurrentChallenge(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // TODO: implement
-        return getChallenge(uri, projection, selection, selectionArgs, sortOrder);
+        return getChallenge(uri, projection, selection, selectionArgs, ChallengeEntry._ID+" DESC");
     }
 
     /*
