@@ -95,8 +95,16 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             clearAllChallenges();
             return true;
         }
+        else if (id == R.id.action_sync) {
+            sync();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sync(){
+        
     }
 
     private void insertDummyChallenge(){
