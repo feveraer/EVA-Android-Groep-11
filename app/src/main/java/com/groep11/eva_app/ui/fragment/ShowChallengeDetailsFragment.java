@@ -29,6 +29,9 @@ import java.util.Date;
 import java.util.List;
 
 import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -109,18 +112,28 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     private void sync() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://95.85.59.29:1337/api")
+                .baseUrl("http://95.85.59.29:1337/api/")
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         EvaApiService service = retrofit.create(EvaApiService.class);
 
-        Call<List<Task>> repos = service.listRepos("561f8a43a46884a4132275ae");
-        try {
-            List<Task> tasks = repos.execute().body();
-            Log.d("EVA sync", tasks.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Call<List<Task>> call = service.listRepos("561f8a43a46884a4132275ae");
+        //async request with enqueue
+        call.enqueue(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Response<List<Task>> response, Retrofit retrofit) {
+                List<Task> tasks = response.body();
+                for (Task task : tasks) {
+                    Log.d("EVA sync", task.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                //do something, I don't care
+            }
+        });
     }
 
     private void insertDummyChallenge() {
