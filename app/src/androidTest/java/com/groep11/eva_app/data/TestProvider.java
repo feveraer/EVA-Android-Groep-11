@@ -279,11 +279,27 @@ public class TestProvider extends AndroidTestCase {
         assertTrue(amount < 2);
     }
 
-    public void testQueryByIdLength(){
+    public void testQueryChallengeByIdLength(){
         long id = 2L;
         bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
         int amount = calculateCursorAmount(ChallengeEntry.buildChallengeUri(id));
         assertEquals(1, amount);
+    }
+
+    public void testQueryChallengeById(){
+        long id = 2L;
+        ContentValues valuesForId = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT)[(int)id - 1];
+
+        Cursor cursor = mContext.getContentResolver().query(
+                ChallengeEntry.buildChallengeUri(id),
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                ChallengeEntry.COLUMN_DIFFICULTY + " ASC"  // sort order == by DATE ASCENDING
+        );
+        cursor.moveToFirst();
+        TestUtilities.validateCurrentRecord("testQueryChallengeById.  Error validating Challenge.", cursor, valuesForId);
+        cursor.close();
     }
 
     private int calculateCursorAmount(Uri uri){
