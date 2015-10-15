@@ -8,15 +8,15 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
+import com.groep11.eva_app.util.DateConversion;
 import com.groep11.eva_app.utils.PollingCheck;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by tjen on 13/10/15.
- */
 public class TestUtilities extends AndroidTestCase {
     public static ContentValues createDummyChallengeValues() {
         return createDummyChallengeValuesWithIndex(0);
@@ -27,9 +27,12 @@ public class TestUtilities extends AndroidTestCase {
         weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
         weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Description " + i);
         weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
-        weatherValues.put(ChallengeEntry.COLUMN_SERVER_ID, (long)i);
-        weatherValues.put(ChallengeEntry.COLUMN_DATE, "Date " + i);
-        weatherValues.put(ChallengeEntry.COLUMN_COMPLETED, false);
+        weatherValues.put(ChallengeEntry.COLUMN_SERVER_ID, i * 1000+i*100+i*10+i);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, i);
+        weatherValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(c.getTime()));
+        weatherValues.put(ChallengeEntry.COLUMN_COMPLETED, i % 2 == 0);
         return weatherValues;
     }
 
