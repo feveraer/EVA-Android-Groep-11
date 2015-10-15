@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
 import com.groep11.eva_app.util.DateConversion;
@@ -48,7 +49,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     private static final String[] DETAIL_COLUMNS = {
             ChallengeEntry.TABLE_NAME + "." + ChallengeEntry._ID,
             ChallengeEntry.COLUMN_TITLE,
-            ChallengeEntry.COLUMN_DESCTRIPTION,
+            ChallengeEntry.COLUMN_DESCRIPTION,
             ChallengeEntry.COLUMN_DIFFICULTY,
     };
 
@@ -126,6 +127,18 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
                 List<Task> tasks = response.body();
                 for (Task task : tasks) {
                     Log.d("EVA sync", task.toString());
+                    Challenge challenge = task.getChallenge();
+                    ContentValues values = new ContentValues();
+                    values.put(ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
+                    values.put(ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
+                    values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
+                    //values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
+                    values.put(ChallengeEntry.COLUMN_COMPLETED, task.isCompleted());
+                    values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate());
+                    Uri uri = getActivity().getContentResolver().insert(
+                            ChallengeEntry.CONTENT_URI,
+                            values);
+                    Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -139,9 +152,9 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     private void insertDummyChallenge() {
         ContentValues values = new ContentValues();
         values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
-        values.put(ChallengeEntry.COLUMN_DESCTRIPTION, "dummy description");
+        values.put(ChallengeEntry.COLUMN_DESCRIPTION, "dummy description");
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
-        values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
+        //values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
         values.put(ChallengeEntry.COLUMN_COMPLETED, 0);
         values.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
         Uri uri = getActivity().getContentResolver().insert(

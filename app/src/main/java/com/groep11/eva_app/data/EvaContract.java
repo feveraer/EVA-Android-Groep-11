@@ -40,10 +40,9 @@ public class EvaContract {
         public static final String TABLE_NAME = "challenge";
 
         public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_DESCTRIPTION = "description";
-        public static final String COLUMN_DIFFICULTY = "short_desc";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_SERVER_ID = "server_id";
         public static final String COLUMN_COMPLETED = "completed";
 
         public static Uri buildChallengeUri(long id) {

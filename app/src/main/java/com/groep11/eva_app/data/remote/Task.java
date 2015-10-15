@@ -1,9 +1,10 @@
 package com.groep11.eva_app.data.remote;
 
 public class Task {
-    public String dueDate;
-    public Challenge challenge;
-    public boolean completed;
+
+    private String dueDate;
+    private Challenge challenge;
+    private boolean completed;
 
     public Task(String dueDate, Challenge challenge, boolean completed) {
         setDueDate(dueDate);
