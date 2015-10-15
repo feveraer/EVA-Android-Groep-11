@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.util.DateConversion;
+
+import java.util.Date;
 
 public class EvaProvider extends ContentProvider {
 
@@ -107,8 +110,9 @@ public class EvaProvider extends ContentProvider {
     }
 
     private Cursor getCurrentChallenge(Uri uri, String[] projection, String sortOrder) {
-        // TODO: implement
-        return getChallenge(projection, null, null, ChallengeEntry._ID+" DESC");
+        String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
+        String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
+        return getChallenge(projection, selection, selectionArgs, ChallengeEntry._ID+" DESC");
     }
 
     /*
