@@ -48,9 +48,17 @@ public class TestUtilities extends AndroidTestCase {
             int idx = valueCursor.getColumnIndex(columnName);
             assertFalse("Column '" + columnName + "' not found. " + error, idx == -1);
             String expectedValue = entry.getValue().toString();
+            String actualValue = valueCursor.getString(idx);
+            if(columnName.equals(ChallengeEntry.COLUMN_COMPLETED)){
+                int actualInt = valueCursor.getInt(idx);
+                if(actualInt == 0)
+                    actualValue = "false";
+                else if(actualInt == 1)
+                    actualValue = "true";
+            }
             assertEquals("Value '" + entry.getValue().toString() +
                     "' did not match the expected value '" +
-                    expectedValue + "'. " + error, expectedValue, valueCursor.getString(idx));
+                    expectedValue + "'. " + error, expectedValue, actualValue);
         }
     }
 
