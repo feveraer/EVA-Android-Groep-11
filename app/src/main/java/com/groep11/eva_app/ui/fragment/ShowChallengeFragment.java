@@ -42,7 +42,6 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public static final int COL_CHALLENGE_TITLE = 1;
     public static final int COL_CHALLENGE_DIFFICULTY = 2;
 
-    private TextView mIdView;
     private TextView mTitleView;
     private TextView mDifficultyView;
     private LinearLayout mContainer;
@@ -59,7 +58,6 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge, container, false);
-        mIdView = (TextView) rootView.findViewById(R.id.text_challenge_id);
         mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
         mDifficultyView = (TextView) rootView.findViewById(R.id.text_challenge_difficulty);
         mContainer = (LinearLayout) rootView.findViewById(R.id.fragment_show_challenge_container);
@@ -102,11 +100,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if(data!=null && data.moveToFirst()){
-            String challengeId = data.getString(COL_CHALLENGE_ID);
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
-            mIdView.setText(challengeId);
             mTitleView.setText(challengeTitle);
             mDifficultyView.setText(challengeDifficulty);
         }

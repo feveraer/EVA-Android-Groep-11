@@ -8,11 +8,6 @@
     android:id="@+id/fragment_show_challenge_container"
     tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeFragment">
 
-    <TextView android:text="@string/challenge_id_default"
-        android:id="@+id/text_challenge_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <TextView android:text="@string/challenge_title_default"
         android:id="@+id/text_challenge_title"
         android:layout_width="match_parent"

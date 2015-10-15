@@ -8,6 +8,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +21,18 @@ import android.widget.Toast;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.remote.EvaApiService;
+import com.groep11.eva_app.data.remote.Task;
+import com.groep11.eva_app.util.DateConversion;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.zip.Inflater;
+
+import retrofit.Call;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -48,7 +59,6 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     public static final int COL_CHALLENGE_DESCRIPTION = 2;
     public static final int COL_CHALLENGE_DIFFICULTY = 3;
 
-    private TextView mIdView;
     private TextView mTitleView;
     private TextView mDescriptionView;
     private TextView mDifficultyView;
@@ -70,7 +80,6 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge_details, container, false);
-        mIdView = (TextView) rootView.findViewById(R.id.text_challenge_id);
         mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
         mDescriptionView = (TextView) rootView.findViewById(R.id.text_challenge_description);
         mDifficultyView = (TextView) rootView.findViewById(R.id.text_challenge_difficulty);
@@ -104,7 +113,19 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     }
 
     private void sync(){
-        
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://95.85.59.29:1337/api")
+                .build();
+
+        EvaApiService service = retrofit.create(EvaApiService.class);
+
+        Call<List<Task>> repos = service.listRepos("561f8a43a46884a4132275ae");
+        try {
+            List<Task> tasks = repos.execute().body();
+            Log.d("EVA sync", tasks.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void insertDummyChallenge(){
@@ -112,6 +133,9 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
         values.put(ChallengeEntry.COLUMN_DESCTRIPTION, "dummy description");
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
+        values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
+        values.put(ChallengeEntry.COLUMN_COMPLETED, 0);
+        values.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
         Uri uri = getActivity().getContentResolver().insert(
                 ChallengeEntry.CONTENT_URI,
                 values
@@ -154,12 +178,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if(data!=null && data.moveToFirst()){
-            String challengeId = data.getString(COL_CHALLENGE_ID);
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
-            mIdView.setText(challengeId);
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
             mDifficultyView.setText(challengeDifficulty);
