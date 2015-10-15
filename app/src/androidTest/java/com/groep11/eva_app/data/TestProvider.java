@@ -204,10 +204,10 @@ public class TestProvider extends AndroidTestCase {
 
     static private final int BULK_INSERT_RECORDS_TO_INSERT = 10;
 
-    static ContentValues[] createBulkInsertWeatherValues() {
-        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+    static ContentValues[] createBulkInsertWeatherValues(int amount) {
+        ContentValues[] returnContentValues = new ContentValues[amount];
 
-        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+        for (int i = 0; i < amount; i++) {
             ContentValues weatherValues = new ContentValues();
             weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
             weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Description " + i);
@@ -222,24 +222,7 @@ public class TestProvider extends AndroidTestCase {
     // implementation, which just inserts records one-at-a-time, so really do implement the
     // BulkInsert ContentProvider function.
     public void testBulkInsert() {
-        // Now we can bulkInsert some challenges.  In fact, we only implement BulkInsert for challenge
-        // entries.  With ContentProviders, you really only have to implement the features you
-        // use, after all.
-        ContentValues[] bulkInsertContentValues = createBulkInsertWeatherValues();
-
-        // Register a content observer for our bulk insert.
-        TestUtilities.TestContentObserver challengeObserver = TestUtilities.getTestContentObserver();
-        mContext.getContentResolver().registerContentObserver(ChallengeEntry.CONTENT_URI, true, challengeObserver);
-
-        int insertCount = mContext.getContentResolver().bulkInsert(ChallengeEntry.CONTENT_URI, bulkInsertContentValues);
-
-        // Students:  If this fails, it means that you most-likely are not calling the
-        // getContext().getContentResolver().notifyChange(uri, null); in your BulkInsert
-        // ContentProvider method.
-        challengeObserver.waitForNotificationOrFail();
-        mContext.getContentResolver().unregisterContentObserver(challengeObserver);
-
-        assertEquals(insertCount, BULK_INSERT_RECORDS_TO_INSERT);
+        ContentValues[] bulkInsertContentValues = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
 
         // A cursor is your primary interface to the query results.
         Cursor cursor = mContext.getContentResolver().query(
@@ -260,5 +243,62 @@ public class TestProvider extends AndroidTestCase {
                     cursor, bulkInsertContentValues[i]);
         }
         cursor.close();
+    }
+
+    private ContentValues[] bulkInsert(int amount){
+        // Now we can bulkInsert some challenges.  In fact, we only implement BulkInsert for challenge
+        // entries.  With ContentProviders, you really only have to implement the features you
+        // use, after all.
+        ContentValues[] bulkInsertContentValues = createBulkInsertWeatherValues(amount);
+
+        // Register a content observer for our bulk insert.
+        TestUtilities.TestContentObserver challengeObserver = TestUtilities.getTestContentObserver();
+        mContext.getContentResolver().registerContentObserver(ChallengeEntry.CONTENT_URI, true, challengeObserver);
+
+        int insertCount = mContext.getContentResolver().bulkInsert(ChallengeEntry.CONTENT_URI, bulkInsertContentValues);
+
+        // Students:  If this fails, it means that you most-likely are not calling the
+        // getContext().getContentResolver().notifyChange(uri, null); in your BulkInsert
+        // ContentProvider method.
+        challengeObserver.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(challengeObserver);
+
+        assertEquals(insertCount, amount);
+        return bulkInsertContentValues;
+    }
+
+    public void testQueryChallengeLength() {
+        bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
+        int amount = calculateCursorAmount(ChallengeEntry.CONTENT_URI);
+        assertEquals(BULK_INSERT_RECORDS_TO_INSERT, amount);
+    }
+
+    public void testQueryCurrentChallengeLength(){
+        bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
+        int amount = calculateCursorAmount(ChallengeEntry.buildCurrentChallengeUri());
+        assertTrue(amount < 2);
+    }
+
+    public void testQueryByIdLength(){
+        long id = 2L;
+        bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
+        int amount = calculateCursorAmount(ChallengeEntry.buildChallengeUri(id));
+        assertEquals(1, amount);
+    }
+
+    private int calculateCursorAmount(Uri uri){
+        Cursor cursor = mContext.getContentResolver().query(
+                uri,
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                ChallengeEntry.COLUMN_DIFFICULTY + " ASC"  // sort order == by DATE ASCENDING
+        );
+        int cursorCounter = 0;
+        while (cursor.moveToNext()){
+            cursorCounter++;
+        }
+        cursor.close();
+        return cursorCounter;
     }
 }
