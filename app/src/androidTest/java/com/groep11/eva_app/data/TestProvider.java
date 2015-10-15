@@ -298,6 +298,21 @@ public class TestProvider extends AndroidTestCase {
         cursor.close();
     }
 
+    public void testQueryCurrentChallenge(){
+        ContentValues values = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT)[0];
+
+        Cursor cursor = mContext.getContentResolver().query(
+                ChallengeEntry.buildCurrentChallengeUri(),
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                ChallengeEntry.COLUMN_DIFFICULTY + " ASC"  // sort order == by DATE ASCENDING
+        );
+        cursor.moveToFirst();
+        TestUtilities.validateCurrentRecord("testQueryCurrentChallenge.  Error validating Challenge.", cursor, values);
+        cursor.close();
+    }
+
     private int calculateCursorAmount(Uri uri){
         Cursor cursor = mContext.getContentResolver().query(
                 uri,
