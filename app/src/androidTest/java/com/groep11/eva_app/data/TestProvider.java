@@ -241,7 +241,7 @@ public class TestProvider extends AndroidTestCase {
         cursor.close();
     }
 
-    private ContentValues[] bulkInsert(int amount){
+    private ContentValues[] bulkInsert(int amount) {
         // Now we can bulkInsert some challenges.  In fact, we only implement BulkInsert for challenge
         // entries.  With ContentProviders, you really only have to implement the features you
         // use, after all.
@@ -269,22 +269,22 @@ public class TestProvider extends AndroidTestCase {
         assertEquals(BULK_INSERT_RECORDS_TO_INSERT, amount);
     }
 
-    public void testQueryCurrentChallengeLength(){
+    public void testQueryCurrentChallengeLength() {
         bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
         int amount = calculateCursorAmount(ChallengeEntry.buildCurrentChallengeUri());
         assertTrue(amount < 2);
     }
 
-    public void testQueryChallengeByIdLength(){
+    public void testQueryChallengeByIdLength() {
         long id = 2L;
         bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
         int amount = calculateCursorAmount(ChallengeEntry.buildChallengeUri(id));
         assertEquals(1, amount);
     }
 
-    public void testQueryChallengeById(){
+    public void testQueryChallengeById() {
         long id = 2L;
-        ContentValues valuesForId = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT)[(int)id - 1];
+        ContentValues valuesForId = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT)[(int) id - 1];
 
         Cursor cursor = mContext.getContentResolver().query(
                 ChallengeEntry.buildChallengeUri(id),
@@ -298,7 +298,7 @@ public class TestProvider extends AndroidTestCase {
         cursor.close();
     }
 
-    public void testQueryCurrentChallenge(){
+    public void testQueryCurrentChallenge() {
         ContentValues values = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT)[0];
 
         Cursor cursor = mContext.getContentResolver().query(
@@ -313,7 +313,7 @@ public class TestProvider extends AndroidTestCase {
         cursor.close();
     }
 
-    private int calculateCursorAmount(Uri uri){
+    private int calculateCursorAmount(Uri uri) {
         Cursor cursor = mContext.getContentResolver().query(
                 uri,
                 null, // leaving "columns" null just returns all the columns.
@@ -322,7 +322,7 @@ public class TestProvider extends AndroidTestCase {
                 ChallengeEntry.COLUMN_DIFFICULTY + " ASC"  // sort order == by DATE ASCENDING
         );
         int cursorCounter = 0;
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             cursorCounter++;
         }
         cursor.close();

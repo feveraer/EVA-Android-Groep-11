@@ -15,11 +15,10 @@ public class DateConversion {
         return DateFormat.getDateInstance().format(date);
     }
 
-    public static Date parseDate(String dateString){
+    public static Date parseDate(String dateString) {
         try {
             return DateFormat.getDateInstance().parse(dateString);
-        }
-        catch (ParseException e){
+        } catch (ParseException e) {
         }
         return null;
     }

@@ -54,7 +54,7 @@ public class EvaContract {
             return CONTENT_URI.buildUpon().appendPath("current").build();
         }
 
-        public static long getIdFromUri(Uri uri){
+        public static long getIdFromUri(Uri uri) {
             return Long.parseLong(uri.getLastPathSegment());
         }
     }

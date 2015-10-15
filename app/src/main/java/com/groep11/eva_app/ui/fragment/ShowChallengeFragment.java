@@ -1,6 +1,7 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +73,6 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
@@ -82,7 +81,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if ( null != mUri ) {
+        if (null != mUri) {
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
             return new CursorLoader(
@@ -99,7 +98,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(data!=null && data.moveToFirst()){
+        if (data != null && data.moveToFirst()) {
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
@@ -109,5 +108,6 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {}
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
 }

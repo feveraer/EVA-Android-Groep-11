@@ -59,8 +59,7 @@ public class EvaProvider extends ContentProvider {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             // "challenge/current"
-            case CHALLENGE_CURRENT:
-            {
+            case CHALLENGE_CURRENT: {
                 retCursor = getCurrentChallenge(uri, projection, sortOrder);
                 break;
             }
@@ -81,7 +80,7 @@ public class EvaProvider extends ContentProvider {
         return retCursor;
     }
 
-    private Cursor getChallenge(String[] projection, String selection, String[] selectionArgs, String sortOrder){
+    private Cursor getChallenge(String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         return mOpenHelper.getReadableDatabase().query(
                 ChallengeEntry.TABLE_NAME,
                 projection,
@@ -96,7 +95,7 @@ public class EvaProvider extends ContentProvider {
     private Cursor getChallengeById(Uri uri, String[] projection, String sortOrder) {
         long id = ChallengeEntry.getIdFromUri(uri);
         String selection = ChallengeEntry._ID + " = ? ";
-        String[] selectionArgs = new String[]{""+id};
+        String[] selectionArgs = new String[]{"" + id};
 
         return mOpenHelper.getReadableDatabase().query(
                 ChallengeEntry.TABLE_NAME,
@@ -112,7 +111,7 @@ public class EvaProvider extends ContentProvider {
     private Cursor getCurrentChallenge(Uri uri, String[] projection, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
         String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
-        return getChallenge(projection, selection, selectionArgs, ChallengeEntry._ID+" DESC");
+        return getChallenge(projection, selection, selectionArgs, ChallengeEntry._ID + " DESC");
     }
 
     /*
@@ -147,7 +146,7 @@ public class EvaProvider extends ContentProvider {
         switch (match) {
             case CHALLENGE: {
                 long _id = db.insert(ChallengeEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = ChallengeEntry.buildChallengeUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -166,7 +165,7 @@ public class EvaProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
         // this makes delete all rows return the number of rows deleted
-        if ( null == selection ) selection = "1";
+        if (null == selection) selection = "1";
         switch (match) {
             case CHALLENGE:
                 rowsDeleted = db.delete(ChallengeEntry.TABLE_NAME, selection, selectionArgs);

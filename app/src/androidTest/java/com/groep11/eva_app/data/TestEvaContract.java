@@ -3,7 +3,7 @@ package com.groep11.eva_app.data;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-public class TestEvaContract extends AndroidTestCase{
+public class TestEvaContract extends AndroidTestCase {
 
     private static final long TEST_CHALLENGE_ID = 1419033600L;
 

@@ -8,9 +8,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
+import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.util.DateConversion;
 import com.groep11.eva_app.utils.PollingCheck;
-import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -27,7 +27,7 @@ public class TestUtilities extends AndroidTestCase {
         weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
         weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Description " + i);
         weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
-        weatherValues.put(ChallengeEntry.COLUMN_SERVER_ID, i * 1000+i*100+i*10+i);
+        weatherValues.put(ChallengeEntry.COLUMN_SERVER_ID, i * 1000 + i * 100 + i * 10 + i);
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, i);
@@ -35,7 +35,6 @@ public class TestUtilities extends AndroidTestCase {
         weatherValues.put(ChallengeEntry.COLUMN_COMPLETED, i % 2 == 0);
         return weatherValues;
     }
-
 
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
@@ -52,11 +51,11 @@ public class TestUtilities extends AndroidTestCase {
             assertFalse("Column '" + columnName + "' not found. " + error, idx == -1);
             String expectedValue = entry.getValue().toString();
             String actualValue = valueCursor.getString(idx);
-            if(columnName.equals(ChallengeEntry.COLUMN_COMPLETED)){
+            if (columnName.equals(ChallengeEntry.COLUMN_COMPLETED)) {
                 int actualInt = valueCursor.getInt(idx);
-                if(actualInt == 0)
+                if (actualInt == 0)
                     actualValue = "false";
-                else if(actualInt == 1)
+                else if (actualInt == 1)
                     actualValue = "true";
             }
             assertEquals("Value '" + entry.getValue().toString() +

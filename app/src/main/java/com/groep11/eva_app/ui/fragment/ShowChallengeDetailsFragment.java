@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
@@ -28,10 +27,8 @@ import com.groep11.eva_app.util.DateConversion;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import retrofit.Call;
-import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -99,12 +96,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         if (id == R.id.action_dummy_current) {
             insertDummyChallenge();
             return true;
-        }
-        else if (id == R.id.action_clear_all) {
+        } else if (id == R.id.action_clear_all) {
             clearAllChallenges();
             return true;
-        }
-        else if (id == R.id.action_sync) {
+        } else if (id == R.id.action_sync) {
             sync();
             return true;
         }
@@ -112,7 +107,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         return super.onOptionsItemSelected(item);
     }
 
-    private void sync(){
+    private void sync() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://95.85.59.29:1337/api")
                 .build();
@@ -128,7 +123,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         }
     }
 
-    private void insertDummyChallenge(){
+    private void insertDummyChallenge() {
         ContentValues values = new ContentValues();
         values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
         values.put(ChallengeEntry.COLUMN_DESCTRIPTION, "dummy description");
@@ -140,16 +135,16 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
                 ChallengeEntry.CONTENT_URI,
                 values
         );
-        Toast.makeText(getActivity(), "Added challenge to row  "+uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
     }
 
-    private void clearAllChallenges(){
+    private void clearAllChallenges() {
         int rowsDeleted = getActivity().getContentResolver().delete(
                 ChallengeEntry.CONTENT_URI,
                 null,
                 null
         );
-        Toast.makeText(getActivity(), "Deleted "+rowsDeleted+" rows!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Deleted " + rowsDeleted + " rows!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -160,7 +155,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if ( null != mUri ) {
+        if (null != mUri) {
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
             return new CursorLoader(
@@ -177,7 +172,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(data!=null && data.moveToFirst()){
+        if (data != null && data.moveToFirst()) {
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
@@ -189,5 +184,6 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {}
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
 }
