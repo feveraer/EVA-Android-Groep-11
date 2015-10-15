@@ -19,13 +19,21 @@ import java.util.Set;
  */
 public class TestUtilities extends AndroidTestCase {
     public static ContentValues createDummyChallengeValues() {
-        ContentValues weatherValues = new ContentValues();
-        weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge title 1");
-        weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Challenge desc 1");
-        weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, "Challenge diff 1");
+        return createDummyChallengeValuesWithIndex(0);
+    }
 
+    public static ContentValues createDummyChallengeValuesWithIndex(int i) {
+        ContentValues weatherValues = new ContentValues();
+        weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
+        weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Description " + i);
+        weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
+        weatherValues.put(ChallengeEntry.COLUMN_SERVER_ID, (long)i);
+        weatherValues.put(ChallengeEntry.COLUMN_DATE, "Date " + i);
+        weatherValues.put(ChallengeEntry.COLUMN_COMPLETED, false);
         return weatherValues;
     }
+
+
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Empty cursor returned. " + error, valueCursor.moveToFirst());

@@ -208,11 +208,7 @@ public class TestProvider extends AndroidTestCase {
         ContentValues[] returnContentValues = new ContentValues[amount];
 
         for (int i = 0; i < amount; i++) {
-            ContentValues weatherValues = new ContentValues();
-            weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
-            weatherValues.put(ChallengeEntry.COLUMN_DESCTRIPTION, "Description " + i);
-            weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, "Difficulty " + i);
-            returnContentValues[i] = weatherValues;
+            returnContentValues[i] = TestUtilities.createDummyChallengeValuesWithIndex(i);
         }
         return returnContentValues;
     }
