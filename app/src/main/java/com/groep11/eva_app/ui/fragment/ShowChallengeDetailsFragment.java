@@ -25,7 +25,6 @@ import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
 import com.groep11.eva_app.util.DateConversion;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
