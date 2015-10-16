@@ -118,7 +118,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
         EvaApiService service = retrofit.create(EvaApiService.class);
 
-        Call<List<Task>> call = service.listRepos("5620a54429b03cf71b0607e9");
+        Call<List<Task>> call = service.listRepos("562146eaef18cb2a05b1810c");
         //async request with enqueue
         call.enqueue(new Callback<List<Task>>() {
             @Override
@@ -138,7 +138,8 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
                     Uri uri = getActivity().getContentResolver().insert(
                             ChallengeEntry.CONTENT_URI,
                             values);
-                    Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
+                    //toasts are slow for many challenges
+                    //Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -171,8 +172,6 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
                 null,
                 null
         );
-        //TODO: update the views
-        getLoaderManager().restartLoader(0, null, this);
         Toast.makeText(getActivity(), "Deleted " + rowsDeleted + " rows!", Toast.LENGTH_SHORT).show();
     }
 
@@ -209,6 +208,11 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
             mDifficultyView.setText(challengeDifficulty);
+        } else {
+            //the cursor is empty, so fill the views with their default representations
+            mTitleView.setText(R.string.challenge_title_default);
+            mDescriptionView.setText(R.string.challenge_description_default);
+            mDifficultyView.setText(R.string.challenge_difficulty_default);
         }
     }
 

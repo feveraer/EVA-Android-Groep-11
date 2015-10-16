@@ -104,6 +104,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
             mTitleView.setText(challengeTitle);
             mDifficultyView.setText(challengeDifficulty);
+        } else {
+            //the cursor is empty, so fill the views with their default representations
+            mTitleView.setText(R.string.challenge_title_default);
+            mDifficultyView.setText(R.string.challenge_difficulty_default);
         }
     }
 
