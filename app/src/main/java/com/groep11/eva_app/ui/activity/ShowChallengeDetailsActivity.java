@@ -13,7 +13,9 @@ public class ShowChallengeDetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_show_challenge_details);
+
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
