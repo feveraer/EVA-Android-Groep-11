@@ -9,7 +9,7 @@ import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 public class EvaDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     static final String DATABASE_NAME = "weather.db";
 
@@ -24,9 +24,9 @@ public class EvaDbHelper extends SQLiteOpenHelper {
                 ChallengeEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 ChallengeEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 ChallengeEntry.COLUMN_DIFFICULTY + " TEXT NOT NULL, " +
-                //ChallengeEntry.COLUMN_SERVER_ID + " INTEGER NOT NULL, " +
+                ChallengeEntry.COLUMN_REMOTE_TASK_ID + " INTEGER NOT NULL, " +
                 ChallengeEntry.COLUMN_DATE + " TEXT NOT NULL, " +
-                ChallengeEntry.COLUMN_COMPLETED + " BOOLEAN NOT NULL " +
+                ChallengeEntry.COLUMN_COMPLETED + " INTEGER NOT NULL " +
                 " );";
 
         db.execSQL(SQL_CREATE_CHALLENGE_TABLE);

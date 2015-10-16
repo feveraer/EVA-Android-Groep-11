@@ -73,7 +73,7 @@ public class TestDb extends AndroidTestCase {
         locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_TITLE);
         locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DESCRIPTION);
         locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DIFFICULTY);
-        //locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_SERVER_ID);
+        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID);
         locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_COMPLETED);
         locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DATE);
 

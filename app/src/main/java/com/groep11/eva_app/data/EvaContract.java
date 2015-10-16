@@ -43,6 +43,7 @@ public class EvaContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_REMOTE_TASK_ID = "task_id";
         public static final String COLUMN_COMPLETED = "completed";
 
         public static Uri buildChallengeUri(long id) {

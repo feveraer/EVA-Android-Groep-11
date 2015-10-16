@@ -131,7 +131,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
                     values.put(ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
                     values.put(ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
                     values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
-                    //values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
+                    values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
                     values.put(ChallengeEntry.COLUMN_COMPLETED, task.isCompleted());
                     values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate());
                     Uri uri = getActivity().getContentResolver().insert(
@@ -153,7 +153,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
         values.put(ChallengeEntry.COLUMN_DESCRIPTION, "dummy description");
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
-        //values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
+        values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
         values.put(ChallengeEntry.COLUMN_COMPLETED, 0);
         values.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
         Uri uri = getActivity().getContentResolver().insert(
