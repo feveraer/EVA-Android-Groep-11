@@ -6,11 +6,7 @@ public class Challenge {
     private String description;
     private String difficulty;
 
-    public Challenge(String title, String description, String difficulty) {
-        setTitle(title);
-        setDescription(description);
-        setDifficulty(difficulty);
-    }
+    public Challenge() {}
 
     public String getTitle() {
         return title;

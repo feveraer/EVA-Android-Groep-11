@@ -6,11 +6,7 @@ public class Task {
     private Challenge challenge;
     private boolean completed;
 
-    public Task(String dueDate, Challenge challenge, boolean completed) {
-        setDueDate(dueDate);
-        setChallenge(challenge);
-        setCompleted(completed);
-    }
+    public Task() {}
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
