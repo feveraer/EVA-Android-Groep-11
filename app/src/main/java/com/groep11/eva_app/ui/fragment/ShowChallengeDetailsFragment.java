@@ -171,6 +171,8 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
                 null,
                 null
         );
+        //TODO: update the views
+        getLoaderManager().restartLoader(0, null, this);
         Toast.makeText(getActivity(), "Deleted " + rowsDeleted + " rows!", Toast.LENGTH_SHORT).show();
     }
 
