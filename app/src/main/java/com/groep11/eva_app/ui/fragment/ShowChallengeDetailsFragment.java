@@ -118,7 +118,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
         EvaApiService service = retrofit.create(EvaApiService.class);
 
-        Call<List<Task>> call = service.listRepos("561f8a43a46884a4132275ae");
+        Call<List<Task>> call = service.listRepos("5620a54429b03cf71b0607e9");
         //async request with enqueue
         call.enqueue(new Callback<List<Task>>() {
             @Override
@@ -144,6 +144,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             @Override
             public void onFailure(Throwable t) {
                 //do something, I don't care
+                Toast.makeText(getActivity(), "SYNC DIDN'T WORK D:, alert Brian", Toast.LENGTH_SHORT).show();
             }
         });
     }
