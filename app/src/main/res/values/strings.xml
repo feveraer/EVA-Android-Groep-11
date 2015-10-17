@@ -7,7 +7,15 @@
     <!--challenge ui defaults -->
     <string name="challenge_id_default">Challenge Id (default)</string>
     <string name="challenge_title_default">Challenge Title (default)</string>
-    <string name="challenge_description_default">Challenge Description (default)</string>
+    <string name="challenge_description_default">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sagittis, leo sit amet consequat scelerisque, odio nisl blandit nisl,
+        et aliquam urna magna et nulla. Fusce leo justo, ultrices ultricies nulla vel, semper hendrerit arcu. Vestibulum viverra elementum volutpat. Sed tortor dolor, egestas non tristique vitae,
+        rutrum eu odio. Praesent lorem lorem, gravida ut tempor non, dictum eget metus. Praesent dapibus nulla at eros fermentum ornare. Quisque posuere tempus posuere.
+        Nam eu purus in metus auctor commodo eget varius ex.
+        Curabitur finibus eget metus vitae tincidunt.\n\nEtiam eu hendrerit nisl, sed feugiat nulla.
+        Nunc mollis aliquam sapien, eget egestas lorem sagittis vel.
+        Donec a ex facilisis diam porttitor varius. In commodo mattis accumsan.
+        Nam sed leo eu erat ultricies finibus. Curabitur auctor fringilla odio, ut aliquam dolor accumsan a. Sed commodo,
+        neque ac auctor congue, urna nulla rutrum lacus, quis blandit felis eros id sapien. </string>
     <string name="challenge_difficulty_default">Challenge Difficulty (default)</string>
 
     <!-- TODO: Remove or change this placeholder text -->

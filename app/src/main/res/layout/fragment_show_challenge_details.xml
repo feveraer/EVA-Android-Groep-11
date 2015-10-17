@@ -26,7 +26,8 @@
             android:id="@+id/text_challenge_difficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/challenge_difficulty_default" />
+            android:text="@string/challenge_difficulty_default"
+            android:paddingBottom="@dimen/spacing_normal" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,7 +37,7 @@
             android:src="@drawable/sandwich"
             app:civ_border_width="@dimen/circleview_border"
             app:civ_border_color="@color/deep_orange_500"
-            style="@style/ChallengeDetailsCircleView"/>
+            style="@style/ChallengeDetailsCircleView" />
 
         <TextView
             android:id="@+id/text_challenge_description"
