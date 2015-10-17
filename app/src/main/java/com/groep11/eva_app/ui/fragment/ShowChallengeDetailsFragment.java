@@ -20,15 +20,18 @@ import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
 import com.groep11.eva_app.util.DateConversion;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -45,7 +48,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     private static final String[] DETAIL_COLUMNS = {
             ChallengeEntry.TABLE_NAME + "." + ChallengeEntry._ID,
             ChallengeEntry.COLUMN_TITLE,
-            ChallengeEntry.COLUMN_DESCTRIPTION,
+            ChallengeEntry.COLUMN_DESCRIPTION,
             ChallengeEntry.COLUMN_DIFFICULTY,
     };
 
@@ -109,26 +112,51 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     private void sync() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://95.85.59.29:1337/api")
+                .baseUrl("http://95.85.59.29:1337/api/")
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         EvaApiService service = retrofit.create(EvaApiService.class);
 
-        Call<List<Task>> repos = service.listRepos("561f8a43a46884a4132275ae");
-        try {
-            List<Task> tasks = repos.execute().body();
-            Log.d("EVA sync", tasks.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Call<List<Task>> call = service.listRepos("562146eaef18cb2a05b1810c");
+        //async request with enqueue
+        call.enqueue(new Callback<List<Task>>() {
+            @Override
+            public void onResponse(Response<List<Task>> response, Retrofit retrofit) {
+                List<Task> tasks = response.body();
+                for (Task task : tasks) {
+                    Log.d("EVA sync", task.toString());
+                    Challenge challenge = task.getChallenge();
+                    ContentValues values = new ContentValues();
+                    values.put(ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
+                    values.put(ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
+                    values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
+                    values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
+                    values.put(ChallengeEntry.COLUMN_COMPLETED, task.isCompleted());
+                    values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate().split("T")[0]);
+
+                    Uri uri = getActivity().getContentResolver().insert(
+                            ChallengeEntry.CONTENT_URI,
+                            values);
+                    //toasts are slow for many challenges
+                    //Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                //do something, I don't care
+                Toast.makeText(getActivity(), "SYNC DIDN'T WORK D:, alert Brian", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void insertDummyChallenge() {
         ContentValues values = new ContentValues();
         values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
-        values.put(ChallengeEntry.COLUMN_DESCTRIPTION, "dummy description");
+        values.put(ChallengeEntry.COLUMN_DESCRIPTION, "dummy description");
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
-        values.put(ChallengeEntry.COLUMN_SERVER_ID, 1);
+        values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
         values.put(ChallengeEntry.COLUMN_COMPLETED, 0);
         values.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
         Uri uri = getActivity().getContentResolver().insert(
@@ -180,6 +208,11 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
             mDifficultyView.setText(challengeDifficulty);
+        } else {
+            //the cursor is empty, so fill the views with their default representations
+            mTitleView.setText(R.string.challenge_title_default);
+            mDescriptionView.setText(R.string.challenge_description_default);
+            mDifficultyView.setText(R.string.challenge_difficulty_default);
         }
     }
 

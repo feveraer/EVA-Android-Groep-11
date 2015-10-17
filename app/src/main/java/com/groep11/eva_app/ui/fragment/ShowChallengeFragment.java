@@ -85,12 +85,12 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
             return new CursorLoader(
-                    getActivity(),
-                    mUri,
-                    DETAIL_COLUMNS,
-                    null,
-                    null,
-                    null
+                    getActivity(),  // Parent activity context
+                    mUri,           // Table to query
+                    DETAIL_COLUMNS, // Projection to return
+                    null,           // No selection clause
+                    null,           // No selection arguments
+                    null            // Default sort order
             );
         }
         return null;
@@ -104,6 +104,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
             mTitleView.setText(challengeTitle);
             mDifficultyView.setText(challengeDifficulty);
+        } else {
+            //the cursor is empty, so fill the views with their default representations
+            mTitleView.setText(R.string.challenge_title_default);
+            mDifficultyView.setText(R.string.challenge_difficulty_default);
         }
     }
 
