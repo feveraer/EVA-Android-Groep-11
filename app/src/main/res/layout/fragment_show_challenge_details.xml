@@ -2,46 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeDetailsFragment">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        card_view:cardCornerRadius="4dp">
+    <TextView
+        android:id="@+id/text_challenge_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/challenge_title_default" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/text_challenge_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/challenge_description_default" />
 
-            <TextView
-                android:text="@string/challenge_title_default"
-                android:id="@+id/text_challenge_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@string/challenge_description_default"
-                android:id="@+id/text_challenge_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="@string/challenge_difficulty_default"
-                android:id="@+id/text_challenge_difficulty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/text_challenge_difficulty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/challenge_difficulty_default" />
 
 </LinearLayout>
