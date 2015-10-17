@@ -19,6 +19,7 @@
         </activity>
         <activity
             android:name=".ui.activity.ShowChallengeDetailsActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/title_activity_show_challenge_details" >
         </activity>
         <provider
