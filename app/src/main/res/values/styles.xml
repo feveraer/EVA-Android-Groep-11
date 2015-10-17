@@ -18,21 +18,14 @@
         <item name="android:textColor">@color/grey_700</item>
         <item name="android:paddingStart">@dimen/spacing_large</item>
         <item name="android:paddingEnd">@dimen/spacing_large</item>
-        <item name="android:paddingTop">@dimen/spacing_large</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
     </style>
 
     <style name="ChallengeDetailsCircleView">
         <item name="android:paddingBottom">@dimen/spacing_large</item>
         <item name="android:paddingTop">@dimen/spacing_large</item>
+        <item name="android:src">@drawable/sandwich</item>
     </style>
-
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:id="@+id/profile_image"-->
-    <!--android:layout_width="260dp"-->
-    <!--android:layout_height="260dp"-->
-    <!--android:src="@drawable/profile"-->
-    <!--app:civ_border_width="2dp"-->
-    <!--app:civ_border_color="#FF000000"/>-->
 
 </resources>
 

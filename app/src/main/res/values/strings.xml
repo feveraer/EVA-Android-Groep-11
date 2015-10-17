@@ -26,4 +26,6 @@
     <string name="action_dummy_current">create dummy challenge</string>
     <string name="action_clear_all">clear all data</string>
     <string name="action_sync">Sync</string>
+
+    <string name="challenge_details_leaf_description">Image that represents the difficulty</string>
 </resources>

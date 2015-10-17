@@ -22,22 +22,44 @@
             android:text="@string/challenge_title_default"
             style="@style/ChallengeDetailsTitle" />
 
-        <TextView
-            android:id="@+id/text_challenge_difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/challenge_difficulty_default"
-            android:paddingBottom="@dimen/spacing_normal" />
-
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/circle_challenge_image"
             android:layout_width="@dimen/circleview_radius_tall"
             android:layout_height="@dimen/circleview_radius_tall"
-            android:src="@drawable/sandwich"
             app:civ_border_width="@dimen/circleview_border"
             app:civ_border_color="@color/deep_orange_500"
             style="@style/ChallengeDetailsCircleView" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/spacing_tiny">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/leaf"
+                android:id="@+id/diff_leaf_1"
+                android:contentDescription="@string/challenge_details_leaf_description" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/leaf"
+                android:id="@+id/diff_leaf_2"
+                android:contentDescription="@string/challenge_details_leaf_description" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/leaf"
+                android:id="@+id/diff_leaf_3"
+                android:contentDescription="@string/challenge_details_leaf_description" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_challenge_description"
