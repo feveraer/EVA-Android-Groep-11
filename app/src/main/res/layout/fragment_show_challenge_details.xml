@@ -42,21 +42,21 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/leaf"
-                android:id="@+id/diff_leaf_1"
+                android:id="@+id/image_leaf_1"
                 android:contentDescription="@string/challenge_details_leaf_description" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/leaf"
-                android:id="@+id/diff_leaf_2"
+                android:id="@+id/image_leaf_2"
                 android:contentDescription="@string/challenge_details_leaf_description" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/leaf"
-                android:id="@+id/diff_leaf_3"
+                android:id="@+id/image_leaf_3"
                 android:contentDescription="@string/challenge_details_leaf_description" />
 
         </LinearLayout>
