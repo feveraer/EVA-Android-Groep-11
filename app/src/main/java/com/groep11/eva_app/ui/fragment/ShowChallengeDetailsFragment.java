@@ -2,37 +2,19 @@ package com.groep11.eva_app.ui.fragment;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.data.remote.Challenge;
-import com.groep11.eva_app.data.remote.EvaApiService;
-import com.groep11.eva_app.data.remote.Task;
-import com.groep11.eva_app.util.DateConversion;
-
-import java.util.Date;
-import java.util.List;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -59,9 +41,14 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     public static final int COL_CHALLENGE_DESCRIPTION = 2;
     public static final int COL_CHALLENGE_DIFFICULTY = 3;
 
+    private final float LEAF_DISABLED_OPACITY = 0.5f;
+
     private TextView mTitleView;
     private TextView mDescriptionView;
-    private TextView mDifficultyView;
+
+    private ImageView   mFirstLeaf,
+                        mSecondLeaf,
+                        mThirdLeaf;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
@@ -82,7 +69,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         View rootView = inflater.inflate(R.layout.fragment_show_challenge_details, container, false);
         mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
         mDescriptionView = (TextView) rootView.findViewById(R.id.text_challenge_description);
-        mDifficultyView = (TextView) rootView.findViewById(R.id.text_challenge_difficulty);
+        mFirstLeaf = (ImageView) rootView.findViewById(R.id.image_leaf_1);
+        mSecondLeaf = (ImageView) rootView.findViewById(R.id.image_leaf_2);
+        mThirdLeaf = (ImageView) rootView.findViewById(R.id.image_leaf_3);
+
         return rootView;
     }
 
@@ -118,13 +108,18 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
-            mDifficultyView.setText(challengeDifficulty);
+            setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
             mTitleView.setText(R.string.challenge_title_default);
             mDescriptionView.setText(R.string.challenge_description_default);
-            mDifficultyView.setText(R.string.challenge_difficulty_default);
+            setLeavesOpacity(R.string.challenge_difficulty_default);
         }
+    }
+
+    private void setLeavesOpacity(int diff){
+        mThirdLeaf.setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        mSecondLeaf.setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
     @Override

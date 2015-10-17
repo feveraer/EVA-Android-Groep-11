@@ -16,7 +16,7 @@
         Donec a ex facilisis diam porttitor varius. In commodo mattis accumsan.
         Nam sed leo eu erat ultricies finibus. Curabitur auctor fringilla odio, ut aliquam dolor accumsan a. Sed commodo,
         neque ac auctor congue, urna nulla rutrum lacus, quis blandit felis eros id sapien. </string>
-    <string name="challenge_difficulty_default">Challenge Difficulty (default)</string>
+    <string name="challenge_difficulty_default">2</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
