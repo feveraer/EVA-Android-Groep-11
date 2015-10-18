@@ -32,15 +32,15 @@ import com.groep11.eva_app.util.DateConversion;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
@@ -61,36 +61,37 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public static final int COL_CHALLENGE_TITLE = 1;
     public static final int COL_CHALLENGE_DIFFICULTY = 2;
 
-    private TextView mTitleView;
-    private TextView mDifficultyView;
-    private LinearLayout mContainer;
+    //Field binding using Butterknife
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.text_challenge_difficulty) TextView mDifficultyView;
+    @Bind(R.id.fragment_show_challenge_container) LinearLayout mContainer;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         mUri = EvaContract.ChallengeEntry.buildCurrentChallengeUri();
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge, container, false);
-        mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
-        mDifficultyView = (TextView) rootView.findViewById(R.id.text_challenge_difficulty);
-        mContainer = (LinearLayout) rootView.findViewById(R.id.fragment_show_challenge_container);
-        mContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
-                        .setData(mUri);
-                startActivity(intent);
-            }
-        });
+        // Non-activity binding for butterknife
+        ButterKnife.bind(this, rootView);
+
         // Load the current challenge
         sync();
         return rootView;
+    }
+
+    //TODO: link showDetails to challenge card element
+    @OnClick(R.id.fragment_show_challenge_container)
+    public void showDetailsActivity(View view) {
+        Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
+                .setData(mUri);
+        startActivity(intent);
     }
 
     @Override
