@@ -16,9 +16,11 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class ShowChallengeDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
@@ -43,17 +45,15 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
 
-    private TextView mTitleView;
-    private TextView mDescriptionView;
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
 
-    private ImageView   mFirstLeaf,
-                        mSecondLeaf,
-                        mThirdLeaf;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
+    List<ImageView> mDifficultyView;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,11 +67,8 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge_details, container, false);
-        mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
-        mDescriptionView = (TextView) rootView.findViewById(R.id.text_challenge_description);
-        mFirstLeaf = (ImageView) rootView.findViewById(R.id.image_leaf_1);
-        mSecondLeaf = (ImageView) rootView.findViewById(R.id.image_leaf_2);
-        mThirdLeaf = (ImageView) rootView.findViewById(R.id.image_leaf_3);
+        // Non-activity binding for butterknife
+        ButterKnife.bind(this, rootView);
 
         return rootView;
     }
@@ -118,8 +115,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     }
 
     private void setLeavesOpacity(int diff){
-        mThirdLeaf.setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
-        mSecondLeaf.setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
+        //Set opacity leaf #3
+        mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        //Set opacity leaf #2
+        mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
     @Override
