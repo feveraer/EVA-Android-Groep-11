@@ -81,13 +81,14 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentValues[] cvs = new ContentValues[tasks.size()];
         int index = 0;
         for (Task task : tasks) {
-            Log.d("EVA sync", task.toString());
+            Log.v("EVA sync", task.toString());
             cvs[index] = contentValuesFromTask(task);
             index++;
         }
 
         // clear all old data
-        getContext().getContentResolver().delete(ChallengeEntry.CONTENT_URI, null, null);
+        int deleted = getContext().getContentResolver().delete(ChallengeEntry.CONTENT_URI, null, null);
+        Log.d(LOG_TAG, "Delete before insert. " + deleted + " Deleted");
 
         // insert in bulk
         int inserted = getContext().getContentResolver().bulkInsert(
@@ -176,6 +177,27 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
             onAccountCreated(newAccount, context);
         }
         return newAccount;
+    }
+
+    /**
+     * [development] temporary method to update the sync account
+     */
+    public static void deleteAccount(Context context){
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+
+        // Create the account type and default account
+        Account newAccount = new Account(
+                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+
+        // If the password exists, the account exists
+        if ( null != accountManager.getPassword(newAccount) ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                boolean success = accountManager.removeAccountExplicitly(newAccount);
+                Log.d(EvaSyncAdapter.class.getSimpleName(), "Deleted account: "+success);
+            }
+        }
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {

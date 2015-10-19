@@ -112,6 +112,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     }
 
     private void sync() {
+        EvaSyncAdapter.deleteAccount(getActivity());
         EvaSyncAdapter.syncImmediately(getActivity());
     }
 
