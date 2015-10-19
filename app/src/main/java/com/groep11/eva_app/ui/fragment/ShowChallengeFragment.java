@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,10 +62,13 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public static final int COL_CHALLENGE_TITLE = 1;
     public static final int COL_CHALLENGE_DIFFICULTY = 2;
 
+    private final float LEAF_DISABLED_OPACITY = 0.5f;
+
     //Field binding using Butterknife
     @Bind(R.id.text_challenge_title) TextView mTitleView;
-    @Bind(R.id.text_challenge_difficulty) TextView mDifficultyView;
     @Bind(R.id.fragment_show_challenge_container) LinearLayout mContainer;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
+    List<ImageView> mDifficultyView;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
@@ -124,16 +128,23 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
             mTitleView.setText(challengeTitle);
-            mDifficultyView.setText(challengeDifficulty);
+            setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
             mTitleView.setText(R.string.challenge_title_default);
-            mDifficultyView.setText(R.string.challenge_difficulty_default);
+            setLeavesOpacity(R.string.challenge_difficulty_default);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    private void setLeavesOpacity(int diff){
+        //Set opacity leaf #3
+        mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        //Set opacity leaf #2
+        mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
     private void sync() {
@@ -177,6 +188,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         });
     }
 
+
+    /**
+     * Testing methods below, remove later.
+     */
     private void insertDummyChallenge() {
         ContentValues values = new ContentValues();
         values.put(EvaContract.ChallengeEntry.COLUMN_TITLE, "dummy title");

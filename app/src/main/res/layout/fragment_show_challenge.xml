@@ -31,12 +31,34 @@
                 style="@style/Base.TextAppearance.AppCompat.Headline"
                 android:text="@string/challenge_title_default" />
 
-            <TextView
-                android:id="@+id/text_challenge_difficulty"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/spacing_tiny">
 
-                android:text="@string/challenge_difficulty_default" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/leaf"
+                    android:id="@+id/image_leaf_1"
+                    android:contentDescription="@string/challenge_details_leaf_description" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/leaf"
+                    android:id="@+id/image_leaf_2"
+                    android:contentDescription="@string/challenge_details_leaf_description" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/leaf"
+                    android:id="@+id/image_leaf_3"
+                    android:contentDescription="@string/challenge_details_leaf_description" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
