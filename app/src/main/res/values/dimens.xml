@@ -21,6 +21,7 @@
     <!-- CircularImageView -->
     <dimen name="circleview_radius_tall">140dp</dimen>
     <dimen name="circleview_radius_normal">80dp</dimen>
-    <dimen name="circleview_radius_short">40dp</dimen>
+    <dimen name="circleview_radius_small">60dp</dimen>
+    <dimen name="circleview_radius_tiny">40dp</dimen>
     <dimen name="circleview_border">3dp</dimen>
 </resources>

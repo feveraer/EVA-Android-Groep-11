@@ -23,15 +23,31 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text_challenge_title"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:padding="16dp"
-                android:background="@color/deep_orange_50"
-                style="@style/Base.TextAppearance.AppCompat.Title"
-                android:text="@string/challenge_title_default" />
+                android:background="@color/deep_orange_50" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/circle_challenge_image"
+                    android:layout_width="@dimen/circleview_radius_small"
+                    android:layout_height="@dimen/circleview_radius_small"
+                    android:layout_margin="16dp"
+                    app:civ_border_width="3dp"
+                    app:civ_border_color="@color/deep_orange_50"
+                    style="@style/ShowChallengeCircleView" />
+
+                <TextView
+                    android:id="@+id/text_challenge_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:text="@string/challenge_title_default"
+                    android:layout_toRightOf="@+id/circle_challenge_image"/>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
