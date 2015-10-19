@@ -23,6 +23,7 @@ import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
@@ -111,44 +112,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     }
 
     private void sync() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://95.85.59.29:1337/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        EvaApiService service = retrofit.create(EvaApiService.class);
-
-        Call<List<Task>> call = service.listRepos("562146eaef18cb2a05b1810c");
-        //async request with enqueue
-        call.enqueue(new Callback<List<Task>>() {
-            @Override
-            public void onResponse(Response<List<Task>> response, Retrofit retrofit) {
-                List<Task> tasks = response.body();
-                for (Task task : tasks) {
-                    Log.d("EVA sync", task.toString());
-                    Challenge challenge = task.getChallenge();
-                    ContentValues values = new ContentValues();
-                    values.put(ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
-                    values.put(ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
-                    values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
-                    values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
-                    values.put(ChallengeEntry.COLUMN_COMPLETED, task.isCompleted());
-                    values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate().split("T")[0]);
-
-                    Uri uri = getActivity().getContentResolver().insert(
-                            ChallengeEntry.CONTENT_URI,
-                            values);
-                    //toasts are slow for many challenges
-                    //Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                //do something, I don't care
-                Toast.makeText(getActivity(), "SYNC DIDN'T WORK D:, alert Brian", Toast.LENGTH_SHORT).show();
-            }
-        });
+        EvaSyncAdapter.syncImmediately(getActivity());
     }
 
     private void insertDummyChallenge() {
