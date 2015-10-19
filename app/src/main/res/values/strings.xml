@@ -29,5 +29,6 @@
 
     <string name="challenge_details_leaf_description">Image that represents the difficulty</string>
     <string name="challenge_completed">Voltooid!</string>
+    <string name="txt_challenge_short">Een korte beschrijving...</string>
 
 </resources>
