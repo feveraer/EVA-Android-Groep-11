@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.groep11.eva_app.service.EvaSyncAdapter;
+
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        EvaSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
