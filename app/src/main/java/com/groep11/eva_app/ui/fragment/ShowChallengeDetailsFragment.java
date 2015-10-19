@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 
 import java.util.List;
 
@@ -58,8 +59,6 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-
         Bundle arguments = getArguments();
         if (arguments != null) {
             mUri = arguments.getParcelable(ShowChallengeDetailsFragment.DETAIL_URI);

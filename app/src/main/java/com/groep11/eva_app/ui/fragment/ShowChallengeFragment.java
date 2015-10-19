@@ -10,11 +10,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,9 +20,7 @@ import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
-import com.groep11.eva_app.data.remote.Challenge;
-import com.groep11.eva_app.data.remote.EvaApiService;
-import com.groep11.eva_app.data.remote.Task;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.activity.ShowChallengeDetailsActivity;
 import com.groep11.eva_app.util.DateConversion;
 
@@ -36,11 +30,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -148,44 +137,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void sync() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://95.85.59.29:1337/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        EvaApiService service = retrofit.create(EvaApiService.class);
-
-        Call<List<Task>> call = service.listRepos("56224ab96dcac34e5e596a35");
-        //async request with enqueue
-        call.enqueue(new Callback<List<Task>>() {
-            @Override
-            public void onResponse(Response<List<Task>> response, Retrofit retrofit) {
-                List<Task> tasks = response.body();
-                for (Task task : tasks) {
-                    Log.d("EVA sync", task.toString());
-                    Challenge challenge = task.getChallenge();
-                    ContentValues values = new ContentValues();
-                    values.put(EvaContract.ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
-                    values.put(EvaContract.ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
-                    values.put(EvaContract.ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
-                    values.put(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
-                    values.put(EvaContract.ChallengeEntry.COLUMN_COMPLETED, task.isCompleted());
-                    values.put(EvaContract.ChallengeEntry.COLUMN_DATE, task.getDueDate().split("T")[0]);
-
-                    Uri uri = getActivity().getContentResolver().insert(
-                            EvaContract.ChallengeEntry.CONTENT_URI,
-                            values);
-                    //toasts are slow for many challenges
-                    //Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                //do something, I don't care
-                Toast.makeText(getActivity(), "SYNC DIDN'T WORK D:, alert Brian", Toast.LENGTH_SHORT).show();
-            }
-        });
+        EvaSyncAdapter.deleteAccount(getActivity());
+        EvaSyncAdapter.syncImmediately(getActivity());
     }
 
 
