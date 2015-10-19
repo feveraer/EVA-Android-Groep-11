@@ -33,7 +33,7 @@
                     android:id="@+id/circle_challenge_image"
                     android:layout_width="@dimen/circleview_radius_small"
                     android:layout_height="@dimen/circleview_radius_small"
-                    android:layout_margin="16dp"
+                    android:layout_margin="8dp"
                     app:civ_border_width="3dp"
                     app:civ_border_color="@color/deep_orange_50"
                     style="@style/ShowChallengeCircleView" />
@@ -42,42 +42,44 @@
                     android:id="@+id/text_challenge_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="8dp"
                     style="@style/Base.TextAppearance.AppCompat.Title"
                     android:text="@string/challenge_title_default"
                     android:layout_toRightOf="@+id/circle_challenge_image"/>
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_below="@+id/text_challenge_title"
+                    android:layout_toRightOf="@+id/circle_challenge_image">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/leaf"
+                        android:id="@+id/image_leaf_1"
+                        android:contentDescription="@string/challenge_details_leaf_description" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/leaf"
+                        android:id="@+id/image_leaf_2"
+                        android:contentDescription="@string/challenge_details_leaf_description" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/leaf"
+                        android:id="@+id/image_leaf_3"
+                        android:contentDescription="@string/challenge_details_leaf_description" />
+
+                </LinearLayout>
+
             </RelativeLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="@dimen/spacing_small"
-                android:paddingLeft="@dimen/spacing_small">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/leaf"
-                    android:id="@+id/image_leaf_1"
-                    android:contentDescription="@string/challenge_details_leaf_description" />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/leaf"
-                    android:id="@+id/image_leaf_2"
-                    android:contentDescription="@string/challenge_details_leaf_description" />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/leaf"
-                    android:id="@+id/image_leaf_3"
-                    android:contentDescription="@string/challenge_details_leaf_description" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
