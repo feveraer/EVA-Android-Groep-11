@@ -80,7 +80,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     }
 
     //TODO: link showDetails to challenge card element
-    @OnClick(R.id.fragment_show_challenge_container)
+    @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
         Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
                 .setData(mUri);
