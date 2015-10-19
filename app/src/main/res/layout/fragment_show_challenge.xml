@@ -15,7 +15,7 @@
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        card_view:contentPadding="16dp"
+        card_view:contentPadding="0dp"
         card_view:cardCornerRadius="4dp">
 
         <LinearLayout
@@ -28,14 +28,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                style="@style/Base.TextAppearance.AppCompat.Headline"
+                android:padding="16dp"
+                android:background="@color/deep_orange_50"
+                style="@style/Base.TextAppearance.AppCompat.Title"
                 android:text="@string/challenge_title_default" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="@dimen/spacing_tiny">
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingLeft="@dimen/spacing_small">
 
                 <ImageView
                     android:layout_width="24dp"
