@@ -23,10 +23,8 @@ public class EvaProvider extends ContentProvider {
     static final int CHALLENGE_WITH_ID = 102;
 
     /*
-        Students: Here is where you need to create the UriMatcher. This UriMatcher will
-        match each URI to the WEATHER, WEATHER_WITH_LOCATION, WEATHER_WITH_LOCATION_AND_DATE,
-        and LOCATION integer constants defined above.  You can test this by uncommenting the
-        testUriMatcher test within TestUriMatcher.
+        This UriMatcher will match each URI to the CHALLENGE, CHALLENGE_CURRENT and
+        CHALLENGE_WITH_ID integer constants defined above.
      */
     static UriMatcher buildUriMatcher() {
         // I know what you're thinking.  Why create a UriMatcher when you can use regular
@@ -115,8 +113,8 @@ public class EvaProvider extends ContentProvider {
     }
 
     /*
-        Students: Here's where you'll code the getType function that uses the UriMatcher.  You can
-        test this by uncommenting testGetType in TestProvider.
+        The getType function uses the UriMatcher. Should return for each URI the base URI
+        eg. com.groep11.eva_app/challenge/94074 -> com.groep11.eva_app/challenge/
      */
     @Override
     public String getType(Uri uri) {
@@ -125,7 +123,6 @@ public class EvaProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            // Student: Uncomment and fill out these two cases
             case CHALLENGE:
                 return ChallengeEntry.CONTENT_TYPE;
             case CHALLENGE_WITH_ID:

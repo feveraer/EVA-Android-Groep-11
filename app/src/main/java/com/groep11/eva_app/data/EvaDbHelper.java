@@ -11,7 +11,7 @@ public class EvaDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 5;
 
-    static final String DATABASE_NAME = "weather.db";
+    static final String DATABASE_NAME = "challenge.db";
 
     public EvaDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

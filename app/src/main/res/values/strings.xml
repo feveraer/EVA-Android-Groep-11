@@ -24,7 +24,7 @@
 
     <string name="content_authority">com.groep11.eva_app</string>
     <!-- SyncAdapter related -->
-    <string name="sync_account_type">sunshine.example.com</string>
+    <string name="sync_account_type">eva_app.groep11.com</string>
 
     <string name="action_dummy_current">create dummy challenge</string>
     <string name="action_clear_all">clear all data</string>

@@ -6,7 +6,8 @@ public class Challenge {
     private String description;
     private String difficulty;
 
-    public Challenge() {}
+    public Challenge() {
+    }
 
     public String getTitle() {
         return title;

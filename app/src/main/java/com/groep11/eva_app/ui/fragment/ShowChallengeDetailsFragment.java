@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.service.EvaSyncAdapter;
 
 import java.util.List;
 
@@ -46,8 +45,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
 
-    @Bind(R.id.text_challenge_title) TextView mTitleView;
-    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
+    @Bind(R.id.text_challenge_title)
+    TextView mTitleView;
+    @Bind(R.id.text_challenge_description)
+    TextView mDescriptionView;
 
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
     List<ImageView> mDifficultyView;
@@ -113,7 +114,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         }
     }
 
-    private void setLeavesOpacity(int diff){
+    private void setLeavesOpacity(int diff) {
         //Set opacity leaf #3
         mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
         //Set opacity leaf #2

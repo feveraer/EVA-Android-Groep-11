@@ -54,8 +54,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     private final float LEAF_DISABLED_OPACITY = 0.5f;
 
     //Field binding using Butterknife
-    @Bind(R.id.text_challenge_title) TextView mTitleView;
-    @Bind(R.id.fragment_show_challenge_container) LinearLayout mContainer;
+    @Bind(R.id.text_challenge_title)
+    TextView mTitleView;
+    @Bind(R.id.fragment_show_challenge_container)
+    LinearLayout mContainer;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
     List<ImageView> mDifficultyView;
 
@@ -129,7 +131,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    private void setLeavesOpacity(int diff){
+    private void setLeavesOpacity(int diff) {
         //Set opacity leaf #3
         mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
         //Set opacity leaf #2

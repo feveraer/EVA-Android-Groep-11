@@ -6,7 +6,8 @@ public class Task {
     private Challenge challenge;
     private boolean completed;
 
-    public Task() {}
+    public Task() {
+    }
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;

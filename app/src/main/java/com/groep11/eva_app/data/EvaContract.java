@@ -20,13 +20,10 @@ public class EvaContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // Possible paths (appended to base content URI for possible URI's)
-    // For instance, content://com.example.android.sunshine.app/weather/ is a valid path for
-    // looking at weather data. content://com.example.android.sunshine.app/givemeroot/ will fail,
-    // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
-    // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
+    // For instance, content://com.groep11.eva_app/challenge/ is a valid path for looking at data
     public static final String PATH_CHALLENGE = "challenge";
 
-    /* Inner class that defines the table contents of the weather table */
+    /* Inner class that defines the table contents of the challenge table */
     public static final class ChallengeEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =

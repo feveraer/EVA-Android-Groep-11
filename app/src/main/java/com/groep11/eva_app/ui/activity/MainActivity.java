@@ -1,10 +1,11 @@
-package com.groep11.eva_app;
+package com.groep11.eva_app.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.groep11.eva_app.R;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 
 public class MainActivity extends Activity {

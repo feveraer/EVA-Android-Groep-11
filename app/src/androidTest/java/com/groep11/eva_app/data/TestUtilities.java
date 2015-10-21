@@ -23,17 +23,17 @@ public class TestUtilities extends AndroidTestCase {
     }
 
     public static ContentValues createDummyChallengeValuesWithIndex(int i) {
-        ContentValues weatherValues = new ContentValues();
-        weatherValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
-        weatherValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description " + i);
-        weatherValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
-        weatherValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, i * 1000 + i * 100 + i * 10 + i);
+        ContentValues challengeValues = new ContentValues();
+        challengeValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
+        challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description " + i);
+        challengeValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
+        challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, i * 1000 + i * 100 + i * 10 + i);
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, i);
-        weatherValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(c.getTime()));
-        weatherValues.put(ChallengeEntry.COLUMN_COMPLETED, i % 2 == 0);
-        return weatherValues;
+        challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(c.getTime()));
+        challengeValues.put(ChallengeEntry.COLUMN_COMPLETED, i % 2 == 0);
+        return challengeValues;
     }
 
 
@@ -64,13 +64,13 @@ public class TestUtilities extends AndroidTestCase {
         }
     }
 
-    /*
-        Students: The functions we provide inside of TestProvider use this utility class to test
-        the ContentObserver callbacks using the PollingCheck class that we grabbed from the Android
-        CTS tests.
-
-        Note that this only tests that the onChange function is called; it does not test that the
-        correct Uri is returned.
+    /**
+     * The functions we provide inside of TestProvider use this utility class to test
+     * the ContentObserver callbacks using the PollingCheck class that we grabbed from the Android
+     * CTS tests.
+     * <p>
+     * Note that this only tests that the onChange function is called; it does not test that the
+     * correct Uri is returned.
      */
     static class TestContentObserver extends ContentObserver {
         final HandlerThread mHT;

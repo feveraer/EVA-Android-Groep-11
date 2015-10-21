@@ -20,18 +20,19 @@ public class TestDb extends AndroidTestCase {
         This function gets called before each test is executed to delete the database.  This makes
         sure that we always have a clean test.
      */
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         deleteTheDatabase();
     }
 
-    /*
-        Students: Uncomment this test once you've written the code to create the Location
-        table.  Note that you will have to have chosen the same column names that I did in
-        my solution for this test to compile, so if you haven't yet done that, this is
-        a good time to change your column names to match mine.
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        deleteTheDatabase();
+    }
 
-        Note that this only tests that the Location table has the correct columns, since we
-        give you the code for the weather table.  This test does not look at the
+    /**
+     * Note that this only tests that the Challenge table has the correct columns.
      */
     public void testCreateDb() throws Throwable {
         // build a HashSet of all of the table names we wish to look for
@@ -55,9 +56,8 @@ public class TestDb extends AndroidTestCase {
             tableNameHashSet.remove(c.getString(0));
         } while (c.moveToNext());
 
-        // if this fails, it means that your database doesn't contain both the location entry
-        // and weather entry tables
-        assertTrue("Error: Your database was created without both the location entry and weather entry tables",
+        // if this fails, it means that your database doesn't the challenge entry table
+        assertTrue("Error: Your database was created without the challenge entry table",
                 tableNameHashSet.isEmpty());
 
         // now, do our tables contain the correct columns?
@@ -68,44 +68,34 @@ public class TestDb extends AndroidTestCase {
                 c.moveToFirst());
 
         // Build a HashSet of all of the column names we want to look for
-        final HashSet<String> locationColumnHashSet = new HashSet<String>();
-        locationColumnHashSet.add(EvaContract.ChallengeEntry._ID);
-        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_TITLE);
-        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DESCRIPTION);
-        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DIFFICULTY);
-        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID);
-        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_COMPLETED);
-        locationColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DATE);
+        final HashSet<String> challengeColumnHashSet = new HashSet<String>();
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry._ID);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_TITLE);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DESCRIPTION);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DIFFICULTY);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_COMPLETED);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DATE);
 
         int columnNameIndex = c.getColumnIndex("name");
         do {
             String columnName = c.getString(columnNameIndex);
-            locationColumnHashSet.remove(columnName);
+            challengeColumnHashSet.remove(columnName);
         } while (c.moveToNext());
 
-        // if this fails, it means that your database doesn't contain all of the required location
+        // if this fails, it means that your database doesn't contain all of the required challenge
         // entry columns
-        assertTrue("Error: The database doesn't contain all of the required location entry columns",
-                locationColumnHashSet.isEmpty());
+        assertTrue("Error: The database doesn't contain all of the required challenge entry columns",
+                challengeColumnHashSet.isEmpty());
         db.close();
     }
 
     /*
-        Students:  Here is where you will build code to test that we can insert and query the
-        location database.  We've done a lot of work for you.  You'll want to look in TestUtilities
-        where you can uncomment out the "createNorthPoleLocationValues" function.  You can
-        also make use of the ValidateCurrentRecord function from within TestUtilities.
+        Test that we can insert and query the challenge database. It uses TestUtilities
+        to create dummy ContentValues function and ValidateCurrentRecord to assert equality
     */
-    public void testLocationTable() {
-        insertLocation();
-    }
+    public void testChallengeTable() {
 
-    /*
-        Students: This is a helper method for the testWeatherTable quiz. You can move your
-        code from testLocationTable to here so that you can call this code from both
-        testWeatherTable and testLocationTable.
-     */
-    public long insertLocation() {
         // First step: Get reference to writable database
         // If there's an error in those massive SQL table creation Strings,
         // errors will be thrown here when you try to get a writable database.
@@ -113,15 +103,14 @@ public class TestDb extends AndroidTestCase {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // Second Step: Create ContentValues of what you want to insert
-        // (you can use the createNorthPoleLocationValues if you wish)
         ContentValues testValues = TestUtilities.createDummyChallengeValues();
 
         // Third Step: Insert ContentValues into database and get a row ID back
-        long locationRowId;
-        locationRowId = db.insert(EvaContract.ChallengeEntry.TABLE_NAME, null, testValues);
+        long rowId;
+        rowId = db.insert(EvaContract.ChallengeEntry.TABLE_NAME, null, testValues);
 
         // Verify we got a row back.
-        assertTrue(locationRowId != -1);
+        assertTrue(rowId != -1);
 
         // Data's inserted.  IN THEORY.  Now pull some out to stare at it and verify it made
         // the round trip.
@@ -140,21 +129,20 @@ public class TestDb extends AndroidTestCase {
 
         // Move the cursor to a valid database row and check to see if we got any records back
         // from the query
-        assertTrue("Error: No Records returned from location query", cursor.moveToFirst());
+        assertTrue("Error: No Records returned from challenge query", cursor.moveToFirst());
 
         // Fifth Step: Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
-        TestUtilities.validateCurrentRecord("Error: Location Query Validation Failed",
+        TestUtilities.validateCurrentRecord("Error: Challenge Query Validation Failed",
                 cursor, testValues);
 
         // Move the cursor to demonstrate that there is only one record in the database
-        assertFalse("Error: More than one record returned from location query",
+        assertFalse("Error: More than one record returned from challenge query",
                 cursor.moveToNext());
 
         // Sixth Step: Close Cursor and Database
         cursor.close();
         db.close();
-        return locationRowId;
     }
 }

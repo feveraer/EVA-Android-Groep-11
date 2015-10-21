@@ -21,9 +21,6 @@ public class TestProvider extends AndroidTestCase {
        It also queries the ContentProvider to make sure that the database has been successfully
        deleted, so it cannot be used until the Query and Delete functions have been written
        in the ContentProvider.
-
-       Students: Replace the calls to deleteAllRecordsFromDB with this one after you have written
-       the delete functionality in the ContentProvider.
      */
     public void deleteAllRecordsFromProvider() {
         mContext.getContentResolver().delete(
@@ -39,7 +36,7 @@ public class TestProvider extends AndroidTestCase {
                 null,
                 null
         );
-        assertEquals("Error: Records not deleted from Weather table during delete", 0, cursor.getCount());
+        assertEquals("Error: Records not deleted from Challenge table during delete", 0, cursor.getCount());
         cursor.close();
     }
 
@@ -55,15 +52,20 @@ public class TestProvider extends AndroidTestCase {
         deleteAllRecords();
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        deleteAllRecords();
+    }
+
     /*
         This test checks to make sure that the content provider is registered correctly.
-        Students: Uncomment this test to make sure you've correctly registered the WeatherProvider.
      */
     public void testProviderRegistry() {
         PackageManager pm = mContext.getPackageManager();
 
         // We define the component name based on the package name from the context and the
-        // WeatherProvider class.
+        // EvaProvider class.
         ComponentName componentName = new ComponentName(mContext.getPackageName(),
                 EvaProvider.class.getName());
         try {
@@ -72,22 +74,20 @@ public class TestProvider extends AndroidTestCase {
             ProviderInfo providerInfo = pm.getProviderInfo(componentName, 0);
 
             // Make sure that the registered authority matches the authority from the Contract.
-            assertEquals("Error: WeatherProvider registered with authority: " + providerInfo.authority +
+            assertEquals("Error: EvaProvider registered with authority: " + providerInfo.authority +
                             " instead of authority: " + EvaContract.CONTENT_AUTHORITY,
                     providerInfo.authority, EvaContract.CONTENT_AUTHORITY);
         } catch (PackageManager.NameNotFoundException e) {
             // I guess the provider isn't registered correctly.
-            assertTrue("Error: WeatherProvider not registered at " + mContext.getPackageName(),
+            assertTrue("Error: EvaProvider not registered at " + mContext.getPackageName(),
                     false);
         }
     }
 
-    /*
-            This test doesn't touch the database.  It verifies that the ContentProvider returns
-            the correct type for each type of URI that it can handle.
-            Students: Uncomment this test to verify that your implementation of GetType is
-            functioning correctly.
-         */
+    /**
+     * This test doesn't touch the database.  It verifies that the ContentProvider returns
+     * the correct type for each type of URI that it can handle.
+     */
     public void testGetType() {
         // content://com.groep11.eva_app/challenge/
         String type = mContext.getContentResolver().getType(ChallengeEntry.CONTENT_URI);
@@ -98,22 +98,22 @@ public class TestProvider extends AndroidTestCase {
         long testId = 94074L;
         // content://com.groep11.eva_app/challenge/94074
         type = mContext.getContentResolver().getType(ChallengeEntry.buildChallengeUri(testId));
-        // vnd.android.cursor.dir/com.example.android.sunshine.app/weather
-        assertEquals("Error: the ChallengeEntry CONTENT_URI with location should return ChallengeEntry.CONTENT_TYPE",
+        // vnd.android.cursor.dir/com.groep11.eva_app/challenge
+        assertEquals("Error: the ChallengeEntry CONTENT_URI with id should return ChallengeEntry.CONTENT_TYPE",
                 ChallengeEntry.CONTENT_TYPE, type);
 
         // content://com.groep11.eva_app/challenge/current
         type = mContext.getContentResolver().getType(
                 ChallengeEntry.buildCurrentChallengeUri());
-        // vnd.android.cursor.dir/com.example.android.sunshine.app/weather
-        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+        // vnd.android.cursor.dir/com.groep11.eva_app/challenge
+        assertEquals("Error: the ChallengeEntry CONTENT_URI with current should return ChallengeEntry.CONTENT_TYPE",
                 ChallengeEntry.CONTENT_TYPE, type);
     }
 
 
     /*
         This test uses the database directly to insert and then uses the ContentProvider to
-        read out the data.  Uncomment this test to see if the basic weather query functionality
+        read out the data.  Use this test to see if the basic challenge query functionality
         given in the ContentProvider is working correctly.
      */
     public void testBasicChallengeQuery() {
@@ -123,7 +123,7 @@ public class TestProvider extends AndroidTestCase {
 
         ContentValues challengeValues = TestUtilities.createDummyChallengeValues();
         long challengeRowId = db.insert(ChallengeEntry.TABLE_NAME, null, challengeValues);
-        assertTrue("Unable to Insert WeatherEntry into the Database", challengeRowId != -1);
+        assertTrue("Unable to Insert ChallengeEntry into the Database", challengeRowId != -1);
 
         db.close();
 
@@ -137,14 +137,13 @@ public class TestProvider extends AndroidTestCase {
         );
 
         // Make sure we get the correct cursor out of the database
-        TestUtilities.validateCursor("testBasicWeatherQuery", challengeCursor, challengeValues);
+        TestUtilities.validateCursor("testBasicChallengeQuery", challengeCursor, challengeValues);
     }
 
-    // Make sure we can still delete after adding/updating stuff
-    //
-    // Student: Uncomment this test after you have completed writing the insert functionality
-    // in your provider.  It relies on insertions with testInsertReadProvider, so insert and
-    // query functionality must also be complete before this test can be used.
+    /**
+     * Make sure we can still delete after adding/updating stuff
+     * It relies on insertions with testInsertReadProvider.
+     */
     public void testInsertReadProvider() {
         ContentValues testValues = TestUtilities.createDummyChallengeValues();
 
@@ -153,7 +152,7 @@ public class TestProvider extends AndroidTestCase {
         mContext.getContentResolver().registerContentObserver(ChallengeEntry.CONTENT_URI, true, tco);
         Uri challengeUri = mContext.getContentResolver().insert(ChallengeEntry.CONTENT_URI, testValues);
 
-        // Did our content observer get called?  Students:  If this fails, your insert location
+        // Did our content observer get called?  If this fails, the insert challenge
         // isn't calling getContext().getContentResolver().notifyChange(uri, null);
         tco.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(tco);
@@ -179,23 +178,19 @@ public class TestProvider extends AndroidTestCase {
                 cursor, testValues);
     }
 
-    // Make sure we can still delete after adding/updating stuff
-    //
-    // Student: Uncomment this test after you have completed writing the delete functionality
-    // in your provider.  It relies on insertions with testInsertReadProvider, so insert and
-    // query functionality must also be complete before this test can be used.
+    /**
+     * Make sure we can still delete after adding/updating stuff
+     * It relies on insertions with testInsertReadProvider.
+     */
     public void testDeleteRecords() {
         testInsertReadProvider();
 
-        // Register a content observer for our location delete.
+        // Register a content observer for our challenge delete.
         TestUtilities.TestContentObserver challengeObserver = TestUtilities.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(ChallengeEntry.CONTENT_URI, true, challengeObserver);
 
         deleteAllRecordsFromProvider();
 
-        // Students: If either of these fail, you most-likely are not calling the
-        // getContext().getContentResolver().notifyChange(uri, null); in the ContentProvider
-        // delete.  (only if the insertReadProvider is succeeding)
         challengeObserver.waitForNotificationOrFail();
 
         mContext.getContentResolver().unregisterContentObserver(challengeObserver);
@@ -204,7 +199,7 @@ public class TestProvider extends AndroidTestCase {
 
     static private final int BULK_INSERT_RECORDS_TO_INSERT = 10;
 
-    static ContentValues[] createBulkInsertWeatherValues(int amount) {
+    static ContentValues[] createBulkInsertChallengeValues(int amount) {
         ContentValues[] returnContentValues = new ContentValues[amount];
 
         for (int i = 0; i < amount; i++) {
@@ -213,10 +208,10 @@ public class TestProvider extends AndroidTestCase {
         return returnContentValues;
     }
 
-    // Student: Uncomment this test after you have completed writing the BulkInsert functionality
-    // in your provider.  Note that this test will work with the built-in (default) provider
-    // implementation, which just inserts records one-at-a-time, so really do implement the
-    // BulkInsert ContentProvider function.
+    /**
+     * Note that this test will work with the built-in (default) provider implementation, which just
+     * inserts records one-at-a-time, so really do implement the BulkInsert ContentProvider function.
+     */
     public void testBulkInsert() {
         ContentValues[] bulkInsertContentValues = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
 
@@ -235,7 +230,7 @@ public class TestProvider extends AndroidTestCase {
         // and let's make sure they match the ones we created
         cursor.moveToFirst();
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++, cursor.moveToNext()) {
-            TestUtilities.validateCurrentRecord("testBulkInsert.  Error validating WeatherEntry " + i,
+            TestUtilities.validateCurrentRecord("testBulkInsert.  Error validating ChallengeEntry " + i,
                     cursor, bulkInsertContentValues[i]);
         }
         cursor.close();
@@ -245,7 +240,7 @@ public class TestProvider extends AndroidTestCase {
         // Now we can bulkInsert some challenges.  In fact, we only implement BulkInsert for challenge
         // entries.  With ContentProviders, you really only have to implement the features you
         // use, after all.
-        ContentValues[] bulkInsertContentValues = createBulkInsertWeatherValues(amount);
+        ContentValues[] bulkInsertContentValues = createBulkInsertChallengeValues(amount);
 
         // Register a content observer for our bulk insert.
         TestUtilities.TestContentObserver challengeObserver = TestUtilities.getTestContentObserver();
@@ -253,9 +248,6 @@ public class TestProvider extends AndroidTestCase {
 
         int insertCount = mContext.getContentResolver().bulkInsert(ChallengeEntry.CONTENT_URI, bulkInsertContentValues);
 
-        // Students:  If this fails, it means that you most-likely are not calling the
-        // getContext().getContentResolver().notifyChange(uri, null); in your BulkInsert
-        // ContentProvider method.
         challengeObserver.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(challengeObserver);
 
