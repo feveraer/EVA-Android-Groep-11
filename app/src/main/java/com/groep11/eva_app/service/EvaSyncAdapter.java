@@ -58,7 +58,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         EvaApiService service = retrofit.create(EvaApiService.class);
 
         Call<List<Task>> call = service.listRepos(sUserId);
-        //sync request with enqueue
+
         Response<List<Task>> response = null;
         try {
             response = call.execute();
