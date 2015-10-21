@@ -2,42 +2,26 @@ package com.groep11.eva_app.ui.fragment;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.data.remote.Challenge;
-import com.groep11.eva_app.data.remote.EvaApiService;
-import com.groep11.eva_app.data.remote.Task;
 import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.util.DateConversion;
 
-import java.util.Date;
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class ShowChallengeDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
@@ -60,20 +44,21 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
     public static final int COL_CHALLENGE_DESCRIPTION = 2;
     public static final int COL_CHALLENGE_DIFFICULTY = 3;
 
-    private TextView mTitleView;
-    private TextView mDescriptionView;
-    private TextView mDifficultyView;
+    private final float LEAF_DISABLED_OPACITY = 0.5f;
+
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
+
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
+    List<ImageView> mDifficultyView;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-
         Bundle arguments = getArguments();
         if (arguments != null) {
             mUri = arguments.getParcelable(ShowChallengeDetailsFragment.DETAIL_URI);
@@ -81,63 +66,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge_details, container, false);
-        mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
-        mDescriptionView = (TextView) rootView.findViewById(R.id.text_challenge_description);
-        mDifficultyView = (TextView) rootView.findViewById(R.id.text_challenge_difficulty);
+        // Non-activity binding for butterknife
+        ButterKnife.bind(this, rootView);
+
         return rootView;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.fragment_show_challenge_details, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_dummy_current) {
-            insertDummyChallenge();
-            return true;
-        } else if (id == R.id.action_clear_all) {
-            clearAllChallenges();
-            return true;
-        } else if (id == R.id.action_sync) {
-            sync();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void sync() {
-        EvaSyncAdapter.deleteAccount(getActivity());
-        EvaSyncAdapter.syncImmediately(getActivity());
-    }
-
-    private void insertDummyChallenge() {
-        ContentValues values = new ContentValues();
-        values.put(ChallengeEntry.COLUMN_TITLE, "dummy title");
-        values.put(ChallengeEntry.COLUMN_DESCRIPTION, "dummy description");
-        values.put(ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
-        values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
-        values.put(ChallengeEntry.COLUMN_COMPLETED, 0);
-        values.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
-        Uri uri = getActivity().getContentResolver().insert(
-                ChallengeEntry.CONTENT_URI,
-                values
-        );
-        Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void clearAllChallenges() {
-        int rowsDeleted = getActivity().getContentResolver().delete(
-                ChallengeEntry.CONTENT_URI,
-                null,
-                null
-        );
-        Toast.makeText(getActivity(), "Deleted " + rowsDeleted + " rows!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -172,13 +104,20 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
-            mDifficultyView.setText(challengeDifficulty);
+            setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
             mTitleView.setText(R.string.challenge_title_default);
             mDescriptionView.setText(R.string.challenge_description_default);
-            mDifficultyView.setText(R.string.challenge_difficulty_default);
+            setLeavesOpacity(R.string.challenge_difficulty_default);
         }
+    }
+
+    private void setLeavesOpacity(int diff){
+        //Set opacity leaf #3
+        mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        //Set opacity leaf #2
+        mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
     @Override

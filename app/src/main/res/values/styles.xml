@@ -1,8 +1,35 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="EvaTheme" parent="@android:style/Theme.Material.Light.DarkActionBar" >
+        //Theme base colors
+        <item name="android:colorPrimary">@color/primary_material_light</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark_material_light</item>
+        <item name="android:colorAccent">@color/accent_material_light</item>
+    </style>
+
+    <style name="ChallengeDetailsTitle">
+        <item name="android:textSize">@dimen/font_largest</item>
+        <item name="android:textColor">@color/grey_800</item>
+        <item name="android:paddingBottom">@dimen/headline_padding_default</item>
+    </style>
+
+    <style name="ChallengeDetailsBody">
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textColor">@color/grey_700</item>
+        <item name="android:paddingStart">@dimen/spacing_large</item>
+        <item name="android:paddingEnd">@dimen/spacing_large</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+    </style>
+
+    <style name="ChallengeDetailsCircleView">
+        <item name="android:paddingBottom">@dimen/spacing_large</item>
+        <item name="android:paddingTop">@dimen/spacing_large</item>
+        <item name="android:src">@drawable/sandwich</item>
+    </style>
+
+    <style name="ShowChallengeCircleView">
+        <item name="android:src">@drawable/sandwich</item>
     </style>
 
 </resources>
+

@@ -3,6 +3,7 @@ package com.groep11.eva_app.ui.fragment;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,16 +13,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.activity.ShowChallengeDetailsActivity;
+import com.groep11.eva_app.util.DateConversion;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import java.util.Date;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
@@ -42,36 +51,41 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public static final int COL_CHALLENGE_TITLE = 1;
     public static final int COL_CHALLENGE_DIFFICULTY = 2;
 
-    private TextView mTitleView;
-    private TextView mDifficultyView;
-    private LinearLayout mContainer;
+    private final float LEAF_DISABLED_OPACITY = 0.5f;
+
+    //Field binding using Butterknife
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.fragment_show_challenge_container) LinearLayout mContainer;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
+    List<ImageView> mDifficultyView;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         mUri = EvaContract.ChallengeEntry.buildCurrentChallengeUri();
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge, container, false);
-        mTitleView = (TextView) rootView.findViewById(R.id.text_challenge_title);
-        mDifficultyView = (TextView) rootView.findViewById(R.id.text_challenge_difficulty);
-        mContainer = (LinearLayout) rootView.findViewById(R.id.fragment_show_challenge_container);
-        mContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
-                        .setData(mUri);
-                startActivity(intent);
-            }
-        });
+        // Non-activity binding for butterknife
+        ButterKnife.bind(this, rootView);
+
+        // Load the current challenge
+        sync();
         return rootView;
     }
 
+    //TODO: link showDetails to challenge card element
+    @OnClick(R.id.card_challenge)
+    public void showDetailsActivity(View view) {
+        Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
+                .setData(mUri);
+        startActivity(intent);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -103,15 +117,55 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
             mTitleView.setText(challengeTitle);
-            mDifficultyView.setText(challengeDifficulty);
+            setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
             mTitleView.setText(R.string.challenge_title_default);
-            mDifficultyView.setText(R.string.challenge_difficulty_default);
+            setLeavesOpacity(R.string.challenge_difficulty_default);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    private void setLeavesOpacity(int diff){
+        //Set opacity leaf #3
+        mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        //Set opacity leaf #2
+        mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
+    }
+
+    private void sync() {
+        EvaSyncAdapter.deleteAccount(getActivity());
+        EvaSyncAdapter.syncImmediately(getActivity());
+    }
+
+
+    /**
+     * Testing methods below, remove later.
+     */
+    private void insertDummyChallenge() {
+        ContentValues values = new ContentValues();
+        values.put(EvaContract.ChallengeEntry.COLUMN_TITLE, "dummy title");
+        values.put(EvaContract.ChallengeEntry.COLUMN_DESCRIPTION, "dummy description");
+        values.put(EvaContract.ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
+        values.put(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
+        values.put(EvaContract.ChallengeEntry.COLUMN_COMPLETED, 0);
+        values.put(EvaContract.ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
+        Uri uri = getActivity().getContentResolver().insert(
+                EvaContract.ChallengeEntry.CONTENT_URI,
+                values
+        );
+        Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearAllChallenges() {
+        int rowsDeleted = getActivity().getContentResolver().delete(
+                EvaContract.ChallengeEntry.CONTENT_URI,
+                null,
+                null
+        );
+        Toast.makeText(getActivity(), "Deleted " + rowsDeleted + " rows!", Toast.LENGTH_SHORT).show();
     }
 }
