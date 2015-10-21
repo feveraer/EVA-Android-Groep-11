@@ -28,11 +28,11 @@ public class TestUriMatcher extends AndroidTestCase {
     public void testUriMatcher() {
         UriMatcher testMatcher = EvaProvider.buildUriMatcher();
 
-        assertEquals("Error: The WEATHER URI was matched incorrectly.",
+        assertEquals("Error: The CHALLENGE URI was matched incorrectly.",
                 testMatcher.match(TEST_CHALLENGE_DIR), EvaProvider.CHALLENGE);
-        assertEquals("Error: The WEATHER WITH LOCATION URI was matched incorrectly.",
+        assertEquals("Error: The CHALLENGE WITH ID URI was matched incorrectly.",
                 testMatcher.match(TEST_CHALLENGE_WITH_ID_DIR), EvaProvider.CHALLENGE_WITH_ID);
-        assertEquals("Error: The WEATHER WITH LOCATION AND DATE URI was matched incorrectly.",
+        assertEquals("Error: The CURRENT CHALLENGE URI was matched incorrectly.",
                 testMatcher.match(TEST_CHALLENGE_CURRENT_DIR), EvaProvider.CHALLENGE_CURRENT);
     }
 }

@@ -6,12 +6,13 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class EvaSyncService extends Service {
+    private static final String LOG_TAG = EvaSyncService.class.getSimpleName();
     private static final Object sSyncAdapterLock = new Object();
     private static EvaSyncAdapter sEvaSyncAdapter = null;
 
     @Override
     public void onCreate() {
-        Log.d("SunshineSyncService", "onCreate - SunshineSyncService");
+        Log.d(LOG_TAG, "onCreate - EvaSyncService");
         synchronized (sSyncAdapterLock) {
             if (sEvaSyncAdapter == null) {
                 sEvaSyncAdapter = new EvaSyncAdapter(getApplicationContext(), true);
