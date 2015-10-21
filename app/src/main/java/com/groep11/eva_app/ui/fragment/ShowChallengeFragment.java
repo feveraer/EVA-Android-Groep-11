@@ -76,12 +76,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
 
-        // Load the current challenge
-        sync();
         return rootView;
     }
 
-    //TODO: link showDetails to challenge card element
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
         Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
