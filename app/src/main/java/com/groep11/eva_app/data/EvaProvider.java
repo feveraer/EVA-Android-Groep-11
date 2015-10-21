@@ -113,8 +113,8 @@ public class EvaProvider extends ContentProvider {
     }
 
     /*
-        Students: Here's where you'll code the getType function that uses the UriMatcher.  You can
-        test this by uncommenting testGetType in TestProvider.
+        The getType function uses the UriMatcher. Should return for each URI the base URI
+        eg. com.groep11.eva_app/challenge/94074 -> com.groep11.eva_app/challenge/
      */
     @Override
     public String getType(Uri uri) {
@@ -123,7 +123,6 @@ public class EvaProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            // Student: Uncomment and fill out these two cases
             case CHALLENGE:
                 return ChallengeEntry.CONTENT_TYPE;
             case CHALLENGE_WITH_ID:

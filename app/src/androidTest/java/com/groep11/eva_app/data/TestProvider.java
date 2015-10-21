@@ -21,9 +21,6 @@ public class TestProvider extends AndroidTestCase {
        It also queries the ContentProvider to make sure that the database has been successfully
        deleted, so it cannot be used until the Query and Delete functions have been written
        in the ContentProvider.
-
-       Students: Replace the calls to deleteAllRecordsFromDB with this one after you have written
-       the delete functionality in the ContentProvider.
      */
     public void deleteAllRecordsFromProvider() {
         mContext.getContentResolver().delete(
@@ -63,7 +60,6 @@ public class TestProvider extends AndroidTestCase {
 
     /*
         This test checks to make sure that the content provider is registered correctly.
-        Students: Uncomment this test to make sure you've correctly registered the EvaProvider.
      */
     public void testProviderRegistry() {
         PackageManager pm = mContext.getPackageManager();
@@ -88,12 +84,10 @@ public class TestProvider extends AndroidTestCase {
         }
     }
 
-    /*
-            This test doesn't touch the database.  It verifies that the ContentProvider returns
-            the correct type for each type of URI that it can handle.
-            Students: Uncomment this test to verify that your implementation of GetType is
-            functioning correctly.
-         */
+    /**
+     * This test doesn't touch the database.  It verifies that the ContentProvider returns
+     * the correct type for each type of URI that it can handle.
+     */
     public void testGetType() {
         // content://com.groep11.eva_app/challenge/
         String type = mContext.getContentResolver().getType(ChallengeEntry.CONTENT_URI);
@@ -146,11 +140,10 @@ public class TestProvider extends AndroidTestCase {
         TestUtilities.validateCursor("testBasicChallengeQuery", challengeCursor, challengeValues);
     }
 
-    // Make sure we can still delete after adding/updating stuff
-    //
-    // Student: Uncomment this test after you have completed writing the insert functionality
-    // in your provider.  It relies on insertions with testInsertReadProvider, so insert and
-    // query functionality must also be complete before this test can be used.
+    /**
+     * Make sure we can still delete after adding/updating stuff
+     * It relies on insertions with testInsertReadProvider.
+     */
     public void testInsertReadProvider() {
         ContentValues testValues = TestUtilities.createDummyChallengeValues();
 
@@ -185,11 +178,10 @@ public class TestProvider extends AndroidTestCase {
                 cursor, testValues);
     }
 
-    // Make sure we can still delete after adding/updating stuff
-    //
-    // Student: Uncomment this test after you have completed writing the delete functionality
-    // in your provider.  It relies on insertions with testInsertReadProvider, so insert and
-    // query functionality must also be complete before this test can be used.
+    /**
+     * Make sure we can still delete after adding/updating stuff
+     * It relies on insertions with testInsertReadProvider.
+     */
     public void testDeleteRecords() {
         testInsertReadProvider();
 
@@ -199,9 +191,6 @@ public class TestProvider extends AndroidTestCase {
 
         deleteAllRecordsFromProvider();
 
-        // Students: If either of these fail, you most-likely are not calling the
-        // getContext().getContentResolver().notifyChange(uri, null); in the ContentProvider
-        // delete.  (only if the insertReadProvider is succeeding)
         challengeObserver.waitForNotificationOrFail();
 
         mContext.getContentResolver().unregisterContentObserver(challengeObserver);
@@ -219,10 +208,10 @@ public class TestProvider extends AndroidTestCase {
         return returnContentValues;
     }
 
-    // Student: Uncomment this test after you have completed writing the BulkInsert functionality
-    // in your provider.  Note that this test will work with the built-in (default) provider
-    // implementation, which just inserts records one-at-a-time, so really do implement the
-    // BulkInsert ContentProvider function.
+    /**
+     * Note that this test will work with the built-in (default) provider implementation, which just
+     * inserts records one-at-a-time, so really do implement the BulkInsert ContentProvider function.
+     */
     public void testBulkInsert() {
         ContentValues[] bulkInsertContentValues = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
 
@@ -259,9 +248,6 @@ public class TestProvider extends AndroidTestCase {
 
         int insertCount = mContext.getContentResolver().bulkInsert(ChallengeEntry.CONTENT_URI, bulkInsertContentValues);
 
-        // Students:  If this fails, it means that you most-likely are not calling the
-        // getContext().getContentResolver().notifyChange(uri, null); in your BulkInsert
-        // ContentProvider method.
         challengeObserver.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(challengeObserver);
 
