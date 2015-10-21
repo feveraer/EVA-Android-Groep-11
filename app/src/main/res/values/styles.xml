@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="EvaTheme" parent="@android:style/Theme.Material.Light.DarkActionBar" >
+    <style name="EvaTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
         //Theme base colors
         <item name="android:colorPrimary">@color/primary_material_light</item>
         <item name="android:colorPrimaryDark">@color/primary_dark_material_light</item>

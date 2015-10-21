@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-public class EvaSyncService extends Service{
+public class EvaSyncService extends Service {
     private static final Object sSyncAdapterLock = new Object();
     private static EvaSyncAdapter sEvaSyncAdapter = null;
 

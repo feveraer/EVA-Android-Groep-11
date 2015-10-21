@@ -26,10 +26,9 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/deep_orange_50" >
+                android:background="@color/deep_orange_50">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/circle_challenge_image"
                     android:layout_width="@dimen/circleview_radius_small"
                     android:layout_height="@dimen/circleview_radius_small"
@@ -45,7 +44,7 @@
                     android:padding="8dp"
                     style="@style/Base.TextAppearance.AppCompat.Title"
                     android:text="@string/challenge_title_default"
-                    android:layout_toRightOf="@+id/circle_challenge_image"/>
+                    android:layout_toRightOf="@+id/circle_challenge_image" />
 
                 <LinearLayout
                     android:orientation="horizontal"

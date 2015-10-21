@@ -13,11 +13,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
-import com.groep11.eva_app.R;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +33,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     private static final String sBaseUrl = "http://95.85.59.29:1337/api/";
     private static final String sUserId = "56224ab96dcac34e5e596a35";
@@ -130,6 +130,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * Helper method to have the sync adapter sync immediately
+     *
      * @param context The context used to access the account service
      */
     public static void syncImmediately(Context context) {
@@ -158,7 +159,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password doesn't exist, the account doesn't exist
-        if ( null == accountManager.getPassword(newAccount) ) {
+        if (null == accountManager.getPassword(newAccount)) {
 
         /*
          * Add the account and account type, no password or user data
@@ -182,7 +183,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * [development] temporary method to update the sync account
      */
-    public static void deleteAccount(Context context){
+    public static void deleteAccount(Context context) {
         // Get an instance of the Android account manager
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
@@ -192,10 +193,10 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
         // If the password exists, the account exists
-        if ( null != accountManager.getPassword(newAccount) ) {
+        if (null != accountManager.getPassword(newAccount)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 boolean success = accountManager.removeAccountExplicitly(newAccount);
-                Log.d(EvaSyncAdapter.class.getSimpleName(), "Deleted account: "+success);
+                Log.d(EvaSyncAdapter.class.getSimpleName(), "Deleted account: " + success);
             }
         }
     }
