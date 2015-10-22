@@ -123,6 +123,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
+            challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
+
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
