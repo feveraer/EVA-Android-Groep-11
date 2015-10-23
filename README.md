@@ -1,4 +1,4 @@
-# Groep 11 - Eva Web #
+# Groep 11 - Eva Android #
 
 ## Group members ##
 
