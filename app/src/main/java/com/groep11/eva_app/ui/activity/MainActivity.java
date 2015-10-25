@@ -1,12 +1,15 @@
 package com.groep11.eva_app.ui.activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 
 public class MainActivity extends Activity {
 
@@ -14,6 +17,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Add challenge fragment
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+        ShowChallengeFragment challengeFragment = new ShowChallengeFragment();
+        fragmentTransaction.add(R.id.fragment_container, challengeFragment);
+        fragmentTransaction.commit();
 
         EvaSyncAdapter.initializeSyncAdapter(this);
     }
