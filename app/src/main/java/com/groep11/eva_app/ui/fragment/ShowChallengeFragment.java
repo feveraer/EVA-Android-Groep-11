@@ -81,7 +81,15 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
+
+        //Create arguments (uri)
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
+
+        //Create new challengeDetailsFragment and set it's arguments
         ShowChallengeDetailsFragment challengeDetailsFragment = new ShowChallengeDetailsFragment();
+        challengeDetailsFragment.setArguments(arguments);
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         transaction.replace(R.id.fragment_container, challengeDetailsFragment);
