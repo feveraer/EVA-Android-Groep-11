@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
         fragmentTransaction.add(R.id.fragment_container, challengeFragment);
         fragmentTransaction.commit();
 
+        setOnBackStackChangedListener();
+
         EvaSyncAdapter.initializeSyncAdapter(this);
     }
 
@@ -43,10 +45,30 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case android.R.id.home:
+                getFragmentManager().popBackStack();
+                return true;
+            case R.id.action_settings:
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setOnBackStackChangedListener(){
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                int stackHeight = getFragmentManager().getBackStackEntryCount();
+                if (stackHeight > 0) { // if we have something on the stack (doesn't include the current shown fragment)
+                    getActionBar().setHomeButtonEnabled(true);
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
+                } else {
+                    getActionBar().setDisplayHomeAsUpEnabled(false);
+                    getActionBar().setHomeButtonEnabled(false);
+                }
+            }
+        });
     }
 }
