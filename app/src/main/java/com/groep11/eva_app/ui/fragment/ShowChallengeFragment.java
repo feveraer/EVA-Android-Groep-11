@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.ui.activity.ShowChallengeDetailsActivity;
 import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
@@ -84,12 +83,11 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public void showDetailsActivity(View view) {
         ShowChallengeDetailsFragment challengeDetailsFragment = new ShowChallengeDetailsFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
         transaction.replace(R.id.fragment_container, challengeDetailsFragment);
+        //adds challengeFragment to backStack
         transaction.addToBackStack(null);
         transaction.commit();
-//        Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
-//                .setData(mUri);
-//        startActivity(intent);
     }
 
     @Override
