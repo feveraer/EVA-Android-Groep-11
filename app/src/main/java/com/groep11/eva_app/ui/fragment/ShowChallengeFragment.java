@@ -2,6 +2,7 @@ package com.groep11.eva_app.ui.fragment;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -81,9 +82,14 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
-        Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
-                .setData(mUri);
-        startActivity(intent);
+        ShowChallengeDetailsFragment challengeDetailsFragment = new ShowChallengeDetailsFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, challengeDetailsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+//        Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
+//                .setData(mUri);
+//        startActivity(intent);
     }
 
     @Override
