@@ -48,5 +48,6 @@ public class ShowProgressFragment extends Fragment {
         if(progressCounter < 21) progressCounter++;
         //TODO: animation, this is a simple test :)
         progressImage.setBackgroundColor(Color.rgb(125, progressCounter * 12, 0));
+        Log.i(TAG, "progress..." + progressCounter);
     }
 }
