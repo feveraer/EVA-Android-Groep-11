@@ -35,6 +35,7 @@ import butterknife.OnClick;
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
+    public static final String TAG = "SHOW_CHALLENGE";
 
     private Uri mUri;
 
@@ -98,9 +99,13 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,        //Fragment in / out
-                                        android.R.animator.fade_in, android.R.animator.fade_out);       //Backstack in / out
+                android.R.animator.fade_in, android.R.animator.fade_out);       //Backstack in / out
 
-        transaction.replace(R.id.fragment_container, challengeDetailsFragment);
+        //transaction.replace(R.id.fragment_container, challengeDetailsFragment);
+        transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
+        transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
+        transaction.add(R.id.fragment_container, challengeDetailsFragment, DETAIL_URI);
+
         //adds challengeFragment to backStack
         transaction.addToBackStack(null);
         transaction.commit();

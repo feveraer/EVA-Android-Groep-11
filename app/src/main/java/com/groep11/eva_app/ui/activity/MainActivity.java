@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
 
         fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
-        fragmentTransaction.add(R.id.fragment_container, challengeFragment);
+        fragmentTransaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
         fragmentTransaction.commit();
 
         setOnBackStackChangedListener();
