@@ -2,6 +2,7 @@ package com.groep11.eva_app.ui.fragment;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.ui.activity.ShowChallengeDetailsActivity;
 import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
@@ -81,9 +81,24 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
-        Intent intent = new Intent(getActivity(), ShowChallengeDetailsActivity.class)
-                .setData(mUri);
-        startActivity(intent);
+
+        //Create arguments (uri)
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
+
+        //Create new challengeDetailsFragment and set it's arguments
+        ShowChallengeDetailsFragment challengeDetailsFragment = new ShowChallengeDetailsFragment();
+        challengeDetailsFragment.setArguments(arguments);
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,        //Fragment in / out
+                                        android.R.animator.fade_in, android.R.animator.fade_out);       //Backstack in / out
+
+        transaction.replace(R.id.fragment_container, challengeDetailsFragment);
+        //adds challengeFragment to backStack
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
