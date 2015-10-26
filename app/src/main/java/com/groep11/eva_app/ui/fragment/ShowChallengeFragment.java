@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,12 +58,16 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     @Bind(R.id.text_challenge_title)
     TextView mTitleView;
     @Bind(R.id.fragment_show_challenge_container)
-    LinearLayout mContainer;
+    View mContainer;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
     List<ImageView> mDifficultyView;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
+    }
+
+    public static ShowChallengeFragment newInstance(){
+        return new ShowChallengeFragment();
     }
 
     @Override
@@ -87,7 +92,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
 
         //Create new challengeDetailsFragment and set it's arguments
-        ShowChallengeDetailsFragment challengeDetailsFragment = new ShowChallengeDetailsFragment();
+        ShowChallengeDetailsFragment challengeDetailsFragment = ShowChallengeDetailsFragment.newInstance();
         challengeDetailsFragment.setArguments(arguments);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

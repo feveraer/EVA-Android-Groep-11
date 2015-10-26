@@ -7,7 +7,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -55,6 +57,10 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
+    }
+
+    public static ShowChallengeDetailsFragment newInstance(){
+        return new ShowChallengeDetailsFragment();
     }
 
     @Override

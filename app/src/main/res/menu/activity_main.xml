@@ -7,4 +7,11 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_complete_challenge"
+        android:title="@string/action_complete_challenge"
+        android:orderInCategory="50"
+        app:showAsAction="never" />
+
 </menu>

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
+import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 
 public class MainActivity extends Activity {
 
@@ -21,7 +23,10 @@ public class MainActivity extends Activity {
         //Add challenge fragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        ShowChallengeFragment challengeFragment = new ShowChallengeFragment();
+        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
+        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
+
+        fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
         fragmentTransaction.add(R.id.fragment_container, challengeFragment);
         fragmentTransaction.commit();
 
@@ -50,6 +55,11 @@ public class MainActivity extends Activity {
                 getFragmentManager().popBackStack();
                 return true;
             case R.id.action_settings:
+                return true;
+            case R.id.action_complete_challenge:
+                Log.i("Test", "dummy action completed");
+                ShowProgressFragment fragment = (ShowProgressFragment) getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG);
+                fragment.increaseProgress();
                 return true;
         }
 
