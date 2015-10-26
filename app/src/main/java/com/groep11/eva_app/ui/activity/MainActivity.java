@@ -57,7 +57,6 @@ public class MainActivity extends Activity {
             case R.id.action_settings:
                 return true;
             case R.id.action_complete_challenge:
-                Log.i("Test", "dummy action completed");
                 ShowProgressFragment fragment = (ShowProgressFragment) getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG);
                 fragment.increaseProgress();
                 return true;

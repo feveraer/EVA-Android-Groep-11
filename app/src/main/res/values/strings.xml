@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Eva-app</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_complete_challenge">Complete a challenge</string>
 
     <!--challenge ui defaults -->
     <string name="challenge_id_default">Challenge Id (default)</string>
@@ -34,4 +34,6 @@
     <string name="challenge_completed">Voltooid!</string>
     <string name="txt_challenge_short">Een korte beschrijving...</string>
 
+    <string name="progress_counter_default">0</string>
+    <string name="progress_image_content_description">animation that shows the progress</string>
 </resources>
