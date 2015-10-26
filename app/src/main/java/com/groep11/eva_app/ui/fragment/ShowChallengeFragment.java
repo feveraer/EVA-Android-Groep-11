@@ -92,6 +92,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,        //Fragment in / out
+                                        android.R.animator.fade_in, android.R.animator.fade_out);       //Backstack in / out
+
         transaction.replace(R.id.fragment_container, challengeDetailsFragment);
         //adds challengeFragment to backStack
         transaction.addToBackStack(null);
