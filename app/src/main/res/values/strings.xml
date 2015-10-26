@@ -2,7 +2,7 @@
     <string name="app_name">Eva-app</string>
 
     <string name="action_settings">Settings</string>
-    <string name="action_complete_challenge">Complete a challenge</string>
+    <string name="action_clear_progression">Clear progression</string>
 
     <!--challenge ui defaults -->
     <string name="challenge_id_default">Challenge Id (default)</string>

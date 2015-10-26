@@ -9,8 +9,8 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_complete_challenge"
-        android:title="@string/action_complete_challenge"
+        android:id="@+id/action_clear_progression"
+        android:title="@string/action_clear_progression"
         android:orderInCategory="50"
         app:showAsAction="never" />
 

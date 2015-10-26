@@ -44,10 +44,21 @@ public class ShowProgressFragment extends Fragment {
         return view;
     }
 
+    public void clearProgression(){
+        progressCounter = 0;
+        progressImage.setBackgroundColor(Color.rgb(125, 0, 0));
+        Log.i(TAG, "progress...cleared");
+    }
+
     public void increaseProgress(){
         if(progressCounter < 21) progressCounter++;
         //TODO: animation, this is a simple test :)
         progressImage.setBackgroundColor(Color.rgb(125, progressCounter * 12, 0));
         Log.i(TAG, "progress..." + progressCounter);
+    }
+
+    @OnClick(R.id.fragment_show_progress_container)
+    public void onFragmentClick(){
+        increaseProgress();
     }
 }

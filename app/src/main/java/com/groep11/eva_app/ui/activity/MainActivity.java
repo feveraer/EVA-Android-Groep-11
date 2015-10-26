@@ -56,9 +56,9 @@ public class MainActivity extends Activity {
                 return true;
             case R.id.action_settings:
                 return true;
-            case R.id.action_complete_challenge:
+            case R.id.action_clear_progression:
                 ShowProgressFragment fragment = (ShowProgressFragment) getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG);
-                fragment.increaseProgress();
+                fragment.clearProgression();
                 return true;
         }
 
