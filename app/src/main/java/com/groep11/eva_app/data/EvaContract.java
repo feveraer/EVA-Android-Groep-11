@@ -42,6 +42,9 @@ public class EvaContract {
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_REMOTE_TASK_ID = "task_id";
         public static final String COLUMN_COMPLETED = "completed";
+        public static final String COLUMN_CATEGORY = "category";
+        //1 = challenge is chosen from the categories as today's challenge
+        public static final String COLUMN_CHOSEN = "chosen";
 
         public static Uri buildChallengeUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -49,6 +52,10 @@ public class EvaContract {
 
         public static Uri buildCurrentChallengeUri() {
             return CONTENT_URI.buildUpon().appendPath("current").build();
+        }
+
+        public static Uri buildCurrentCategoriesUri() {
+            return CONTENT_URI.buildUpon().appendPath("current_categories").build();
         }
 
         public static long getIdFromUri(Uri uri) {

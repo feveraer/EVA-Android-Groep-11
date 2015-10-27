@@ -21,6 +21,7 @@ public class EvaProvider extends ContentProvider {
     static final int CHALLENGE = 100;
     static final int CHALLENGE_CURRENT = 101;
     static final int CHALLENGE_WITH_ID = 102;
+    static final int CHALLENGE_CURRENT_CATEGORIES = 103;
 
     /*
         This UriMatcher will match each URI to the CHALLENGE, CHALLENGE_CURRENT and
@@ -39,6 +40,7 @@ public class EvaProvider extends ContentProvider {
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE, CHALLENGE);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current", CHALLENGE_CURRENT);
+        matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current_categories", CHALLENGE_CURRENT_CATEGORIES);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/*", CHALLENGE_WITH_ID);
         return matcher;
     }
@@ -69,6 +71,11 @@ public class EvaProvider extends ContentProvider {
             // "challenge"
             case CHALLENGE: {
                 retCursor = getChallenge(projection, selection, selectionArgs, sortOrder);
+                break;
+            }
+            // "challenge/current-categories"
+            case CHALLENGE_CURRENT_CATEGORIES: {
+                retCursor = getCurrentCategories(uri, sortOrder);
                 break;
             }
             default:
@@ -107,9 +114,20 @@ public class EvaProvider extends ContentProvider {
     }
 
     private Cursor getCurrentChallenge(Uri uri, String[] projection, String sortOrder) {
-        String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
-        String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
+        String selection = ChallengeEntry.COLUMN_DATE + " = ? AND " + ChallengeEntry.COLUMN_CHOSEN + " = ? ";
+        String[] selectionArgs = new String[]{
+                DateConversion.formatDate(new Date()),
+                "" + 1
+        };
         return getChallenge(projection, selection, selectionArgs, ChallengeEntry._ID + " DESC");
+    }
+
+    private Cursor getCurrentCategories(Uri uri, String sortOrder) {
+        String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
+        String[] selectionArgs = new String[]{ DateConversion.formatDate(new Date()) };
+
+        //Only category column will be returned
+        return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, ChallengeEntry._ID + " DESC");
     }
 
     /*
@@ -128,6 +146,8 @@ public class EvaProvider extends ContentProvider {
             case CHALLENGE_WITH_ID:
                 return ChallengeEntry.CONTENT_TYPE;
             case CHALLENGE_CURRENT:
+                return ChallengeEntry.CONTENT_TYPE;
+            case CHALLENGE_CURRENT_CATEGORIES:
                 return ChallengeEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
