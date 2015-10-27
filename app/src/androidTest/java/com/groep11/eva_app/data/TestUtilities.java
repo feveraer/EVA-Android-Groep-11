@@ -27,15 +27,31 @@ public class TestUtilities extends AndroidTestCase {
         challengeValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
         challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description " + i);
         challengeValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
-        challengeValues.put(ChallengeEntry.COLUMN_CHOSEN, 0);
         challengeValues.put(ChallengeEntry.COLUMN_CATEGORY, "Social");
         challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, i * 1000 + i * 100 + i * 10 + i);
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, i);
         challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(c.getTime()));
-        challengeValues.put(ChallengeEntry.COLUMN_COMPLETED, i % 2 == 0);
+        challengeValues.put(ChallengeEntry.COLUMN_COMPLETED, sqliteBool(i % 2 == 0));
         return challengeValues;
+    }
+
+    public static ContentValues createChosenContentValues(String title, String category, boolean completed){
+        ContentValues challengeValues = new ContentValues();
+        challengeValues.put(ChallengeEntry.COLUMN_TITLE, title);
+        challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description");
+        challengeValues.put(ChallengeEntry.COLUMN_DIFFICULTY, 2);
+        challengeValues.put(ChallengeEntry.COLUMN_CHOSEN, sqliteBool(true)); // true
+        challengeValues.put(ChallengeEntry.COLUMN_CATEGORY, category);
+        challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 33442);
+        challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
+        challengeValues.put(ChallengeEntry.COLUMN_COMPLETED, sqliteBool(completed));
+        return challengeValues;
+    }
+
+    private static int sqliteBool(boolean b){
+        return b ? 1 : 0;
     }
 
 
@@ -53,13 +69,7 @@ public class TestUtilities extends AndroidTestCase {
             assertFalse("Column '" + columnName + "' not found. " + error, idx == -1);
             String expectedValue = entry.getValue().toString();
             String actualValue = valueCursor.getString(idx);
-            if (columnName.equals(ChallengeEntry.COLUMN_COMPLETED)) {
-                int actualInt = valueCursor.getInt(idx);
-                if (actualInt == 0)
-                    actualValue = "false";
-                else if (actualInt == 1)
-                    actualValue = "true";
-            }
+
             assertEquals("Value '" + entry.getValue().toString() +
                     "' did not match the expected value '" +
                     expectedValue + "'. " + error, expectedValue, actualValue);

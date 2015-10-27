@@ -18,6 +18,8 @@ public class TestUriMatcher extends AndroidTestCase {
     private static final Uri TEST_CHALLENGE_WITH_ID_DIR = EvaContract.ChallengeEntry.buildChallengeUri(TEST_CHALLENGE_ID);
     // content://com.groep11.eva_app/challenge/current"
     private static final Uri TEST_CHALLENGE_CURRENT_DIR = EvaContract.ChallengeEntry.buildCurrentChallengeUri();
+    // content://com.groep11.eva_app/challenge/current_category"
+    private static final Uri TEST_CHALLENGE_CURRENT_CATEGORY_DIR = EvaContract.ChallengeEntry.buildCurrentCategoriesUri();
 
     /**
      * This function tests that your UriMatcher returns the correct integer value
@@ -32,5 +34,7 @@ public class TestUriMatcher extends AndroidTestCase {
                 testMatcher.match(TEST_CHALLENGE_WITH_ID_DIR), EvaProvider.CHALLENGE_WITH_ID);
         assertEquals("Error: The CURRENT CHALLENGE URI was matched incorrectly.",
                 testMatcher.match(TEST_CHALLENGE_CURRENT_DIR), EvaProvider.CHALLENGE_CURRENT);
+        assertEquals("Error: The CURRENT CHALLENGE CATEGORY URI was matched incorrectly.",
+                testMatcher.match(TEST_CHALLENGE_CURRENT_CATEGORY_DIR), EvaProvider.CHALLENGE_CURRENT_CATEGORIES);
     }
 }
