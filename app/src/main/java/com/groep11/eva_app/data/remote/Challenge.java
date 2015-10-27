@@ -5,6 +5,8 @@ public class Challenge {
     private String title;
     private String description;
     private String difficulty;
+    // TODO: category is an ID that points to a different 'table'
+    private Category category;
 
     public Challenge() {
     }
@@ -29,16 +31,19 @@ public class Challenge {
         return difficulty;
     }
 
+    public Category getCategory() { return category; }
+
+    public void setCategory(Category category) { this.category = category; }
+
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("title: ").append(title).append("\n")
+        return new StringBuilder().append("title: ").append(title).append("\n")
                 .append("description: ").append(description).append("\n")
-                .append("difficulty: ").append(difficulty);
-        return sb.toString();
+                .append("difficulty: ").append(difficulty)
+                .append("category: ").append(category).toString();
     }
 }

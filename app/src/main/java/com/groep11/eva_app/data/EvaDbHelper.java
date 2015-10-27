@@ -27,8 +27,7 @@ public class EvaDbHelper extends SQLiteOpenHelper {
                 ChallengeEntry.COLUMN_REMOTE_TASK_ID + " INTEGER NOT NULL, " +
                 ChallengeEntry.COLUMN_DATE + " TEXT NOT NULL, " +
                 ChallengeEntry.COLUMN_CATEGORY + " TEXT NOT NULL, " +
-                ChallengeEntry.COLUMN_CHOSEN + " INTEGER DEFAULT 0, " +
-                ChallengeEntry.COLUMN_COMPLETED + " INTEGER NOT NULL " +
+                ChallengeEntry.COLUMN_STATUS + " INTEGER NOT NULL DEFAULT 0 " +
                 " );";
 
         db.execSQL(SQL_CREATE_CHALLENGE_TABLE);

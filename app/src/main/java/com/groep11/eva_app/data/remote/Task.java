@@ -4,7 +4,7 @@ public class Task {
 
     private String dueDate;
     private Challenge challenge;
-    private boolean completed;
+    private TaskStatus status;
 
     public Task() {
     }
@@ -25,12 +25,12 @@ public class Task {
         return challenge;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setStatus(int status) {
+        this.status = TaskStatus.values()[status];
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public int getStatus() {
+        return status.ordinal();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Task {
         StringBuilder sb = new StringBuilder();
         sb.append(challenge).append("\n")
                 .append("due date: ").append(dueDate).append("\n")
-                .append("completed: ").append(completed);
+                .append("status: ").append(status);
         return sb.toString();
     }
 }

@@ -41,15 +41,17 @@ public class EvaContract {
         public static final String COLUMN_DIFFICULTY = "difficulty";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_REMOTE_TASK_ID = "task_id";
-        public static final String COLUMN_COMPLETED = "completed";
+        public static final String COLUMN_STATUS = "status";
         public static final String COLUMN_CATEGORY = "category";
-        //1 = challenge is chosen from the categories as today's challenge
-        public static final String COLUMN_CHOSEN = "chosen";
 
         public static Uri buildChallengeUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        /**
+         * only returns the task of today with status CHOSEN or COMPLETED
+         * // TODO: update where used
+         */
         public static Uri buildCurrentChallengeUri() {
             return CONTENT_URI.buildUpon().appendPath("current").build();
         }

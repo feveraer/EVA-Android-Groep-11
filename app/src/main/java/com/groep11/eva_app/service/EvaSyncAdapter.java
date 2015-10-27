@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
@@ -99,12 +100,14 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static ContentValues contentValuesFromTask(Task task) {
         Challenge challenge = task.getChallenge();
+        Category category = challenge.getCategory();
         ContentValues values = new ContentValues();
         values.put(ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
         values.put(ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
         values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
-        values.put(ChallengeEntry.COLUMN_COMPLETED, task.isCompleted());
+        values.put(ChallengeEntry.COLUMN_CATEGORY, category.getName());
+        values.put(ChallengeEntry.COLUMN_STATUS, task.getStatus());
         values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate().split("T")[0]);
         return values;
     }

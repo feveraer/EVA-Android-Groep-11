@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.remote.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
@@ -113,13 +114,17 @@ public class EvaProvider extends ContentProvider {
         );
     }
 
+    /**
+     * only returns the task of today with status CHOSEN or COMPLETED
+     */
     private Cursor getCurrentChallenge(Uri uri, String[] projection, String sortOrder) {
-        String selection = ChallengeEntry.COLUMN_DATE + " = ? AND " + ChallengeEntry.COLUMN_CHOSEN + " = ? ";
+        String selection = ChallengeEntry.COLUMN_DATE + " = ? " +
+                "AND " + ChallengeEntry.COLUMN_STATUS + " != ? ";
         String[] selectionArgs = new String[]{
                 DateConversion.formatDate(new Date()),
-                "" + 1
+                "" + TaskStatus.NONE.ordinal()
         };
-        return getChallenge(projection, selection, selectionArgs, ChallengeEntry._ID + " DESC");
+        return getChallenge(projection, selection, selectionArgs, sortOrder);
     }
 
     private Cursor getCurrentCategories(Uri uri, String sortOrder) {
@@ -127,7 +132,7 @@ public class EvaProvider extends ContentProvider {
         String[] selectionArgs = new String[]{ DateConversion.formatDate(new Date()) };
 
         //Only category column will be returned
-        return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, ChallengeEntry._ID + " DESC");
+        return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, sortOrder);
     }
 
     /*

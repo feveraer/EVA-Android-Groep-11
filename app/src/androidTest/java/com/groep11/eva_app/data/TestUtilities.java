@@ -9,6 +9,7 @@ import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.remote.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
 import com.groep11.eva_app.utils.PollingCheck;
 
@@ -33,27 +34,21 @@ public class TestUtilities extends AndroidTestCase {
         c.setTime(new Date());
         c.add(Calendar.DATE, i);
         challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(c.getTime()));
-        challengeValues.put(ChallengeEntry.COLUMN_COMPLETED, sqliteBool(i % 2 == 0));
+        challengeValues.put(ChallengeEntry.COLUMN_STATUS, i % TaskStatus.values().length);
         return challengeValues;
     }
 
-    public static ContentValues createChosenContentValues(String title, String category, boolean completed){
+    public static ContentValues createChosenContentValues(String title, String category){
         ContentValues challengeValues = new ContentValues();
         challengeValues.put(ChallengeEntry.COLUMN_TITLE, title);
         challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description");
         challengeValues.put(ChallengeEntry.COLUMN_DIFFICULTY, 2);
-        challengeValues.put(ChallengeEntry.COLUMN_CHOSEN, sqliteBool(true)); // true
+        challengeValues.put(ChallengeEntry.COLUMN_STATUS, TaskStatus.CHOSEN.ordinal()); // true
         challengeValues.put(ChallengeEntry.COLUMN_CATEGORY, category);
         challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 33442);
         challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
-        challengeValues.put(ChallengeEntry.COLUMN_COMPLETED, sqliteBool(completed));
         return challengeValues;
     }
-
-    private static int sqliteBool(boolean b){
-        return b ? 1 : 0;
-    }
-
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Empty cursor returned. " + error, valueCursor.moveToFirst());
