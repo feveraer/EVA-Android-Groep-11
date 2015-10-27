@@ -1,10 +1,12 @@
 package com.groep11.eva_app.data.remote;
 
+import android.util.Log;
+
 public class Task {
 
     private String dueDate;
     private Challenge challenge;
-    private TaskStatus status;
+    private int status;
 
     public Task() {
     }
@@ -26,11 +28,11 @@ public class Task {
     }
 
     public void setStatus(int status) {
-        this.status = TaskStatus.values()[status];
+        this.status = status;
     }
 
     public int getStatus() {
-        return status.ordinal();
+        return status;
     }
 
     @Override
