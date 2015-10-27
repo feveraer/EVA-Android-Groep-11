@@ -76,6 +76,8 @@ public class TestDb extends AndroidTestCase {
         challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID);
         challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_COMPLETED);
         challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_DATE);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_CATEGORY);
+        challengeColumnHashSet.add(EvaContract.ChallengeEntry.COLUMN_CHOSEN);
 
         int columnNameIndex = c.getColumnIndex("name");
         do {

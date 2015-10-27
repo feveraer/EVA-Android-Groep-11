@@ -27,6 +27,8 @@ public class TestUtilities extends AndroidTestCase {
         challengeValues.put(ChallengeEntry.COLUMN_TITLE, "Challenge " + i);
         challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description " + i);
         challengeValues.put(ChallengeEntry.COLUMN_DIFFICULTY, i);
+        challengeValues.put(ChallengeEntry.COLUMN_CHOSEN, 0);
+        challengeValues.put(ChallengeEntry.COLUMN_CATEGORY, "Social");
         challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, i * 1000 + i * 100 + i * 10 + i);
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
