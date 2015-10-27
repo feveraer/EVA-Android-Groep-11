@@ -59,16 +59,16 @@ public class ShowProgressFragment extends Fragment {
 
     public void clearProgression(){
         progressCounter = 0;
+        progressText.setText(String.format("%d", progressCounter));
         animationFrames.clear();
         progressImage.setBackgroundResource(R.drawable.tree_frame_01);
-        Log.i(TAG, "progress...cleared");
     }
 
     public void increaseProgress(){
-        if(progressCounter < 21)
+        if(progressCounter < 21) {
             progressCounter++;
-
-        Log.i(TAG, "progress..." + progressCounter);
+            progressText.setText(String.format("%d", progressCounter));
+        }
 
         //Append more animations depending on progressCounter
         adjustAnimationFrames();
