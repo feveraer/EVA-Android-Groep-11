@@ -1,10 +1,12 @@
 package com.groep11.eva_app.data.remote;
 
+import android.util.Log;
+
 public class Task {
 
     private String dueDate;
     private Challenge challenge;
-    private boolean completed;
+    private int status;
 
     public Task() {
     }
@@ -25,12 +27,12 @@ public class Task {
         return challenge;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public int getStatus() {
+        return status;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class Task {
         StringBuilder sb = new StringBuilder();
         sb.append(challenge).append("\n")
                 .append("due date: ").append(dueDate).append("\n")
-                .append("completed: ").append(completed);
+                .append("status: ").append(status);
         return sb.toString();
     }
 }

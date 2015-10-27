@@ -291,7 +291,9 @@ public class TestProvider extends AndroidTestCase {
     }
 
     public void testQueryCurrentChallenge() {
-        ContentValues values = bulkInsert(BULK_INSERT_RECORDS_TO_INSERT)[0];
+        ContentValues values = TestUtilities.createChosenContentValues("Current 1, chosen", "Cat 1");
+        getContext().getContentResolver().insert(ChallengeEntry.CONTENT_URI, values);
+        bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
 
         Cursor cursor = mContext.getContentResolver().query(
                 ChallengeEntry.buildCurrentChallengeUri(),

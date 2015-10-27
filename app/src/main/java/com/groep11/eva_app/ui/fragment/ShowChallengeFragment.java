@@ -154,32 +154,4 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         EvaSyncAdapter.deleteAccount(getActivity());
         EvaSyncAdapter.syncImmediately(getActivity());
     }
-
-
-    /**
-     * Testing methods below, remove later.
-     */
-    private void insertDummyChallenge() {
-        ContentValues values = new ContentValues();
-        values.put(EvaContract.ChallengeEntry.COLUMN_TITLE, "dummy title");
-        values.put(EvaContract.ChallengeEntry.COLUMN_DESCRIPTION, "dummy description");
-        values.put(EvaContract.ChallengeEntry.COLUMN_DIFFICULTY, "dummy difficulty");
-        values.put(EvaContract.ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
-        values.put(EvaContract.ChallengeEntry.COLUMN_COMPLETED, 0);
-        values.put(EvaContract.ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
-        Uri uri = getActivity().getContentResolver().insert(
-                EvaContract.ChallengeEntry.CONTENT_URI,
-                values
-        );
-        Toast.makeText(getActivity(), "Added challenge to row  " + uri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void clearAllChallenges() {
-        int rowsDeleted = getActivity().getContentResolver().delete(
-                EvaContract.ChallengeEntry.CONTENT_URI,
-                null,
-                null
-        );
-        Toast.makeText(getActivity(), "Deleted " + rowsDeleted + " rows!", Toast.LENGTH_SHORT).show();
-    }
 }
