@@ -1,6 +1,7 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -13,13 +14,18 @@ import android.widget.ImageView;
 
 import com.groep11.eva_app.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ShowProgressFragment extends Fragment {
     public static final String TAG = "PROGRESS";
+    private static final String TREE_FRAME = "tree_frame_";
     private int progressCounter = 0;
+    private List<Integer> animationFrames;
 
     @Bind(R.id.image_progress)
     ImageView progressImage;
@@ -40,6 +46,9 @@ public class ShowProgressFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        progressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        animationFrames = new ArrayList<>();
+
         return view;
     }
 
@@ -50,22 +59,62 @@ public class ShowProgressFragment extends Fragment {
     }
 
     public void increaseProgress(){
-        if(progressCounter < 21) progressCounter++;
+        if(progressCounter < 21)
+            progressCounter++;
 
-        progressImage.setBackgroundColor(Color.rgb(125, progressCounter * 12, 0));                  //TODO: remove this after animations are implemented
         Log.i(TAG, "progress..." + progressCounter);
 
-        //Swap between two progress animationResources (even/uneven)
-        //TODO: use real animation fases
-        progressImage.setBackgroundResource((progressCounter % 2 == 0) ? R.drawable.dummy_progress_fase_1 : R.drawable.dummy_progress_fase_2);
+        //Append more animations depending on progressCounter
+        adjustAnimationFrames();
+        //Set the progressImage background
+        progressImage.setBackground(createFrom(getActivity(), animationFrames, 50));
 
         //Get the drawable animation and start it
         AnimationDrawable progressAnimation = (AnimationDrawable) progressImage.getBackground();
+        //Only run once
+        progressAnimation.setOneShot(true);
         progressAnimation.start();
     }
 
     @OnClick(R.id.fragment_show_progress_container)
     public void onFragmentClick(){
         increaseProgress();
+    }
+
+    /**
+     * Helper function to create the drawable animation at runtime
+     * @param context
+     * @param drawableIds
+     * @param duration
+     * @return
+     */
+    private AnimationDrawable createFrom(Context context, List<Integer> drawableIds, int duration) {
+        AnimationDrawable ad = new AnimationDrawable();
+        for (int id : drawableIds) {
+            ad.addFrame(context.getResources().getDrawable(id, null), duration);
+        }
+        return ad;
+    }
+
+    /**
+     * Helper function to append animation frames with each progression step
+     */
+    private void adjustAnimationFrames() {
+        //6 frames each for the first 2 animations
+        if (progressCounter == 1 || progressCounter == 2) {
+            for(int i = 0; i < 6; i++) {
+                int treeFrameBaseId = (progressCounter - 1) * 6;
+                animationFrames.add(getResources().getIdentifier(
+                        treeFrameBaseId + i + 1 < 10 ?
+                        TREE_FRAME + "0" + (treeFrameBaseId + i + 1) :
+                        TREE_FRAME + (treeFrameBaseId + i + 1),
+                        "drawable", getActivity().getPackageName()));
+            }
+        } else {
+            //only 1 frame added for the other progression steps
+            animationFrames.add(getResources().getIdentifier(
+                    TREE_FRAME + (progressCounter + 10),
+                    "drawable", getActivity().getPackageName()));
+        }
     }
 }

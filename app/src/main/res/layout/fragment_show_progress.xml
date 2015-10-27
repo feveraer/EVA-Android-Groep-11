@@ -9,6 +9,5 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/image_progress"
-        android:background="#7d0000"
         android:contentDescription="@string/progress_image_content_description" />
 </FrameLayout>
