@@ -54,7 +54,8 @@ public class ShowProgressFragment extends Fragment {
 
     public void clearProgression(){
         progressCounter = 0;
-        progressImage.setBackgroundColor(Color.rgb(125, 0, 0));
+        animationFrames.clear();
+        progressImage.setBackgroundResource(R.drawable.tree_frame_01);
         Log.i(TAG, "progress...cleared");
     }
 
