@@ -25,6 +25,7 @@ import butterknife.OnClick;
 public class ShowProgressFragment extends Fragment {
     public static final String TAG = "PROGRESS";
     private static final String TREE_FRAME = "tree_frame_";
+    private static final String PROGRESS_PREFIX = "Dag";
     private int progressCounter = 0;
     private List<Integer> animationFrames;
 
@@ -51,7 +52,7 @@ public class ShowProgressFragment extends Fragment {
 
         progressImage.setBackgroundResource(R.drawable.tree_frame_01);
         //String.format needed, setText with an integer argument looks for a resource
-        progressText.setText(String.format("%d", progressCounter));
+        progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
         animationFrames = new ArrayList<>();
 
         return view;
@@ -59,7 +60,7 @@ public class ShowProgressFragment extends Fragment {
 
     public void clearProgression(){
         progressCounter = 0;
-        progressText.setText(String.format("%d", progressCounter));
+        progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
         animationFrames.clear();
         progressImage.setBackgroundResource(R.drawable.tree_frame_01);
     }
@@ -67,7 +68,9 @@ public class ShowProgressFragment extends Fragment {
     public void increaseProgress(){
         if(progressCounter < 21) {
             progressCounter++;
-            progressText.setText(String.format("%d", progressCounter));
+            progressText.setText(progressCounter == 21 ?
+                    "Alle voltooid!" :
+                    String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
         }
 
         //Clear previous frames
