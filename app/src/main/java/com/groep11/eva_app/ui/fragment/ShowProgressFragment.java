@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 
@@ -29,6 +30,8 @@ public class ShowProgressFragment extends Fragment {
 
     @Bind(R.id.image_progress)
     ImageView progressImage;
+    @Bind(R.id.text_progress)
+    TextView progressText;
 
     public ShowProgressFragment() {
         // Required empty public constructor
@@ -47,6 +50,8 @@ public class ShowProgressFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         progressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        //String.format needed, setText with an integer argument looks for a resource
+        progressText.setText(String.format("%d", progressCounter));
         animationFrames = new ArrayList<>();
 
         return view;
@@ -54,16 +59,16 @@ public class ShowProgressFragment extends Fragment {
 
     public void clearProgression(){
         progressCounter = 0;
+        progressText.setText(String.format("%d", progressCounter));
         animationFrames.clear();
         progressImage.setBackgroundResource(R.drawable.tree_frame_01);
-        Log.i(TAG, "progress...cleared");
     }
 
     public void increaseProgress(){
-        if(progressCounter < 21)
+        if(progressCounter < 21) {
             progressCounter++;
-
-        Log.i(TAG, "progress..." + progressCounter);
+            progressText.setText(String.format("%d", progressCounter));
+        }
 
         //Append more animations depending on progressCounter
         adjustAnimationFrames();
