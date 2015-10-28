@@ -70,7 +70,9 @@ public class ShowProgressFragment extends Fragment {
             progressText.setText(String.format("%d", progressCounter));
         }
 
-        //Append more animations depending on progressCounter
+        //Clear previous frames
+        animationFrames.clear();
+        //Append next frames depending on progressCounter
         adjustAnimationFrames();
         //Set the progressImage background
         progressImage.setBackground(createFrom(getActivity(), animationFrames, 50));
