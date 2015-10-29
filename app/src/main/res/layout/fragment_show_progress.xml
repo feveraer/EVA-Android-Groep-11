@@ -10,11 +10,24 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image_progress"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/progress.image.description" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_progress"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/progress.image.description"
+                android:background="@drawable/tree_frame_01" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/emitter_anchor"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="68dp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/text_progress"

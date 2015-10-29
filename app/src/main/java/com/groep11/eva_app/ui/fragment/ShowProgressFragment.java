@@ -18,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
+import com.plattysoft.leonids.ParticleSystem;
+import com.plattysoft.leonids.modifiers.AccelerationModifier;
+import com.plattysoft.leonids.modifiers.ScaleModifier;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,11 +33,16 @@ public class ShowProgressFragment extends Fragment {
     private static String ANIMATION_ARRAY_TYPE = "array",
                           ANIMATION_ARRAY_NAME = "completed_day_";
 
+    private static final int PARTICLE_EMITTER_AMOUNT = 120,
+                             PARTICLE_EMITTER_LIFETIME = 1500;
+
     private int progressCounter = 0;
     private boolean isFragmentRestoration = false;
 
     @Bind(R.id.image_progress)
     ImageView progressImage;
+    @Bind(R.id.emitter_anchor)
+    ImageView emitterAnchor;
     @Bind(R.id.text_progress)
     TextView progressText;
 
@@ -120,6 +128,8 @@ public class ShowProgressFragment extends Fragment {
                     String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
         }
 
+        emitParticles(this.getActivity().getApplicationContext());
+
         AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), false);
         progressImage.setBackground(progressAnimation);
         progressAnimation.start();
@@ -172,6 +182,21 @@ public class ShowProgressFragment extends Fragment {
     //Find the array id based on dayIndex: "completed_day_:dayIndex"
     private int getArrayIdFromDay(int dayIndex){
         return getResources().getIdentifier(ANIMATION_ARRAY_NAME + dayIndex, ANIMATION_ARRAY_TYPE, this.getActivity().getPackageName());
+    }
+
+    private void emitParticles(Context context){
+        new ParticleSystem(this.getActivity(), PARTICLE_EMITTER_AMOUNT, R.drawable.leaf, PARTICLE_EMITTER_LIFETIME)
+                // set min and max speed for both x and y axis
+                .setSpeedByComponentsRange(-0.1f, 0.1f, -0.2f, 0.02f)
+                // Accelerate the leaves upwards
+                .setAcceleration(0.00003f, 90)
+                .setInitialRotationRange(0, 360)
+                .setRotationSpeed(120)
+                // Fade from 100 to 0 opacity over the lifetime
+                .setFadeOut(PARTICLE_EMITTER_LIFETIME)
+                // Scale the images while flying from 20% to 40% of their original size within their lifetime
+                .addModifier(new ScaleModifier(0.2f, 0.4f, 0, PARTICLE_EMITTER_LIFETIME))
+                .oneShot(emitterAnchor, PARTICLE_EMITTER_AMOUNT);
     }
 
 }
