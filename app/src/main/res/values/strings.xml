@@ -4,7 +4,7 @@
     <string name="content_authority">com.groep11.eva_app</string>
 
     <!-- SyncAdapter related -->
-    <string name="sync.account.type">eva_app.groep11.com</string>
+    <string name="sync_account_type">eva_app.groep11.com</string>
 
     <!-- Menu Action Strings -->
     <string name="action.progress.clear">Clear progression</string>

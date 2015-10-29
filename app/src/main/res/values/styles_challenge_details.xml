@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DetailsTitleText">
+        <item name="android:textSize">@dimen/font_huge</item>
+        <item name="android:textColor">@color/grey_800</item>
+        <item name="android:paddingBottom">@dimen/spacing_small</item>
+    </style>
+
+    <style name="DetailsContentText">
+        <item name="android:textSize">@dimen/font_tiny</item>
+        <item name="android:textColor">@color/grey_700</item>
+        <item name="android:paddingStart">@dimen/spacing_large</item>
+        <item name="android:paddingEnd">@dimen/spacing_large</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+    </style>
+
+    <style name="DetailsCircleView">
+        <item name="android:paddingBottom">@dimen/spacing_large</item>
+        <item name="android:paddingTop">@dimen/spacing_large</item>
+        <item name="android:src">@drawable/sandwich</item>
+    </style>
+</resources>

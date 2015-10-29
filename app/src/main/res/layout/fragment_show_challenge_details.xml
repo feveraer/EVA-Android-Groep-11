@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/challenge.title"
-            style="@style/ChallengeDetailsTitle" />
+            style="@style/DetailsTitleText" />
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/circle_challenge_image"
@@ -28,7 +28,7 @@
             android:layout_height="@dimen/circleview_radius_tall"
             app:civ_border_width="@dimen/circleview_border"
             app:civ_border_color="@color/deep_orange_500"
-            style="@style/ChallengeDetailsCircleView" />
+            style="@style/DetailsCircleView" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/challenge.description.long"
-            style="@style/ChallengeDetailsBody" />
+            style="@style/DetailsContentText" />
 
     </LinearLayout>
 </ScrollView>
