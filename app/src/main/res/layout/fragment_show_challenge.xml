@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     style="@style/Base.TextAppearance.AppCompat.Title"
-                    android:text="@string/challenge_title_default"
+                    android:text="@string/challenge.title"
                     android:layout_toRightOf="@+id/circle_challenge_image" />
 
                 <LinearLayout
@@ -59,21 +59,21 @@
                         android:layout_height="24dp"
                         android:src="@drawable/leaf"
                         android:id="@+id/image_leaf_1"
-                        android:contentDescription="@string/challenge_details_leaf_description" />
+                        android:contentDescription="@string/details.leaf.description" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/leaf"
                         android:id="@+id/image_leaf_2"
-                        android:contentDescription="@string/challenge_details_leaf_description" />
+                        android:contentDescription="@string/details.leaf.description" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/leaf"
                         android:id="@+id/image_leaf_3"
-                        android:contentDescription="@string/challenge_details_leaf_description" />
+                        android:contentDescription="@string/details.leaf.description" />
 
                 </LinearLayout>
 
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_challenge_short"
+                android:text="@string/challenge.description.short"
                 android:padding="8dp" />
 
         </LinearLayout>

@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,9 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -144,8 +141,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
-            mTitleView.setText(R.string.challenge_title_default);
-            setLeavesOpacity(R.string.challenge_difficulty_default);
+            mTitleView.setText(R.string.challenge_title);
+            setLeavesOpacity(R.string.challenge_difficulty_middle);
         }
     }
 

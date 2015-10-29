@@ -14,7 +14,7 @@
             android:id="@+id/image_progress"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:contentDescription="@string/progress_image_content_description" />
+            android:contentDescription="@string/progress.image.description" />
 
         <TextView
             android:id="@+id/text_progress"

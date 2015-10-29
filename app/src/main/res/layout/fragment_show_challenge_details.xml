@@ -19,7 +19,7 @@
             android:id="@+id/text_challenge_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/challenge_title_default"
+            android:text="@string/challenge.title"
             style="@style/ChallengeDetailsTitle" />
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -42,21 +42,21 @@
                 android:layout_height="24dp"
                 android:src="@drawable/leaf"
                 android:id="@+id/image_leaf_1"
-                android:contentDescription="@string/challenge_details_leaf_description" />
+                android:contentDescription="@string/details.leaf.description" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/leaf"
                 android:id="@+id/image_leaf_2"
-                android:contentDescription="@string/challenge_details_leaf_description" />
+                android:contentDescription="@string/details.leaf.description" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/leaf"
                 android:id="@+id/image_leaf_3"
-                android:contentDescription="@string/challenge_details_leaf_description" />
+                android:contentDescription="@string/details.leaf.description" />
 
         </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:id="@+id/text_challenge_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/challenge_description_default"
+            android:text="@string/challenge.description.long"
             style="@style/ChallengeDetailsBody" />
 
     </LinearLayout>
