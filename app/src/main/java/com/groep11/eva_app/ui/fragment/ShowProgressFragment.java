@@ -3,14 +3,12 @@ package com.groep11.eva_app.ui.fragment;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,6 +51,7 @@ public class ShowProgressFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        //TODO: animation if progressCounter not 0
         progressImage.setBackground(getLastAnimationFrame(this.getActivity()));
         //String.format needed, setText with an integer argument looks for a resource
         progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
