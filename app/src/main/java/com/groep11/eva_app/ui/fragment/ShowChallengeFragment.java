@@ -40,8 +40,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     private static final int DETAIL_LOADER = 0;
 
     private static final String[] DETAIL_COLUMNS = {
-            EvaContract.ChallengeEntry._ID,
+            EvaContract.ChallengeEntry.TABLE_NAME + "." + EvaContract.ChallengeEntry._ID,
             EvaContract.ChallengeEntry.COLUMN_TITLE,
+            EvaContract.ChallengeEntry.COLUMN_DESCRIPTION,
             EvaContract.ChallengeEntry.COLUMN_DIFFICULTY,
     };
 
@@ -49,7 +50,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     // must change.
     public static final int COL_CHALLENGE_ID = 0;
     public static final int COL_CHALLENGE_TITLE = 1;
-    public static final int COL_CHALLENGE_DIFFICULTY = 2;
+    public static final int COL_CHALLENGE_DESCRIPTION = 2;
+    public static final int COL_CHALLENGE_DIFFICULTY = 3;
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
 
@@ -60,6 +62,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     LinearLayout mContainer;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
     List<ImageView> mDifficultyView;
+    @Bind(R.id.text_challenge_description)
+    TextView mDescriptionView;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
@@ -128,13 +132,18 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
+            String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
+            challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
+
             mTitleView.setText(challengeTitle);
+            mDescriptionView.setText(challengeDescription);
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
             mTitleView.setText(R.string.challenge_title_default);
+            mDescriptionView.setText(R.string.challenge_description_default);
             setLeavesOpacity(R.string.challenge_difficulty_default);
         }
     }
