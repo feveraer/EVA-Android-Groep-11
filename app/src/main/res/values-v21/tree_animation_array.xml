@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="completed_day_1">
+        <item>@drawable/tree_frame_01</item>
+        <item>@drawable/tree_frame_02</item>
+        <item>@drawable/tree_frame_03</item>
+        <item>@drawable/tree_frame_04</item>
+        <item>@drawable/tree_frame_05</item>
+        <item>@drawable/tree_frame_06</item>
+    </array>
+    <array name="completed_day_2">
+        <item>@drawable/tree_frame_07</item>
+        <item>@drawable/tree_frame_08</item>
+        <item>@drawable/tree_frame_09</item>
+        <item>@drawable/tree_frame_10</item>
+        <item>@drawable/tree_frame_11</item>
+        <item>@drawable/tree_frame_12</item>
+    </array>
+</resources>
