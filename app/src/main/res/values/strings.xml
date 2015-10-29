@@ -30,5 +30,6 @@
 
     <!--Progress Strings-->
     <string name="progress.image.description">animation that shows the progress</string>
+    <string name="progress.completion.final">Alle voltooid!</string>
 
 </resources>

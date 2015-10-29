@@ -76,7 +76,10 @@ public class ShowProgressFragment extends Fragment {
         isFragmentRestoration = prefs.getBoolean("isFragmentRestoration", false);
 
         //String.format needed, setText with an integer argument looks for a resource
-        progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
+
+        progressText.setText(progressCounter == 21 ?
+                        getResources().getString(R.string.progress_completion_final) :
+                        String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
 
         //Only show the full animation when the user has some progress and he's not returning from another fragment
         if(progressCounter == 0 || isFragmentRestoration) {
@@ -113,7 +116,7 @@ public class ShowProgressFragment extends Fragment {
         if(progressCounter < 21) {
             progressCounter++;
             progressText.setText(progressCounter == 21 ?
-                    "Alle voltooid!" :
+                    getResources().getString(R.string.progress_completion_final) :
                     String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
         }
 
