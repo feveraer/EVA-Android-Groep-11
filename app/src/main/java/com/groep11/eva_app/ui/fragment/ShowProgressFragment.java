@@ -2,10 +2,14 @@ package com.groep11.eva_app.ui.fragment;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +28,12 @@ import butterknife.OnClick;
 
 public class ShowProgressFragment extends Fragment {
     public static final String TAG = "PROGRESS";
-    private static final String TREE_FRAME = "tree_frame_";
     private static final String PROGRESS_PREFIX = "Dag";
+    private static final int ANIMATION_DELAY = 100;
+    private static String ANIMATION_ARRAY_TYPE = "array",
+                          ANIMATION_ARRAY_NAME = "completed_day_";
+
     private int progressCounter = 0;
-    private List<Integer> animationFrames;
 
     @Bind(R.id.image_progress)
     ImageView progressImage;
@@ -50,18 +56,40 @@ public class ShowProgressFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        progressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        progressImage.setBackground(getLastAnimationFrame(this.getActivity()));
         //String.format needed, setText with an integer argument looks for a resource
         progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
-        animationFrames = new ArrayList<>();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        progressImage.setBackground(getLastAnimationFrame(this.getActivity()));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("progressCounter", progressCounter);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null){
+            progressCounter = savedInstanceState.getInt("progressCounter");
+            progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
+        }
+
     }
 
     public void clearProgression(){
         progressCounter = 0;
         progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
-        animationFrames.clear();
         progressImage.setBackgroundResource(R.drawable.tree_frame_01);
     }
 
@@ -73,17 +101,8 @@ public class ShowProgressFragment extends Fragment {
                     String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
         }
 
-        //Clear previous frames
-        animationFrames.clear();
-        //Append next frames depending on progressCounter
-        adjustAnimationFrames();
-        //Set the progressImage background
-        progressImage.setBackground(createFrom(getActivity(), animationFrames, 50));
-
-        //Get the drawable animation and start it
-        AnimationDrawable progressAnimation = (AnimationDrawable) progressImage.getBackground();
-        //Only run once
-        progressAnimation.setOneShot(true);
+        AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), false);
+        progressImage.setBackground(progressAnimation);
         progressAnimation.start();
     }
 
@@ -93,39 +112,46 @@ public class ShowProgressFragment extends Fragment {
     }
 
     /**
-     * Helper function to create the drawable animation at runtime
-     * @param context
-     * @param drawableIds
-     * @param duration
-     * @return
+     * Creates an AnimationDrawable from the tree_animation_array.xml file based on the progressCounter
+     * @param fromStart starts animation from the first day when true
      */
-    private AnimationDrawable createFrom(Context context, List<Integer> drawableIds, int duration) {
-        AnimationDrawable ad = new AnimationDrawable();
-        for (int id : drawableIds) {
-            ad.addFrame(context.getResources().getDrawable(id, null), duration);
+    private AnimationDrawable createAnimationFromXMLArray(Context context, boolean fromStart) {
+        AnimationDrawable animation = new AnimationDrawable();
+        //Start animation from the first day when fromStart is true
+        int startDay = fromStart ? 1 : progressCounter;
+
+        for(int dayIndex = startDay; dayIndex <= progressCounter; dayIndex++){
+            //Find the array with the animation frames for dayIndex
+            TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(dayIndex));
+
+            //Add every frame from the array to our animation
+            for (int frameIndex = 0; frameIndex < array.length(); frameIndex++) {
+                animation.addFrame(array.getDrawable(frameIndex), ANIMATION_DELAY);
+            }
+
+            //Make the allocated memory from our TypedArray available immediately
+            array.recycle();
         }
-        return ad;
+
+        //Turn off the animation loop
+        animation.setOneShot(true);
+        return animation;
     }
 
-    /**
-     * Helper function to append animation frames with each progression step
-     */
-    private void adjustAnimationFrames() {
-        //6 frames each for the first 2 animations
-        if (progressCounter == 1 || progressCounter == 2) {
-            for(int i = 0; i < 6; i++) {
-                int treeFrameBaseId = (progressCounter - 1) * 6;
-                animationFrames.add(getResources().getIdentifier(
-                        treeFrameBaseId + i + 1 < 10 ?
-                        TREE_FRAME + "0" + (treeFrameBaseId + i + 1) :
-                        TREE_FRAME + (treeFrameBaseId + i + 1),
-                        "drawable", getActivity().getPackageName()));
-            }
-        } else {
-            //only 1 frame added for the other progression steps
-            animationFrames.add(getResources().getIdentifier(
-                    TREE_FRAME + (progressCounter + 10),
-                    "drawable", getActivity().getPackageName()));
-        }
+    private Drawable getLastAnimationFrame(Context context) {
+        //If the user hasn't made any progress yet, show him the first frame
+        if(progressCounter == 0) return ContextCompat.getDrawable(context, R.drawable.tree_frame_01);
+
+        TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(progressCounter));
+        Drawable lastFrame = array.getDrawable(array.length() - 1);
+        array.recycle();
+
+        return lastFrame;
     }
+
+    //Find the array id based on dayIndex: "completed_day_:dayIndex"
+    private int getArrayIdFromDay(int dayIndex){
+        return getResources().getIdentifier(ANIMATION_ARRAY_NAME + dayIndex, ANIMATION_ARRAY_TYPE, this.getActivity().getPackageName());
+    }
+
 }
