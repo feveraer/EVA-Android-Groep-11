@@ -57,7 +57,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         // Required empty public constructor
     }
 
-    public static ShowChallengeDetailsFragment newInstance(){
+    public static ShowChallengeDetailsFragment newInstance() {
         return new ShowChallengeDetailsFragment();
     }
 

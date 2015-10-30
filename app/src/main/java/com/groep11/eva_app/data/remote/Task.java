@@ -1,7 +1,5 @@
 package com.groep11.eva_app.data.remote;
 
-import android.util.Log;
-
 public class Task {
 
     private String dueDate;

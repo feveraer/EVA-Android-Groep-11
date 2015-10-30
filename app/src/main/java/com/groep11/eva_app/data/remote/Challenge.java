@@ -31,9 +31,13 @@ public class Challenge {
         return difficulty;
     }
 
-    public Category getCategory() { return category; }
+    public Category getCategory() {
+        return category;
+    }
 
-    public void setCategory(Category category) { this.category = category; }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
