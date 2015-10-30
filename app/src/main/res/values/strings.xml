@@ -32,7 +32,10 @@
     <string name="progress.image.description">animation that shows the progress</string>
     <string name="progress.completion.final">Alle voltooid!</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Category Strings-->
+    <string name="category.prompt">Kies een categorie voor vandaag</string>
+    <string name="category.one">Category 1 (Default)</string>
+    <string name="category.two">Category 2 (Default)</string>
+    <string name="category.three">Category 3 (Default)</string>
 
 </resources>
