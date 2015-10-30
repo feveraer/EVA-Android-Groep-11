@@ -17,7 +17,7 @@ import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 
 public class MainActivity extends Activity {
 
-    private static final String TAG = "MAIN_ACTIVITY";
+    public static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
