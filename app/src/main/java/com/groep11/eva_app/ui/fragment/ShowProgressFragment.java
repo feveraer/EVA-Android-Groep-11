@@ -30,7 +30,7 @@ public class ShowProgressFragment extends Fragment {
     public static final String TAG = "PROGRESS";
     private static final String PROGRESS_PREFIX = "Dag";
     private static final int ANIMATION_DELAY = 100;
-    private static String ANIMATION_ARRAY_TYPE = "array",
+    private static final String ANIMATION_ARRAY_TYPE = "array",
                           ANIMATION_ARRAY_NAME = "completed_day_";
 
     private static final int PARTICLE_EMITTER_AMOUNT = 120,
