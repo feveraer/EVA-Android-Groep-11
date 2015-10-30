@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +32,7 @@ import butterknife.OnClick;
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
+    public static final String TAG = "SHOW_CHALLENGE";
 
     private Uri mUri;
 
@@ -59,7 +58,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     @Bind(R.id.text_challenge_title)
     TextView mTitleView;
     @Bind(R.id.fragment_show_challenge_container)
-    LinearLayout mContainer;
+    View mContainer;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
     List<ImageView> mDifficultyView;
     @Bind(R.id.text_challenge_description)
@@ -67,6 +66,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     public ShowChallengeFragment() {
         // Required empty public constructor
+    }
+
+    public static ShowChallengeFragment newInstance(){
+        return new ShowChallengeFragment();
     }
 
     @Override
@@ -86,21 +89,25 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
 
-        //Create arguments (uri)
+        // Create arguments (uri)
         Bundle arguments = new Bundle();
         arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
 
-        //Create new challengeDetailsFragment and set it's arguments
-        ShowChallengeDetailsFragment challengeDetailsFragment = new ShowChallengeDetailsFragment();
+        // Create new challengeDetailsFragment and set it's arguments
+        ShowChallengeDetailsFragment challengeDetailsFragment = ShowChallengeDetailsFragment.newInstance();
         challengeDetailsFragment.setArguments(arguments);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,        //Fragment in / out
-                                        android.R.animator.fade_in, android.R.animator.fade_out);       //Backstack in / out
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                android.R.animator.fade_in, android.R.animator.fade_out);
 
-        transaction.replace(R.id.fragment_container, challengeDetailsFragment);
-        //adds challengeFragment to backStack
+        // Replace current fragments with challengeDetailsFragment
+        transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
+        transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
+        transaction.add(R.id.fragment_container, challengeDetailsFragment, DETAIL_URI);
+
+        // Adds challengeFragment to backStack
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -135,16 +142,16 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
-            challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
+            //challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription);
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
-            //the cursor is empty, so fill the views with their default representations
-            mTitleView.setText(R.string.challenge_title_default);
-            mDescriptionView.setText(R.string.challenge_description_default);
-            setLeavesOpacity(R.string.challenge_difficulty_default);
+            // The cursor is empty, so fill the views with their default representations
+            mTitleView.setText(R.string.challenge_title);
+            mDescriptionView.setText(R.string.challenge_description_short);
+            setLeavesOpacity(R.string.challenge_difficulty_middle);
         }
     }
 
@@ -153,9 +160,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void setLeavesOpacity(int diff) {
-        //Set opacity leaf #3
+        // Set opacity leaf #3
         mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
-        //Set opacity leaf #2
+        // Set opacity leaf #2
         mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 

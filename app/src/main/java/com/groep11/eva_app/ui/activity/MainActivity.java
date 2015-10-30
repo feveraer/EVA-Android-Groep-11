@@ -3,15 +3,21 @@ package com.groep11.eva_app.ui.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
+import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 
 public class MainActivity extends Activity {
+
+    private static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +27,11 @@ public class MainActivity extends Activity {
         //Add challenge fragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        ShowChallengeFragment challengeFragment = new ShowChallengeFragment();
-        fragmentTransaction.add(R.id.fragment_container, challengeFragment);
+        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
+        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
+
+        fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
+        fragmentTransaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
         fragmentTransaction.commit();
 
         setOnBackStackChangedListener();
@@ -50,6 +59,10 @@ public class MainActivity extends Activity {
                 getFragmentManager().popBackStack();
                 return true;
             case R.id.action_settings:
+                return true;
+            case R.id.action_clear_progression:
+                ShowProgressFragment fragment = (ShowProgressFragment) getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG);
+                fragment.clearProgression();
                 return true;
         }
 
