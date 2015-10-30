@@ -11,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.ui.fragment.CategoryFragment;
 import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 
@@ -27,9 +29,11 @@ public class MainActivity extends Activity {
         //Add challenge fragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
+        CategoryFragment categoryFragment = CategoryFragment.newInstance();
         ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
         ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
 
+        fragmentTransaction.add(R.id.fragment_container, categoryFragment, CategoryFragment.TAG);
         fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
         fragmentTransaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
         fragmentTransaction.commit();
