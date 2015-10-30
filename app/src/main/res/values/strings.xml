@@ -1,6 +1,35 @@
 <resources>
+    <!-- App related -->
     <string name="app_name">Eva-app</string>
+    <string name="content_authority">com.groep11.eva_app</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">eva_app.groep11.com</string>
+
+    <!-- Menu Action Strings -->
+    <string name="action.progress.clear">Clear progression</string>
+    <string name="action.settings">Settings</string>
+
+    <!-- Challenge Strings -->
+    <string name="challenge.id">Challenge Id (default)</string>
+    <string name="challenge.title">Challenge Title (default)</string>
+    <string name="challenge.description.long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sagittis, leo sit amet consequat scelerisque, odio nisl blandit nisl,
+        et aliquam urna magna et nulla. Fusce leo justo, ultrices ultricies nulla vel, semper hendrerit arcu. Vestibulum viverra elementum volutpat. Sed tortor dolor, egestas non tristique vitae,
+        rutrum eu odio. Praesent lorem lorem, gravida ut tempor non, dictum eget metus. Praesent dapibus nulla at eros fermentum ornare. Quisque posuere tempus posuere.
+        Nam eu purus in metus auctor commodo eget varius ex.
+        Curabitur finibus eget metus vitae tincidunt.\n\nEtiam eu hendrerit nisl, sed feugiat nulla.
+        Nunc mollis aliquam sapien, eget egestas lorem sagittis vel.
+        Donec a ex facilisis diam porttitor varius. In commodo mattis accumsan.
+        Nam sed leo eu erat ultricies finibus. Curabitur auctor fringilla odio, ut aliquam dolor accumsan a. Sed commodo,
+        neque ac auctor congue, urna nulla rutrum lacus, quis blandit felis eros id sapien. </string>
+    <string name="challenge.description.short">Een korte beschrijving...</string>
+    <string name="challenge.difficulty.middle">2</string>
+
+    <!--Details Strings-->
+    <string name="details.leaf.description">Image that represents the difficulty</string>
+
+    <!--Progress Strings-->
+    <string name="progress.image.description">animation that shows the progress</string>
+    <string name="progress.completion.final">Alle voltooid!</string>
+
 </resources>

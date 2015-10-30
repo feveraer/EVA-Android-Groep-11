@@ -1,0 +1,93 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_show_challenge_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeFragment">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_challenge"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        card_view:contentPadding="0dp"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/deep_orange_50">
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/circle_challenge_image"
+                    android:layout_width="@dimen/circleview_radius_small"
+                    android:layout_height="@dimen/circleview_radius_small"
+                    android:layout_margin="8dp"
+                    app:civ_border_width="3dp"
+                    app:civ_border_color="@color/deep_orange_50"
+                    style="@style/ChallengeCircleView" />
+
+                <TextView
+                    android:id="@+id/text_challenge_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:text="@string/challenge.title"
+                    android:layout_toRightOf="@+id/circle_challenge_image" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_below="@+id/text_challenge_title"
+                    android:layout_toRightOf="@+id/circle_challenge_image">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/leaf"
+                        android:id="@+id/image_leaf_1"
+                        android:contentDescription="@string/details.leaf.description" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/leaf"
+                        android:id="@+id/image_leaf_2"
+                        android:contentDescription="@string/details.leaf.description" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/leaf"
+                        android:id="@+id/image_leaf_3"
+                        android:contentDescription="@string/details.leaf.description" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_challenge_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/challenge.description.short"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
