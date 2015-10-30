@@ -1,19 +1,36 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
     android:id="@+id/fragment_show_progress_container"
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    android:orientation="horizontal"
     tools:context="com.groep11.eva_app.ui.fragment.ShowProgressFragment">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/image_progress"
-        android:contentDescription="@string/progress_image_content_description" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_progress"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/tree_frame_01"
+            android:contentDescription="@string/progress.image.description" />
+
+        <ImageView
+            android:id="@+id/emitter_anchor"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="68dp"
+            android:layout_marginTop="80dp" />
+    </RelativeLayout>
 
     <TextView
+        android:id="@+id/text_progress"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text_progress"
-        android:layout_gravity="center_horizontal" />
-</FrameLayout>
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp" />
+
+</LinearLayout>

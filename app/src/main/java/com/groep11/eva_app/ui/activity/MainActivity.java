@@ -3,6 +3,8 @@ package com.groep11.eva_app.ui.activity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +16,8 @@ import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 
 public class MainActivity extends Activity {
+
+    private static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

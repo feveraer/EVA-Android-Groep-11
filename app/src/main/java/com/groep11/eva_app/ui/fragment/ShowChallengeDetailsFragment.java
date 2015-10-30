@@ -7,9 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -114,9 +112,9 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
-            mTitleView.setText(R.string.challenge_title_default);
-            mDescriptionView.setText(R.string.challenge_description_default);
-            setLeavesOpacity(R.string.challenge_difficulty_default);
+            mTitleView.setText(R.string.challenge_title);
+            mDescriptionView.setText(R.string.challenge_description_long);
+            setLeavesOpacity(R.string.challenge_difficulty_middle);
         }
     }
 

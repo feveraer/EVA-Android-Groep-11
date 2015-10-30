@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,9 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,25 +85,25 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
 
-        //Create arguments (uri)
+        // Create arguments (uri)
         Bundle arguments = new Bundle();
         arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
 
-        //Create new challengeDetailsFragment and set it's arguments
+        // Create new challengeDetailsFragment and set it's arguments
         ShowChallengeDetailsFragment challengeDetailsFragment = ShowChallengeDetailsFragment.newInstance();
         challengeDetailsFragment.setArguments(arguments);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,        //Fragment in / out
-                android.R.animator.fade_in, android.R.animator.fade_out);       //Backstack in / out
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                android.R.animator.fade_in, android.R.animator.fade_out);
 
-        //transaction.replace(R.id.fragment_container, challengeDetailsFragment);
+        // Replace current fragments with challengeDetailsFragment
         transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
         transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
         transaction.add(R.id.fragment_container, challengeDetailsFragment, DETAIL_URI);
 
-        //adds challengeFragment to backStack
+        // Adds challengeFragment to backStack
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -143,9 +140,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             mTitleView.setText(challengeTitle);
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
-            //the cursor is empty, so fill the views with their default representations
-            mTitleView.setText(R.string.challenge_title_default);
-            setLeavesOpacity(R.string.challenge_difficulty_default);
+            // The cursor is empty, so fill the views with their default representations
+            mTitleView.setText(R.string.challenge_title);
+            setLeavesOpacity(R.string.challenge_difficulty_middle);
         }
     }
 
@@ -154,9 +151,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void setLeavesOpacity(int diff) {
-        //Set opacity leaf #3
+        // Set opacity leaf #3
         mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
-        //Set opacity leaf #2
+        // Set opacity leaf #2
         mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 

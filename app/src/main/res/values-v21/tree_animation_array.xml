@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="completed_day_1">
+        <item>@drawable/tree_frame_01</item>
+        <item>@drawable/tree_frame_02</item>
+        <item>@drawable/tree_frame_03</item>
+        <item>@drawable/tree_frame_04</item>
+        <item>@drawable/tree_frame_05</item>
+        <item>@drawable/tree_frame_06</item>
+    </array>
+    <array name="completed_day_2">
+        <item>@drawable/tree_frame_07</item>
+        <item>@drawable/tree_frame_08</item>
+        <item>@drawable/tree_frame_09</item>
+        <item>@drawable/tree_frame_10</item>
+        <item>@drawable/tree_frame_11</item>
+        <item>@drawable/tree_frame_12</item>
+    </array>
+    <array name="completed_day_3"> <item>@drawable/tree_frame_13</item> </array>
+    <array name="completed_day_4"> <item>@drawable/tree_frame_14</item> </array>
+    <array name="completed_day_5"> <item>@drawable/tree_frame_15</item> </array>
+    <array name="completed_day_6"> <item>@drawable/tree_frame_16</item> </array>
+    <array name="completed_day_7"> <item>@drawable/tree_frame_17</item> </array>
+    <array name="completed_day_8"> <item>@drawable/tree_frame_18</item> </array>
+    <array name="completed_day_9"> <item>@drawable/tree_frame_19</item> </array>
+    <array name="completed_day_10"> <item>@drawable/tree_frame_20</item> </array>
+    <array name="completed_day_11"> <item>@drawable/tree_frame_21</item> </array>
+    <array name="completed_day_12"> <item>@drawable/tree_frame_22</item> </array>
+    <array name="completed_day_13"> <item>@drawable/tree_frame_23</item> </array>
+    <array name="completed_day_14"> <item>@drawable/tree_frame_24</item> </array>
+    <array name="completed_day_15"> <item>@drawable/tree_frame_25</item> </array>
+    <array name="completed_day_16"> <item>@drawable/tree_frame_26</item> </array>
+    <array name="completed_day_17"> <item>@drawable/tree_frame_27</item> </array>
+    <array name="completed_day_18"> <item>@drawable/tree_frame_28</item> </array>
+    <array name="completed_day_19"> <item>@drawable/tree_frame_29</item> </array>
+    <array name="completed_day_20"> <item>@drawable/tree_frame_30</item> </array>
+    <array name="completed_day_21"> <item>@drawable/tree_frame_31</item> </array>
+</resources>
