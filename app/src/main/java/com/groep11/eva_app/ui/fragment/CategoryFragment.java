@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
@@ -51,6 +52,14 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     Button mButtonTwo;
     @Bind(R.id.category_button_three)
     Button mButtonThree;
+
+    @Bind(R.id.category_text_one)
+    TextView mTextOne;
+    @Bind(R.id.category_text_two)
+    TextView mTextTwo;
+    @Bind(R.id.category_text_three)
+    TextView mTextThree;
+
     // Temporary button to go to ShowChallengeFragment
     @Bind(R.id.category_button_next)
     Button mButtonNext;
@@ -109,10 +118,16 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             if (data.getCount() == 3) {
+                //1
+                mTextOne.setText(data.getString(COL_CHALLENGE_TITLE));
                 mButtonOne.setText(data.getString(COL_CHALLENGE_CATEGORY));
                 data.moveToNext();
+                //2
+                mTextTwo.setText(data.getString(COL_CHALLENGE_TITLE));
                 mButtonTwo.setText(data.getString(COL_CHALLENGE_CATEGORY));
                 data.moveToNext();
+                //3
+                mTextThree.setText(data.getString(COL_CHALLENGE_TITLE));
                 mButtonThree.setText(data.getString(COL_CHALLENGE_CATEGORY));
             } else {
                 Log.e(TAG, "We need 3 challenges!");
@@ -124,8 +139,23 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
+    @OnClick(R.id.category_button_one)
+    public void onCategoryOneClick(View view) {
+        mTextOne.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.category_button_two)
+    public void onCategoryTwoClick(View view) {
+        mTextTwo.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.category_button_three)
+    public void onCategoryThreeClick(View view) {
+        mTextThree.setVisibility(View.VISIBLE);
+    }
+
     @OnClick(R.id.category_button_next)
-    public void onButtonNextClick(View view) {
+    public void onNextClick(View view) {
 
         // Create new progress & challenge fragment
         ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();

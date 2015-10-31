@@ -15,17 +15,35 @@
         android:id="@+id/category_button_one"
         android:text="@string/category.one" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_text_one"
+        android:visibility="gone" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/category_button_two"
         android:text="@string/category.two" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_text_two"
+        android:visibility="gone" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/category_button_three"
         android:text="@string/category.three" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_text_three"
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
