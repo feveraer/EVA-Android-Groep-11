@@ -86,10 +86,14 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            // Log every row
-            Log.i(TAG, data.getString(0));
-            while (data.moveToNext()) {
-                Log.i(TAG, data.getString(0));
+            if (data.getCount() == 3) {
+                mButtonOne.setText(data.getString(0));
+                data.moveToNext();
+                mButtonTwo.setText(data.getString(0));
+                data.moveToNext();
+                mButtonThree.setText(data.getString(0));
+            } else {
+                Log.e(TAG, "We need 3 categories");
             }
         }
     }
