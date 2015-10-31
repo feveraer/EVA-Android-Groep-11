@@ -63,6 +63,9 @@ public class EvaContract {
             return CONTENT_URI.buildUpon().appendPath("current").build();
         }
 
+        /**
+         * Delete? I don't need this.
+         */
         public static Uri buildCurrentCategoriesUri() {
             return CONTENT_URI.buildUpon().appendPath("current_categories").build();
         }

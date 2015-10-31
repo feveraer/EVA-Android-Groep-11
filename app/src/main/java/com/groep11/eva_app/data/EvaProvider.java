@@ -43,6 +43,7 @@ public class EvaProvider extends ContentProvider {
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE, CHALLENGE);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/today", CHALLENGES_TODAY);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current", CHALLENGE_CURRENT);
+        // Delete?
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current_categories", CHALLENGE_CURRENT_CATEGORIES);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/*", CHALLENGE_WITH_ID);
         return matcher;
@@ -78,6 +79,7 @@ public class EvaProvider extends ContentProvider {
                 retCursor = getChallenge(projection, selection, selectionArgs, sortOrder);
                 break;
             // "challenge/current-categories"
+            // delete this?
             case CHALLENGE_CURRENT_CATEGORIES:
                 retCursor = getCurrentCategories(uri, sortOrder);
                 break;
@@ -142,6 +144,9 @@ public class EvaProvider extends ContentProvider {
         return getChallenge(projection, selection, selectionArgs, sortOrder);
     }
 
+    /**
+     * Delete? I don't need this.
+     */
     private Cursor getCurrentCategories(Uri uri, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
         String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
