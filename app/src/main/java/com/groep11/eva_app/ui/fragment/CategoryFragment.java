@@ -201,6 +201,16 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         mCategoryTwoPreview.setVisibility(View.VISIBLE);
     }
 
+    @OnClick(R.id.category_two_confirm)
+    public void onChallengeTwoConfirm(View view) {
+
+    }
+
+    @OnClick(R.id.category_two_cancel)
+    public void onChallengeTwoCancel(View view) {
+        mCategoryTwoPreview.setVisibility(View.GONE);
+    }
+
     // 3
 
     @OnClick(R.id.category_button_three)
@@ -210,6 +220,16 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         mCategoryTwoPreview.setVisibility(View.GONE);
         // show challenge preview
         mCategoryThreePreview.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.category_three_confirm)
+    public void onChallengeThreeConfirm(View view) {
+
+    }
+
+    @OnClick(R.id.category_three_cancel)
+    public void onChallengeThreeCancel(View view) {
+        mCategoryThreePreview.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.category_button_next)
