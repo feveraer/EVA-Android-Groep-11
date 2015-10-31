@@ -27,6 +27,22 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final int CATEGORY_LOADER = 0;
 
+    private static final String[] CATEGORY_COLUMNS = {
+            EvaContract.ChallengeEntry.TABLE_NAME + "." + EvaContract.ChallengeEntry._ID,
+            EvaContract.ChallengeEntry.COLUMN_TITLE,
+            EvaContract.ChallengeEntry.COLUMN_DESCRIPTION,
+            EvaContract.ChallengeEntry.COLUMN_DIFFICULTY,
+            EvaContract.ChallengeEntry.COLUMN_CATEGORY
+    };
+
+    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
+    // must change.
+    public static final int COL_CHALLENGE_ID = 0;
+    public static final int COL_CHALLENGE_TITLE = 1;
+    public static final int COL_CHALLENGE_DESCRIPTION = 2;
+    public static final int COL_CHALLENGE_DIFFICULTY = 3;
+    public static final int COL_CHALLENGE_CATEGORY = 4;
+
     @Bind(R.id.category_button_one)
     Button mButtonOne;
     @Bind(R.id.category_button_two)
@@ -50,7 +66,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mUri = EvaContract.ChallengeEntry.buildCurrentCategoriesUri();
+        mUri = EvaContract.ChallengeEntry.buildChallengesTodayURI();
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_category, container, false);
@@ -74,7 +90,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
             return new CursorLoader(
                     getActivity(),
                     mUri,
-                    null,
+                    CATEGORY_COLUMNS,
                     null,
                     null,
                     null
@@ -87,13 +103,13 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             if (data.getCount() == 3) {
-                mButtonOne.setText(data.getString(0));
+                mButtonOne.setText(data.getString(COL_CHALLENGE_CATEGORY));
                 data.moveToNext();
-                mButtonTwo.setText(data.getString(0));
+                mButtonTwo.setText(data.getString(COL_CHALLENGE_CATEGORY));
                 data.moveToNext();
-                mButtonThree.setText(data.getString(0));
+                mButtonThree.setText(data.getString(COL_CHALLENGE_CATEGORY));
             } else {
-                Log.e(TAG, "We need 3 categories");
+                Log.e(TAG, "We need 3 challenges!");
             }
         }
     }

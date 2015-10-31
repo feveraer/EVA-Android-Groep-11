@@ -42,6 +42,7 @@ public class EvaProvider extends ContentProvider {
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE, CHALLENGE);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/today", CHALLENGES_TODAY);
+        matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current", CHALLENGE_CURRENT);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current_categories", CHALLENGE_CURRENT_CATEGORIES);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/*", CHALLENGE_WITH_ID);
         return matcher;
