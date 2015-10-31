@@ -53,12 +53,20 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Bind(R.id.category_button_three)
     Button mButtonThree;
 
-    @Bind(R.id.category_text_one)
-    TextView mTextOne;
-    @Bind(R.id.category_text_two)
-    TextView mTextTwo;
-    @Bind(R.id.category_text_three)
-    TextView mTextThree;
+    @Bind(R.id.category_one_challenge_title)
+    TextView mChallengeOneTitle;
+    @Bind(R.id.category_one_challenge_descr)
+    TextView mChallengeOneDescr;
+
+    @Bind(R.id.category_two_challenge_title)
+    TextView mChallengeTwoTitle;
+    @Bind(R.id.category_two_challenge_descr)
+    TextView mChallengeTwoDescr;
+
+    @Bind(R.id.category_three_challenge_title)
+    TextView mChallengeThreeTitle;
+    @Bind(R.id.category_three_challenge_descr)
+    TextView mChallengeThreeDescr;
 
     // Temporary button to go to ShowChallengeFragment
     @Bind(R.id.category_button_next)
@@ -119,16 +127,19 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         if (data != null && data.moveToFirst()) {
             if (data.getCount() == 3) {
                 //1
-                mTextOne.setText(data.getString(COL_CHALLENGE_TITLE));
                 mButtonOne.setText(data.getString(COL_CHALLENGE_CATEGORY));
+                mChallengeOneTitle.setText(data.getString(COL_CHALLENGE_TITLE));
+                mChallengeOneDescr.setText(data.getString(COL_CHALLENGE_DESCRIPTION));
                 data.moveToNext();
                 //2
-                mTextTwo.setText(data.getString(COL_CHALLENGE_TITLE));
                 mButtonTwo.setText(data.getString(COL_CHALLENGE_CATEGORY));
+                mChallengeTwoTitle.setText(data.getString(COL_CHALLENGE_TITLE));
+                mChallengeTwoDescr.setText(data.getString(COL_CHALLENGE_DESCRIPTION));
                 data.moveToNext();
                 //3
-                mTextThree.setText(data.getString(COL_CHALLENGE_TITLE));
                 mButtonThree.setText(data.getString(COL_CHALLENGE_CATEGORY));
+                mChallengeThreeTitle.setText(data.getString(COL_CHALLENGE_TITLE));
+                mChallengeThreeDescr.setText(data.getString(COL_CHALLENGE_DESCRIPTION));
             } else {
                 Log.e(TAG, "We need 3 challenges!");
             }
@@ -141,17 +152,20 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @OnClick(R.id.category_button_one)
     public void onCategoryOneClick(View view) {
-        mTextOne.setVisibility(View.VISIBLE);
+        mChallengeOneTitle.setVisibility(View.VISIBLE);
+        mChallengeOneDescr.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.category_button_two)
     public void onCategoryTwoClick(View view) {
-        mTextTwo.setVisibility(View.VISIBLE);
+        mChallengeTwoTitle.setVisibility(View.VISIBLE);
+        mChallengeTwoDescr.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.category_button_three)
     public void onCategoryThreeClick(View view) {
-        mTextThree.setVisibility(View.VISIBLE);
+        mChallengeThreeTitle.setVisibility(View.VISIBLE);
+        mChallengeThreeDescr.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.category_button_next)
