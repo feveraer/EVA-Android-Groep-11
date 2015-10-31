@@ -49,6 +49,13 @@ public class EvaContract {
         }
 
         /**
+         * returns all challenges of today
+         */
+        public static Uri buildChallengesTodayURI() {
+            return CONTENT_URI.buildUpon().appendPath("today").build();
+        }
+
+        /**
          * only returns the task of today with status CHOSEN or COMPLETED
          * // TODO: update where used
          */

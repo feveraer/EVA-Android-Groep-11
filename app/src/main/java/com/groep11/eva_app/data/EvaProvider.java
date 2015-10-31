@@ -23,6 +23,7 @@ public class EvaProvider extends ContentProvider {
     static final int CHALLENGE_CURRENT = 101;
     static final int CHALLENGE_WITH_ID = 102;
     static final int CHALLENGE_CURRENT_CATEGORIES = 103;
+    static final int CHALLENGES_TODAY = 104;
 
     /*
         This UriMatcher will match each URI to the CHALLENGE, CHALLENGE_CURRENT and
@@ -40,7 +41,7 @@ public class EvaProvider extends ContentProvider {
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE, CHALLENGE);
-        matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current", CHALLENGE_CURRENT);
+        matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/today", CHALLENGES_TODAY);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current_categories", CHALLENGE_CURRENT_CATEGORIES);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/*", CHALLENGE_WITH_ID);
         return matcher;
@@ -60,25 +61,25 @@ public class EvaProvider extends ContentProvider {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             // "challenge/current"
-            case CHALLENGE_CURRENT: {
+            case CHALLENGE_CURRENT:
                 retCursor = getCurrentChallenge(uri, projection, sortOrder);
                 break;
-            }
+            // "challenge/today"
+            case CHALLENGES_TODAY:
+                retCursor = getChallengesToday(uri, projection, sortOrder);
+                break;
             // "challenge/*"
-            case CHALLENGE_WITH_ID: {
+            case CHALLENGE_WITH_ID:
                 retCursor = getChallengeById(uri, projection, sortOrder);
                 break;
-            }
             // "challenge"
-            case CHALLENGE: {
+            case CHALLENGE:
                 retCursor = getChallenge(projection, selection, selectionArgs, sortOrder);
                 break;
-            }
             // "challenge/current-categories"
-            case CHALLENGE_CURRENT_CATEGORIES: {
+            case CHALLENGE_CURRENT_CATEGORIES:
                 retCursor = getCurrentCategories(uri, sortOrder);
                 break;
-            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -124,6 +125,19 @@ public class EvaProvider extends ContentProvider {
                 DateConversion.formatDate(new Date()),
                 "" + TaskStatus.NONE.ordinal()
         };
+        return getChallenge(projection, selection, selectionArgs, sortOrder);
+    }
+
+    /**
+     * select * where date = today
+     * @param uri
+     * @param projection
+     * @param sortOrder
+     * @return
+     */
+    private Cursor getChallengesToday(Uri uri, String[] projection, String sortOrder) {
+        String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
+        String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
         return getChallenge(projection, selection, selectionArgs, sortOrder);
     }
 
