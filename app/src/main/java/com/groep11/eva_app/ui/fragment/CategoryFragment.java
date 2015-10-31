@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
@@ -53,20 +54,38 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Bind(R.id.category_button_three)
     Button mButtonThree;
 
+    @Bind(R.id.category_one_preview)
+    LinearLayout mCategoryOnePreview;
     @Bind(R.id.category_one_challenge_title)
     TextView mChallengeOneTitle;
     @Bind(R.id.category_one_challenge_descr)
     TextView mChallengeOneDescr;
+    @Bind(R.id.category_one_confirm)
+    Button mChallengeOneConfirm;
+    @Bind(R.id.category_one_cancel)
+    Button mChallengeOneCancel;
 
+    @Bind(R.id.category_two_preview)
+    LinearLayout mCategoryTwoPreview;
     @Bind(R.id.category_two_challenge_title)
     TextView mChallengeTwoTitle;
     @Bind(R.id.category_two_challenge_descr)
     TextView mChallengeTwoDescr;
+    @Bind(R.id.category_two_confirm)
+    Button mChallengeTwoConfirm;
+    @Bind(R.id.category_two_cancel)
+    Button mChallengeTwoCancel;
 
+    @Bind(R.id.category_three_preview)
+    LinearLayout mCategoryThreePreview;
     @Bind(R.id.category_three_challenge_title)
     TextView mChallengeThreeTitle;
     @Bind(R.id.category_three_challenge_descr)
     TextView mChallengeThreeDescr;
+    @Bind(R.id.category_three_confirm)
+    Button mChallengeThreeConfirm;
+    @Bind(R.id.category_three_cancel)
+    Button mChallengeThreeCancel;
 
     // Temporary button to go to ShowChallengeFragment
     @Bind(R.id.category_button_next)
@@ -150,22 +169,47 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
+    // 1
+
     @OnClick(R.id.category_button_one)
     public void onCategoryOneClick(View view) {
-        mChallengeOneTitle.setVisibility(View.VISIBLE);
-        mChallengeOneDescr.setVisibility(View.VISIBLE);
+        // first set other challenge previews invisible (gone)
+        mCategoryTwoPreview.setVisibility(View.GONE);
+        mCategoryThreePreview.setVisibility(View.GONE);
+        // show challenge preview
+        mCategoryOnePreview.setVisibility(View.VISIBLE);
     }
+
+    @OnClick(R.id.category_one_confirm)
+    public void onChallengeOneConfirm(View view) {
+
+    }
+
+    @OnClick(R.id.category_one_cancel)
+    public void onChallengeOneCancel(View view) {
+        mCategoryOnePreview.setVisibility(View.GONE);
+    }
+
+    // 2
 
     @OnClick(R.id.category_button_two)
     public void onCategoryTwoClick(View view) {
-        mChallengeTwoTitle.setVisibility(View.VISIBLE);
-        mChallengeTwoDescr.setVisibility(View.VISIBLE);
+        // first set other challenge previews invisible (gone)
+        mCategoryOnePreview.setVisibility(View.GONE);
+        mCategoryThreePreview.setVisibility(View.GONE);
+        // show challenge preview
+        mCategoryTwoPreview.setVisibility(View.VISIBLE);
     }
+
+    // 3
 
     @OnClick(R.id.category_button_three)
     public void onCategoryThreeClick(View view) {
-        mChallengeThreeTitle.setVisibility(View.VISIBLE);
-        mChallengeThreeDescr.setVisibility(View.VISIBLE);
+        // first set other challenge previews invisible (gone)
+        mCategoryOnePreview.setVisibility(View.GONE);
+        mCategoryTwoPreview.setVisibility(View.GONE);
+        // show challenge preview
+        mCategoryThreePreview.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.category_button_next)

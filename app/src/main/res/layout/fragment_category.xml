@@ -1,52 +1,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_category_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.groep11.eva_app.ui.fragment.CategoryFragment">
 
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="@string/category.prompt"
-        style="@style/Base.TextAppearance.AppCompat.Title" />
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/category.prompt" />
 
     <!-- First category stuff below -->
 
     <Button
+        android:id="@+id/category_button_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/category_button_one"
         android:text="@string/category.one" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_one_challenge_title"
-        android:visibility="gone" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_one_challenge_descr"
-        android:visibility="gone" />
-
     <LinearLayout
+        android:id="@+id/category_one_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/category_one_confirm_container"
+        android:orientation="vertical"
         android:visibility="gone">
 
-        <Button
+        <TextView
+            android:id="@+id/category_one_challenge_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/category_one_confirm"
-            android:text="@string/category.confirm" />
+            android:layout_height="wrap_content" />
 
-        <Button
+        <TextView
+            android:id="@+id/category_one_challenge_descr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/category_one_cancel"
-            android:text="@string/category.cancel" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/category_one_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category.confirm" />
+
+            <Button
+                android:id="@+id/category_one_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category.cancel" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -55,44 +63,49 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <Button
+        android:id="@+id/category_button_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/category_button_two"
         android:text="@string/category.two" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_two_challenge_title"
-        android:visibility="gone" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_two_challenge_descr"
-        android:visibility="gone" />
-
     <LinearLayout
+        android:id="@+id/category_two_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/category_two_confirm_container"
+        android:orientation="vertical"
         android:visibility="gone">
 
-        <Button
+        <TextView
+            android:id="@+id/category_two_challenge_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/category_two_confirm"
-            android:text="@string/category.confirm" />
+            android:layout_height="wrap_content" />
 
-        <Button
+        <TextView
+            android:id="@+id/category_two_challenge_descr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/category_two_cancel"
-            android:text="@string/category.cancel" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/category_two_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category.confirm" />
+
+            <Button
+                android:id="@+id/category_two_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category.cancel" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -101,53 +114,58 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <Button
+        android:id="@+id/category_button_three"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/category_button_three"
         android:text="@string/category.three" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_three_challenge_title"
-        android:visibility="gone" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/category_three_challenge_descr"
-        android:visibility="gone" />
-
     <LinearLayout
+        android:id="@+id/category_three_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/category_three_confirm_container"
+        android:orientation="vertical"
         android:visibility="gone">
 
-        <Button
+        <TextView
+            android:id="@+id/category_three_challenge_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/category_three_confirm"
-            android:text="@string/category.confirm" />
+            android:layout_height="wrap_content" />
 
-        <Button
+        <TextView
+            android:id="@+id/category_three_challenge_descr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/category_three_cancel"
-            android:text="@string/category.cancel" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/category_three_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category.confirm" />
+
+            <Button
+                android:id="@+id/category_three_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category.cancel" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <!-- END -->
 
     <Button
+        android:id="@+id/category_button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/category_button_next"
         android:layout_marginTop="30dp"
         android:text="Next (dev)" />
 
