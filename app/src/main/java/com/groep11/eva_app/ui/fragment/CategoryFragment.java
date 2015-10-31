@@ -87,12 +87,10 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             // Log every row
-            int i = 0;
+            Log.i(TAG, data.getString(0));
             while (data.moveToNext()) {
                 Log.i(TAG, data.getString(0));
-                i++;
             }
-            Log.i(TAG, String.format("%d", i));
         }
     }
 
