@@ -1,5 +1,6 @@
 package com.groep11.eva_app.ui.fragment;
 
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -18,6 +19,7 @@ import com.groep11.eva_app.data.EvaContract;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CategoryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -49,6 +51,10 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     Button mButtonTwo;
     @Bind(R.id.category_button_three)
     Button mButtonThree;
+    // Temporary button to go to ShowChallengeFragment
+    @Bind(R.id.category_button_next)
+    Button mButtonNext;
+
 
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
@@ -116,6 +122,24 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
 
+    @OnClick(R.id.category_button_next)
+    public void onButtonNextClick(View view) {
+
+        // Create new progress & challenge fragment
+        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
+        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        // Replace current fragments with challengeDetailsFragment
+        transaction.remove(getFragmentManager().findFragmentByTag(CategoryFragment.TAG));
+        transaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
+        transaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
+
+        transaction.addToBackStack(null);
+
+        transaction.commit();
     }
 }

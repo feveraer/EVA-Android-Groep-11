@@ -27,4 +27,11 @@
         android:id="@+id/category_button_three"
         android:text="@string/category.three" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_button_next"
+        android:layout_marginTop="30dp"
+        android:text="Next (dev)" />
+
 </LinearLayout>

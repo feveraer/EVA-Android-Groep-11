@@ -30,12 +30,12 @@ public class MainActivity extends Activity {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         CategoryFragment categoryFragment = CategoryFragment.newInstance();
-        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
-        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
+//        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
+//        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
 
         fragmentTransaction.add(R.id.fragment_container, categoryFragment, CategoryFragment.TAG);
-        fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
-        fragmentTransaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
+//        fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
+//        fragmentTransaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
         fragmentTransaction.commit();
 
         setOnBackStackChangedListener();
