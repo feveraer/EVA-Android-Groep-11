@@ -236,7 +236,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @OnClick(R.id.category_three_cancel)
     public void onChallengeThreeCancel(View view) {
-        updateChallengeStatus(mButtonThree.getText().toString(), 1);
+        updateChallengeStatus(mButtonThree.getText().toString(), 0);
         mCategoryThreePreview.setVisibility(View.GONE);
     }
 
