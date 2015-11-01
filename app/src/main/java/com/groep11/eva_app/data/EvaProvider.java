@@ -234,6 +234,10 @@ public class EvaProvider extends ContentProvider {
                 rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
+            case CHALLENGES_TODAY:
+                rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values,
+                        buildUpdateSelectionClause(), buildUpdateSelectionArgs(selectionArgs));
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -241,6 +245,17 @@ public class EvaProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
+    }
+
+    // Update challenge status clause
+    private String buildUpdateSelectionClause() {
+        return EvaContract.ChallengeEntry.COLUMN_DATE + " = ? AND "
+                + EvaContract.ChallengeEntry.COLUMN_CATEGORY + " = ?";
+    }
+
+    // Update challenge status, select challenge of today in certain category
+    private String[] buildUpdateSelectionArgs(String[] selectionArgs) {
+        return new String[]{DateConversion.formatDate(new Date()), selectionArgs[0]};
     }
 
     @Override

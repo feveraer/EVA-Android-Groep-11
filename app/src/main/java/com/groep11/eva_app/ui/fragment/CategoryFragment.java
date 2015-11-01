@@ -2,6 +2,7 @@ package com.groep11.eva_app.ui.fragment;
 
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -15,9 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
+import com.groep11.eva_app.util.DateConversion;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,7 +44,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
             EvaContract.ChallengeEntry.COLUMN_CATEGORY
     };
 
-    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
+    // These indices are tied to CATEGORY_COLUMNS. If CATEGORY_COLUMNS changes, these
     // must change.
     public static final int COL_CHALLENGE_ID = 0;
     public static final int COL_CHALLENGE_TITLE = 1;
@@ -182,11 +187,12 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @OnClick(R.id.category_one_confirm)
     public void onChallengeOneConfirm(View view) {
-
+        updateChallengeStatus(mButtonOne.getText().toString(), 1);
     }
 
     @OnClick(R.id.category_one_cancel)
     public void onChallengeOneCancel(View view) {
+        updateChallengeStatus(mButtonOne.getText().toString(), 0);
         mCategoryOnePreview.setVisibility(View.GONE);
     }
 
@@ -203,11 +209,12 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @OnClick(R.id.category_two_confirm)
     public void onChallengeTwoConfirm(View view) {
-
+        updateChallengeStatus(mButtonTwo.getText().toString(), 1);
     }
 
     @OnClick(R.id.category_two_cancel)
     public void onChallengeTwoCancel(View view) {
+        updateChallengeStatus(mButtonTwo.getText().toString(), 0);
         mCategoryTwoPreview.setVisibility(View.GONE);
     }
 
@@ -224,12 +231,30 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @OnClick(R.id.category_three_confirm)
     public void onChallengeThreeConfirm(View view) {
-
+        updateChallengeStatus(mButtonThree.getText().toString(), 1);
     }
 
     @OnClick(R.id.category_three_cancel)
     public void onChallengeThreeCancel(View view) {
+        updateChallengeStatus(mButtonThree.getText().toString(), 1);
         mCategoryThreePreview.setVisibility(View.GONE);
+    }
+
+    private void updateChallengeStatus(String category, int status) {
+        ContentValues updateValues = new ContentValues();
+
+        String[] selectionArgs = {category};
+
+        updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
+
+        int rowsUpdated = getActivity().getContentResolver().update(
+                mUri,
+                updateValues,
+                null,           // ContentProvider takes care of this
+                selectionArgs   // Which category passed on to ContentProvider
+        );
+
+        Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.category_button_next)
