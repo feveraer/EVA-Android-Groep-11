@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -317,8 +318,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         // Create a set for the animators and play the animation as one
         selectionAnimation = new AnimatorSet();
         selectionAnimation.playTogether(animateTranslateY, animateScaleX, animateScaleY);
-        selectionAnimation.setDuration(600);
-
+        // Set the duration and interpolation of the animation
+        selectionAnimation.setDuration(1000);
+        selectionAnimation.setInterpolator(new BounceInterpolator());
         selectionAnimation.start();
 
         // Set the currently selected category icon, we'll be able to reverse it's animation later on
