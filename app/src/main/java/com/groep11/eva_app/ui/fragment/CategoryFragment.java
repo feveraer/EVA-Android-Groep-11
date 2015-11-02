@@ -1,11 +1,14 @@
 package com.groep11.eva_app.ui.fragment;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,15 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
-import com.groep11.eva_app.util.DateConversion;
 
-import java.util.Date;
+import java.util.ArrayDeque;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -96,6 +99,8 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Bind(R.id.category_button_next)
     Button mButtonNext;
 
+    private ImageView mCurrentCategoryIcon;
+    private AnimatorSet selectionAnimation;
 
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
@@ -274,5 +279,52 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         transaction.addToBackStack(null);
 
         transaction.commit();
+    }
+
+    @OnClick({R.id.category_1, R.id.category_2, R.id.category_3})
+    public void selectCategory(View view){
+        // Only allow the user to select a new category if the animation is done
+        // and he's not selecting the same category
+        boolean isAllowedToSelect = isAnimationAllowed() &&  mCurrentCategoryIcon != view;
+
+        if(isAllowedToSelect){
+            // If there's a category selected, reverse that animation
+            if(mCurrentCategoryIcon != null)
+                selectCategoryAnimation(mCurrentCategoryIcon, true);
+
+            // Execute the selection animation for a category icon
+            selectCategoryAnimation((ImageView) view, false);
+        }
+    }
+
+    private boolean isAnimationAllowed(){
+        // Nothing selected yet, so yeah :)
+        if(selectionAnimation == null) return true;
+        // Something is selected, only when it's not still animating!
+        return !selectionAnimation.isRunning();
+    }
+
+    private void selectCategoryAnimation(ImageView imageView, boolean isReversed){
+        // Get the current Y position of the imageView, to use it as start position
+        float currentY = imageView.getY();
+
+        // Set values for translation and scaling depending on isReversed
+        float translateValue = isReversed ? 250 : -250;
+        float scaleValue = isReversed ? 1.0f : 1.35f;
+
+        // Create animators for the above values
+        ObjectAnimator animateTranslateY = ObjectAnimator.ofFloat(imageView, "y", currentY + translateValue);
+        ObjectAnimator animateScaleX = ObjectAnimator.ofFloat(imageView, "scaleX", scaleValue);
+        ObjectAnimator animateScaleY = ObjectAnimator.ofFloat(imageView, "scaleY", scaleValue);
+
+        // Create a set for the animators and play the animation as one
+        selectionAnimation = new AnimatorSet();
+        selectionAnimation.playTogether(animateTranslateY, animateScaleX, animateScaleY);
+        selectionAnimation.setDuration(1000);
+
+        selectionAnimation.start();
+
+        // Set the currently selected category icon, we'll be able to reverse it's animation later on
+        mCurrentCategoryIcon = isReversed ? null : imageView;
     }
 }

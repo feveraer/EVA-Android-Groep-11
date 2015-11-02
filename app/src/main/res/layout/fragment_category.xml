@@ -169,4 +169,57 @@
         android:layout_marginTop="30dp"
         android:text="Next (dev)" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/category_1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/category_apple"
+            android:contentDescription="@string/category.icon.description" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/category_2"
+            android:layout_gravity="bottom"
+            android:src="@drawable/category_milk"
+            android:contentDescription="@string/category.icon.description" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/category_3"
+            android:layout_gravity="bottom"
+            android:src="@drawable/category_cooking"
+            android:contentDescription="@string/category.icon.description" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </View>
+
+    </LinearLayout>
+
 </LinearLayout>

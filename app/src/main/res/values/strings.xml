@@ -39,5 +39,6 @@
     <string name="category.three">Category 3 (Default)</string>
     <string name="category.confirm">Bevestig</string>
     <string name="category.cancel">Annuleer</string>
+    <string name="category.icon.description">Icon that represents the category</string>
 
 </resources>
