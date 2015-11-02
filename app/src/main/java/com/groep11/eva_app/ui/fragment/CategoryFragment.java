@@ -8,7 +8,6 @@ import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -24,8 +23,6 @@ import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
-
-import java.util.ArrayDeque;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -320,7 +317,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         // Create a set for the animators and play the animation as one
         selectionAnimation = new AnimatorSet();
         selectionAnimation.playTogether(animateTranslateY, animateScaleX, animateScaleY);
-        selectionAnimation.setDuration(1000);
+        selectionAnimation.setDuration(600);
 
         selectionAnimation.start();
 
