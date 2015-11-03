@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class ShowChallengeDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String DETAIL_URI = "URI";
+    public static final String TAG = "SHOW_CHALLENGE_DETAILS";
 
     private Uri mUri;
 

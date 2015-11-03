@@ -29,7 +29,9 @@ import android.widget.Toast;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 
+import java.io.Console;
 import java.lang.reflect.Field;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -60,6 +62,8 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int COL_CHALLENGE_DESCRIPTION = 2;
     public static final int COL_CHALLENGE_DIFFICULTY = 3;
     public static final int COL_CHALLENGE_CATEGORY = 4;
+
+    private List<Long> currentIds = new LinkedList<>();
 
 //    @Bind(R.id.category_button_one)
 //    Button mButtonOne;
@@ -186,10 +190,11 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 //
 //                }
 
-                while(!data.isAfterLast()){
+                currentIds.clear();
+                do {
+                    currentIds.add(data.getLong(COL_CHALLENGE_ID));
                     setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY));
-                    data.moveToNext();
-                }
+                } while (data.moveToNext());
                 //2
 //                mButtonTwo.setText(data.getString(COL_CHALLENGE_CATEGORY));
 //                mChallengeTwoTitle.setText(data.getString(COL_CHALLENGE_TITLE));
@@ -387,8 +392,11 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
         @Override
         public Fragment getItem(int position) {
-            //TODO: show challenge preview fragment with the right URI
-            return ShowChallengeFragment.newInstance();
+            Log.d(TAG, "currentIds.size: "+currentIds.size());
+            Log.d(TAG, "currentIds.get: "+position);
+            long id = currentIds.get(position);
+            Uri uri = EvaContract.ChallengeEntry.buildChallengeUri(id);
+            return ShowChallengeFragment.newInstance(uri);
         }
 
         @Override

@@ -31,8 +31,9 @@ import butterknife.OnClick;
 
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final String DETAIL_URI = "URI";
+    public static final String URI = "URI";
     public static final String TAG = "SHOW_CHALLENGE";
+    public static final String BUNDLE_CHALLENGE_ID = "challenge_id";
 
     private Uri mUri;
 
@@ -72,11 +73,26 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         return new ShowChallengeFragment();
     }
 
+    public static ShowChallengeFragment newInstance(Uri uri){
+        ShowChallengeFragment fragment = new ShowChallengeFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable(URI, uri);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mUri = EvaContract.ChallengeEntry.buildCurrentChallengeUri();
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(URI);
+        } else {
+            mUri = EvaContract.ChallengeEntry.buildCurrentChallengeUri();
+        }
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge, container, false);
@@ -105,7 +121,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         // Replace current fragments with challengeDetailsFragment
         transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
         transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
-        transaction.add(R.id.fragment_container, challengeDetailsFragment, DETAIL_URI);
+        transaction.add(R.id.fragment_container, challengeDetailsFragment, challengeDetailsFragment.TAG);
 
         // Adds challengeFragment to backStack
         transaction.addToBackStack(null);
