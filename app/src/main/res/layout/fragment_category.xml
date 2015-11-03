@@ -169,7 +169,7 @@
         <!--android:layout_marginTop="30dp"-->
         <!--android:text="Next (dev)" />-->
 
-    <android.support.v4.view.ViewPager
+    <com.groep11.eva_app.ui.ToggleSwipeViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/challenge_preview_container"
         android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package com.groep11.eva_app.ui.fragment;
 
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -113,15 +114,25 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         ShowChallengeDetailsFragment challengeDetailsFragment = ShowChallengeDetailsFragment.newInstance();
         challengeDetailsFragment.setArguments(arguments);
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        // Get the activity's fragment manager (important for categoryFragment with the viewpager!)
+        FragmentManager fragmentManager = this.getActivity().getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
                 android.R.animator.fade_in, android.R.animator.fade_out);
 
         // Replace current fragments with challengeDetailsFragment
-        transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
-        transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
-        transaction.add(R.id.fragment_container, challengeDetailsFragment, challengeDetailsFragment.TAG);
+        Fragment categoryFragment = fragmentManager.findFragmentByTag(CategoryFragment.TAG);
+
+        if(categoryFragment != null) {
+            // If category fragment is on the backstack, replace it with challengeDetails
+            transaction.replace(R.id.fragment_container, challengeDetailsFragment, challengeDetailsFragment.TAG);
+        } else {
+            // Category fragment is not on the backstack, so we'll replace Progress & Challenge with challengeDetails
+            transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
+            transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
+            transaction.add(R.id.fragment_container, challengeDetailsFragment, challengeDetailsFragment.TAG);
+        }
 
         // Adds challengeFragment to backStack
         transaction.addToBackStack(null);

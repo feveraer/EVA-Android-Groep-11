@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
+import com.groep11.eva_app.ui.ToggleSwipeViewPager;
 import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.LinkedList;
@@ -59,53 +59,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int COL_CHALLENGE_DIFFICULTY = 3;
     public static final int COL_CHALLENGE_CATEGORY = 4;
 
-    private List<Long> currentIds = new LinkedList<>();
-
-//    @Bind(R.id.category_button_one)
-//    Button mButtonOne;
-//    @Bind(R.id.category_button_two)
-//    Button mButtonTwo;
-//    @Bind(R.id.category_button_three)
-//    Button mButtonThree;
-//
-//    @Bind(R.id.category_one_preview)
-//    LinearLayout mCategoryOnePreview;
-//    @Bind(R.id.category_one_challenge_title)
-//    TextView mChallengeOneTitle;
-//    @Bind(R.id.category_one_challenge_descr)
-//    TextView mChallengeOneDescr;
-//    @Bind(R.id.category_one_confirm)
-//    Button mChallengeOneConfirm;
-//    @Bind(R.id.category_one_cancel)
-//    Button mChallengeOneCancel;
-//
-//    @Bind(R.id.category_two_preview)
-//    LinearLayout mCategoryTwoPreview;
-//    @Bind(R.id.category_two_challenge_title)
-//    TextView mChallengeTwoTitle;
-//    @Bind(R.id.category_two_challenge_descr)
-//    TextView mChallengeTwoDescr;
-//    @Bind(R.id.category_two_confirm)
-//    Button mChallengeTwoConfirm;
-//    @Bind(R.id.category_two_cancel)
-//    Button mChallengeTwoCancel;
-//
-//    @Bind(R.id.category_three_preview)
-//    LinearLayout mCategoryThreePreview;
-//    @Bind(R.id.category_three_challenge_title)
-//    TextView mChallengeThreeTitle;
-//    @Bind(R.id.category_three_challenge_descr)
-//    TextView mChallengeThreeDescr;
-//    @Bind(R.id.category_three_confirm)
-//    Button mChallengeThreeConfirm;
-//    @Bind(R.id.category_three_cancel)
-//    Button mChallengeThreeCancel;
-//
-//    // Temporary button to go to ShowChallengeFragment
-//    @Bind(R.id.category_button_next)
-//    Button mButtonNext;
-
-
     @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 })
     List<ImageView> categoryIcons;
 
@@ -113,12 +66,15 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     List<TextView> categoryTitles;
 
     @Bind(R.id.challenge_preview_container)
-    ViewPager mPreviewsPager;
-
+    ToggleSwipeViewPager mPreviewsPager;
     private PagerAdapter mPagerAdapter;
 
-    private View mSelectedCategoryView;
+    // Necessary to check if the current animation is still running,
+    // prevents buggy animations :)
     private AnimatorSet selectionAnimation;
+
+    private View mSelectedCategoryView;
+    private List<Long> currentIds = new LinkedList<>();
 
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
@@ -131,7 +87,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -174,13 +129,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             if (data.getCount() == NUM_OF_CATEGORIES) {
-                //1
-//                mButtonOne.setText(data.getString(COL_CHALLENGE_CATEGORY));
-//                mChallengeOneTitle.setText(data.getString(COL_CHALLENGE_TITLE));
-//                mChallengeOneDescr.setText(data.getString(COL_CHALLENGE_DESCRIPTION));
-//                for(int dataIndex = 0; dataIndex < data.getCount(); dataIndex++){
-//
-//                }
 
                 currentIds.clear();
                 do {
@@ -188,20 +136,11 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                     setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY));
                 } while (data.moveToNext());
 
-                mPagerAdapter = new ScreenSlidePagerAdapter(this.getActivity().getFragmentManager());
+                // Create a new pager adapter which will load the challengePreviewFragments with the right URI's
+                mPagerAdapter = new ScreenSlidePagerAdapter(this.getChildFragmentManager());
+                // Link the adapter to the Pager and disable swiping
                 mPreviewsPager.setAdapter(mPagerAdapter);
-                //2
-//                mButtonTwo.setText(data.getString(COL_CHALLENGE_CATEGORY));
-//                mChallengeTwoTitle.setText(data.getString(COL_CHALLENGE_TITLE));
-//                mChallengeTwoDescr.setText(data.getString(COL_CHALLENGE_DESCRIPTION));
-//                setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY));
-//
-//                data.moveToNext();
-//                //3
-////                mButtonThree.setText(data.getString(COL_CHALLENGE_CATEGORY));
-////                mChallengeThreeTitle.setText(data.getString(COL_CHALLENGE_TITLE));
-////                mChallengeThreeDescr.setText(data.getString(COL_CHALLENGE_DESCRIPTION));
-//                setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY));
+                mPreviewsPager.setSwipingEnabled(false);
 
             } else {
                 Log.e(TAG, "We need 3 challenges!");
@@ -218,74 +157,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
     }
-
-    // 1
-
-//    @OnClick(R.id.category_button_one)
-//    public void onCategoryOneClick(View view) {
-//        // first set other challenge previews invisible (gone)
-//        mCategoryTwoPreview.setVisibility(View.GONE);
-//        mCategoryThreePreview.setVisibility(View.GONE);
-//        // show challenge preview
-//        mCategoryOnePreview.setVisibility(View.VISIBLE);
-//    }
-//
-//    @OnClick(R.id.category_one_confirm)
-//    public void onChallengeOneConfirm(View view) {
-//        updateChallengeStatus(mButtonOne.getText().toString(), 1);
-//    }
-//
-//    @OnClick(R.id.category_one_cancel)
-//    public void onChallengeOneCancel(View view) {
-//        updateChallengeStatus(mButtonOne.getText().toString(), 0);
-//        mCategoryOnePreview.setVisibility(View.GONE);
-//    }
-//
-//    // 2
-//
-//    @OnClick(R.id.category_button_two)
-//    public void onCategoryTwoClick(View view) {
-//        // first set other challenge previews invisible (gone)
-//        mCategoryOnePreview.setVisibility(View.GONE);
-//        mCategoryThreePreview.setVisibility(View.GONE);
-//        // show challenge preview
-//        mCategoryTwoPreview.setVisibility(View.VISIBLE);
-//    }
-//
-//    @OnClick(R.id.category_two_confirm)
-//    public void onChallengeTwoConfirm(View view) {
-//        updateChallengeStatus(mButtonTwo.getText().toString(), 1);
-//    }
-//
-//    @OnClick(R.id.category_two_cancel)
-//    public void onChallengeTwoCancel(View view) {
-//        updateChallengeStatus(mButtonTwo.getText().toString(), 0);
-//        mCategoryTwoPreview.setVisibility(View.GONE);
-//    }
-//
-//    // 3
-//
-//    @OnClick(R.id.category_button_three)
-//    public void onCategoryThreeClick(View view) {
-//        // first set other challenge previews invisible (gone)
-//        mCategoryOnePreview.setVisibility(View.GONE);
-//        mCategoryTwoPreview.setVisibility(View.GONE);
-//        // show challenge preview
-//        mCategoryThreePreview.setVisibility(View.VISIBLE);
-//    }
-//
-//    @OnClick(R.id.category_three_confirm)
-//    public void onChallengeThreeConfirm(View view) {
-//        updateChallengeStatus(mButtonThree.getText().toString(), 1);
-//    }
-//
-//    @OnClick(R.id.category_three_cancel)
-//    public void onChallengeThreeCancel(View view) {
-//        updateChallengeStatus(mButtonThree.getText().toString(), 0);
-//        mCategoryThreePreview.setVisibility(View.GONE);
-//    }
-
-
 
     @OnClick(R.id.category_button_save)
     public void saveSelectedCategory(View view){
@@ -313,27 +184,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                 null
         );
 
+        //TODO: remove for demo!
         Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
     }
-//
-//    @OnClick(R.id.category_button_next)
-//    public void onNextClick(View view) {
-//
-//        // Create new progress & challenge fragment
-//        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
-//        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
-//
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//
-//        // Replace current fragments with challengeDetailsFragment
-//        transaction.remove(getFragmentManager().findFragmentByTag(CategoryFragment.TAG));
-//        transaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
-//        transaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
-//
-//        transaction.addToBackStack(null);
-//
-//        transaction.commit();
-//    }
 
     @OnClick({R.id.category_1, R.id.category_2, R.id.category_3})
     public void selectCategory(View view){
@@ -401,11 +254,16 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG, "currentIds.size: "+currentIds.size());
-            Log.d(TAG, "currentIds.get: "+position);
-            long id = currentIds.get(position);
-            Uri uri = EvaContract.ChallengeEntry.buildChallengeUri(id);
-            return ShowChallengeFragment.newInstance(uri);
+            Log.d(TAG, "currentIds.size: " + currentIds.size());
+            Log.d(TAG, "currentIds.get: " + position);
+
+            if(currentIds != null){
+                long id = currentIds.get(position);
+                Uri uri = EvaContract.ChallengeEntry.buildChallengeUri(id);
+                return ShowChallengeFragment.newInstance(uri);
+            } else {
+                return ShowChallengeFragment.newInstance();
+            }
         }
 
         @Override
