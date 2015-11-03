@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.data.remote.TaskStatus;
+import com.groep11.eva_app.util.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
@@ -126,7 +126,7 @@ public class EvaProvider extends ContentProvider {
                 "AND " + ChallengeEntry.COLUMN_STATUS + " != ? ";
         String[] selectionArgs = new String[]{
                 DateConversion.formatDate(new Date()),
-                "" + TaskStatus.NONE.ordinal()
+                "" + TaskStatus.NONE.value
         };
         return getChallenge(projection, selection, selectionArgs, sortOrder);
     }
@@ -234,9 +234,9 @@ public class EvaProvider extends ContentProvider {
                 rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
-            case CHALLENGES_TODAY:
-                rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values,
-                        buildUpdateSelectionClause(), buildUpdateSelectionArgs(selectionArgs));
+            case CHALLENGE_WITH_ID:
+                rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values, ChallengeEntry._ID + " = ? ",
+                        new String[]{String.valueOf(ChallengeEntry.getIdFromUri(uri))});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

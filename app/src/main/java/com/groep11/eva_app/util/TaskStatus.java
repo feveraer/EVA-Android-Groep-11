@@ -1,4 +1,4 @@
-package com.groep11.eva_app.data.remote;
+package com.groep11.eva_app.util;
 
 public enum TaskStatus {
     NONE(0),

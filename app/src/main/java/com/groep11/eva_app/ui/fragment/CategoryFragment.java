@@ -3,7 +3,6 @@ package com.groep11.eva_app.ui.fragment;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -20,17 +19,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
+import com.groep11.eva_app.util.TaskStatus;
 
-import java.io.Console;
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -121,7 +117,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     private PagerAdapter mPagerAdapter;
 
-    private View mCurrentCategoryView;
+    private View mSelectedCategoryView;
     private AnimatorSet selectionAnimation;
 
     public static CategoryFragment newInstance() {
@@ -147,10 +143,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         View rootView = inflater.inflate(R.layout.fragment_category, container, false);
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
-
-
-        mPagerAdapter = new ScreenSlidePagerAdapter(this.getActivity().getFragmentManager());
-        mPreviewsPager.setAdapter(mPagerAdapter);
 
         return rootView;
     }
@@ -195,6 +187,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                     currentIds.add(data.getLong(COL_CHALLENGE_ID));
                     setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY));
                 } while (data.moveToNext());
+
+                mPagerAdapter = new ScreenSlidePagerAdapter(this.getActivity().getFragmentManager());
+                mPreviewsPager.setAdapter(mPagerAdapter);
                 //2
 //                mButtonTwo.setText(data.getString(COL_CHALLENGE_CATEGORY));
 //                mChallengeTwoTitle.setText(data.getString(COL_CHALLENGE_TITLE));
@@ -290,22 +285,36 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 //        mCategoryThreePreview.setVisibility(View.GONE);
 //    }
 
-//    private void updateChallengeStatus(String category, int status) {
-//        ContentValues updateValues = new ContentValues();
-//
-//        String[] selectionArgs = {category};
-//
-//        updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
-//
-//        int rowsUpdated = getActivity().getContentResolver().update(
-//                mUri,
-//                updateValues,
-//                null,           // ContentProvider takes care of this
-//                selectionArgs   // Which category passed on to ContentProvider
-//        );
-//
-//        Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
-//    }
+
+
+    @OnClick(R.id.category_button_save)
+    public void saveSelectedCategory(View view){
+        // Get the index of the category the user clicked on
+        int selectedIndex = getClickedCategoryIndex(mSelectedCategoryView.getId());
+
+        // Change the selected category's challenge to CHOSEN
+        updateChallengeStatus(currentIds.remove(selectedIndex), TaskStatus.CHOSEN.value);
+        // Change the remaining category's challenges to NONE
+        for(Long leftoverIds : currentIds)
+            updateChallengeStatus(leftoverIds, TaskStatus.NONE.value);
+
+        currentIds.clear();
+    }
+
+    private void updateChallengeStatus(Long id, int status) {
+        ContentValues updateValues = new ContentValues();
+
+        updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
+
+        int rowsUpdated = getActivity().getContentResolver().update(
+                EvaContract.ChallengeEntry.buildChallengeUri(id),
+                updateValues,
+                null,           // ContentProvider takes care of this
+                null
+        );
+
+        Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
+    }
 //
 //    @OnClick(R.id.category_button_next)
 //    public void onNextClick(View view) {
@@ -330,17 +339,17 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     public void selectCategory(View view){
         // Only allow the user to select a new category if the animation is done
         // and he's not selecting the same category
-        boolean isAllowedToSelect = isAnimationAllowed() &&  mCurrentCategoryView != view;
+        boolean isAllowedToSelect = isAnimationAllowed() &&  mSelectedCategoryView != view;
 
         if(isAllowedToSelect){
             // Get the index of the category the user clicked on
             int clickedCategory = getClickedCategoryIndex(view.getId());
             // Adapt challenge preview fragment to the currently selected category
-            mPreviewsPager.setCurrentItem(clickedCategory -1, true);
+            mPreviewsPager.setCurrentItem(clickedCategory, true);
 
             // If there's a category selected, reverse that animation
-            if(mCurrentCategoryView != null)
-                selectCategoryAnimation(mCurrentCategoryView, true);
+            if(mSelectedCategoryView != null)
+                selectCategoryAnimation(mSelectedCategoryView, true);
 
             // Execute the selection animation for a category icon
             selectCategoryAnimation(view, false);
@@ -350,7 +359,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     private int getClickedCategoryIndex(int resourceId){
         // Get the resource name related to the specified resourceId
         String viewResourceName = getResources().getResourceEntryName(resourceId);
-        return Integer.valueOf(viewResourceName.substring(9));
+        return Integer.valueOf(viewResourceName.substring(9)) - 1;
     }
 
     private boolean isAnimationAllowed(){
@@ -382,7 +391,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         selectionAnimation.start();
 
         // Set the currently selected category icon, we'll be able to reverse it's animation later on
-        mCurrentCategoryView = isReversed ? null : categoryView;
+        mSelectedCategoryView = isReversed ? null : categoryView;
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

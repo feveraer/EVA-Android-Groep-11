@@ -9,7 +9,7 @@ import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.data.remote.TaskStatus;
+import com.groep11.eva_app.util.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
 import com.groep11.eva_app.utils.PollingCheck;
 
@@ -43,7 +43,7 @@ public class TestUtilities extends AndroidTestCase {
         challengeValues.put(ChallengeEntry.COLUMN_TITLE, title);
         challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description");
         challengeValues.put(ChallengeEntry.COLUMN_DIFFICULTY, 2);
-        challengeValues.put(ChallengeEntry.COLUMN_STATUS, TaskStatus.CHOSEN.ordinal()); // true
+        challengeValues.put(ChallengeEntry.COLUMN_STATUS, TaskStatus.CHOSEN.value); // true
         challengeValues.put(ChallengeEntry.COLUMN_CATEGORY, category);
         challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 33442);
         challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
