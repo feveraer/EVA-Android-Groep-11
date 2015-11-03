@@ -6,218 +6,293 @@
     android:orientation="vertical"
     tools:context="com.groep11.eva_app.ui.fragment.CategoryFragment">
 
-    <TextView
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/category.prompt" />
+    <!--<TextView-->
+        <!--style="@style/Base.TextAppearance.AppCompat.Title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/category.prompt" />-->
 
-    <!-- First category stuff below -->
+    <!--&lt;!&ndash; First category stuff below &ndash;&gt;-->
 
-    <Button
-        android:id="@+id/category_button_one"
+    <!--<Button-->
+        <!--android:id="@+id/category_button_one"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/category.one" />-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/category_one_preview"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/category_one_challenge_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/category_one_challenge_descr"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/category_one_confirm"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/category.confirm" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/category_one_cancel"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/category.cancel" />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--&lt;!&ndash; Second category stuff below &ndash;&gt;-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@android:color/darker_gray" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/category_button_two"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/category.two" />-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/category_two_preview"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/category_two_challenge_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/category_two_challenge_descr"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/category_two_confirm"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/category.confirm" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/category_two_cancel"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/category.cancel" />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--&lt;!&ndash; Third category stuff below &ndash;&gt;-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@android:color/darker_gray" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/category_button_three"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/category.three" />-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/category_three_preview"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/category_three_challenge_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/category_three_challenge_descr"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/category_three_confirm"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/category.confirm" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/category_three_cancel"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/category.cancel" />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--&lt;!&ndash; END &ndash;&gt;-->
+
+    <!--<Button-->
+        <!--android:id="@+id/category_button_next"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:text="Next (dev)" />-->
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/challenge_preview_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/category.one" />
+        android:layout_height="200dp" />
 
-    <LinearLayout
-        android:id="@+id/category_one_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+    <!--<FrameLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/challenge_preview_container">-->
 
-        <TextView
-            android:id="@+id/category_one_challenge_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--&lt;!&ndash;<fragment android:name="com.groep11.eva_app.ui.fragment.ShowChallengeFragment"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/headlines_fragment"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content" />&ndash;&gt;-->
 
-        <TextView
-            android:id="@+id/category_one_challenge_descr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/category_one_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category.confirm" />
-
-            <Button
-                android:id="@+id/category_one_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category.cancel" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- Second category stuff below -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-
-    <Button
-        android:id="@+id/category_button_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/category.two" />
-
-    <LinearLayout
-        android:id="@+id/category_two_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/category_two_challenge_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/category_two_challenge_descr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/category_two_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category.confirm" />
-
-            <Button
-                android:id="@+id/category_two_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category.cancel" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- Third category stuff below -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-
-    <Button
-        android:id="@+id/category_button_three"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/category.three" />
-
-    <LinearLayout
-        android:id="@+id/category_three_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/category_three_challenge_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/category_three_challenge_descr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/category_three_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category.confirm" />
-
-            <Button
-                android:id="@+id/category_three_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category.cancel" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- END -->
-
-    <Button
-        android:id="@+id/category_button_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Next (dev)" />
+    <!--</FrameLayout>-->
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:id="@+id/categories_container">
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:id="@+id/spacing_outer_left">
         </View>
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/category_1"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:src="@drawable/category_apple"
-            android:contentDescription="@string/category.icon.description" />
+            android:id="@+id/category_1">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/category_apple"
+                android:contentDescription="@string/category.icon.description"
+                android:id="@+id/category_icon_1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/category.title.default"
+                android:id="@+id/category_title_1"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:id="@+id/spacing_middle_left">
         </View>
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/category_2"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:src="@drawable/category_milk"
-            android:contentDescription="@string/category.icon.description" />
+            android:id="@+id/category_2">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/category_milk"
+                android:contentDescription="@string/category.icon.description"
+                android:id="@+id/category_icon_2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/category.title.default"
+                android:id="@+id/category_title_2"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:id="@+id/spacing_middle_right">
         </View>
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/category_3"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:src="@drawable/category_cooking"
-            android:contentDescription="@string/category.icon.description" />
+            android:id="@+id/category_3">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/category_cooking"
+                android:contentDescription="@string/category.icon.description"
+                android:id="@+id/category_icon_3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/category.title.default"
+                android:id="@+id/category_title_3"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:id="@+id/spacing_outer_right">
         </View>
 
     </LinearLayout>
