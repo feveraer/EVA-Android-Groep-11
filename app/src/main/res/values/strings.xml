@@ -36,7 +36,7 @@
     <string name="category.one">Category 1 (Default)</string>
     <string name="category.two">Category 2 (Default)</string>
     <string name="category.three">Category 3 (Default)</string>
-    <string name="category.confirm">Bevestig</string>
+    <string name="category.confirm">Opslaan van de keuze</string>
     <string name="category.cancel">Annuleer</string>
     <string name="category.icon.description">Icon that represents the category</string>
     <string name="category.title.default">Category</string>

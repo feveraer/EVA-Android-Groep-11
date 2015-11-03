@@ -191,7 +191,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="2"
         android:id="@+id/categories_container">
 
@@ -210,8 +210,8 @@
             android:id="@+id/category_1">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/category_apple"
                 android:contentDescription="@string/category.icon.description"
@@ -241,8 +241,8 @@
             android:id="@+id/category_2">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/category_milk"
                 android:contentDescription="@string/category.icon.description"
@@ -272,8 +272,8 @@
             android:id="@+id/category_3">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/category_cooking"
                 android:contentDescription="@string/category.icon.description"
@@ -296,5 +296,12 @@
         </View>
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category.confirm"
+        android:id="@+id/category_button_save"
+        style="@style/CategorySaveButton"/>
 
 </LinearLayout>
