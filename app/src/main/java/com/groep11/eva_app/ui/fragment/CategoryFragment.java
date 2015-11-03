@@ -3,6 +3,7 @@ package com.groep11.eva_app.ui.fragment;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
@@ -198,6 +199,19 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
             updateChallengeStatus(leftoverIds, TaskStatus.NONE.value);
 
         mCurrentIds.clear();
+
+        // Create new progress & challenge fragment
+        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
+        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        // Replace Category fragment with Progress & Challenge fragment
+        transaction.remove(getFragmentManager().findFragmentByTag(CategoryFragment.TAG));
+        transaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
+        transaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
+
+        transaction.commit();
     }
 
     private void updateChallengeStatus(Long id, int status) {

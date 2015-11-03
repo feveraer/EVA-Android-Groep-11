@@ -11,6 +11,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +116,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         challengeDetailsFragment.setArguments(arguments);
 
         // Get the activity's fragment manager (important for categoryFragment with the viewpager!)
-        FragmentManager fragmentManager = this.getActivity().getFragmentManager();
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
@@ -126,12 +127,12 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
         if(categoryFragment != null) {
             // If category fragment is on the backstack, replace it with challengeDetails
-            transaction.replace(R.id.fragment_container, challengeDetailsFragment, challengeDetailsFragment.TAG);
+            transaction.replace(R.id.fragment_container, challengeDetailsFragment, TAG);
         } else {
             // Category fragment is not on the backstack, so we'll replace Progress & Challenge with challengeDetails
             transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
             transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
-            transaction.add(R.id.fragment_container, challengeDetailsFragment, challengeDetailsFragment.TAG);
+            transaction.add(R.id.fragment_container, challengeDetailsFragment, TAG);
         }
 
         // Adds challengeFragment to backStack
