@@ -361,7 +361,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Set values for translation and scaling depending on isReversed
         float translateValue = isReversed ? 250 : -250;
-        float scaleValue = isReversed ? 1.0f : 1.35f;
+        float scaleValue = isReversed ? 1.0f : 1.30f;
 
         // Create animators for the above values
         ObjectAnimator animateTranslateY = ObjectAnimator.ofFloat(categoryView, "y", currentY + translateValue);
