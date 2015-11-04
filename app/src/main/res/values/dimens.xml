@@ -16,6 +16,7 @@
     <dimen name="spacing_normal">14dp</dimen>
     <dimen name="spacing_small">10dp</dimen>
     <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_none">0dp</dimen>
 
     <!-- CircularImageView sizes -->
     <dimen name="circleview_radius_tall">140dp</dimen>

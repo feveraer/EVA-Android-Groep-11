@@ -8,7 +8,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.groep11.eva_app.R;
 import com.plattysoft.leonids.ParticleSystem;
-import com.plattysoft.leonids.modifiers.AccelerationModifier;
 import com.plattysoft.leonids.modifiers.ScaleModifier;
 
 import butterknife.Bind;
@@ -40,11 +39,16 @@ public class ShowProgressFragment extends Fragment {
     private boolean isFragmentRestoration = false;
 
     @Bind(R.id.image_progress)
-    ImageView progressImage;
+    ImageView mProgressImage;
     @Bind(R.id.emitter_anchor)
-    ImageView emitterAnchor;
-    @Bind(R.id.text_progress)
-    TextView progressText;
+    ImageView mEmitterAnchor;
+    @Bind(R.id.progress_bar)
+    RoundCornerProgressBar mProgressBar;
+    @Bind(R.id.progress_counter)
+    TextView mProgressCounterView;
+
+//    @Bind(R.id.text_progress)
+//    TextView progressText;
 
     public ShowProgressFragment() {
         // Required empty public constructor
@@ -81,20 +85,15 @@ public class ShowProgressFragment extends Fragment {
         //Find our values in the sharedPreferences
         SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         progressCounter = prefs.getInt("progressCounter", 0);
+        updateProgressBar();
         isFragmentRestoration = prefs.getBoolean("isFragmentRestoration", false);
-
-        //String.format needed, setText with an integer argument looks for a resource
-
-        progressText.setText(progressCounter == 21 ?
-                        getResources().getString(R.string.progress_completion_final) :
-                        String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
 
         //Only show the full animation when the user has some progress and he's not returning from another fragment
         if(progressCounter == 0 || isFragmentRestoration) {
-            progressImage.setBackground(getLastAnimationFrame(this.getActivity()));
+            mProgressImage.setBackground(getLastAnimationFrame(this.getActivity()));
         } else {
             AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), true);
-            progressImage.setBackground(progressAnimation);
+            mProgressImage.setBackground(progressAnimation);
             progressAnimation.start();
         }
 
@@ -116,23 +115,27 @@ public class ShowProgressFragment extends Fragment {
 
     public void clearProgression(){
         progressCounter = 0;
-        progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
-        progressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        mProgressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        updateProgressBar();
     }
 
     public void increaseProgress(){
         if(progressCounter < 21) {
             progressCounter++;
-            progressText.setText(progressCounter == 21 ?
-                    getResources().getString(R.string.progress_completion_final) :
-                    String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
+            updateProgressBar();
         }
 
         emitParticles(this.getActivity().getApplicationContext());
 
         AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), false);
-        progressImage.setBackground(progressAnimation);
+        mProgressImage.setBackground(progressAnimation);
         progressAnimation.start();
+    }
+
+    // Update progress bar's text and visuals to represent the current progressCounter
+    private void updateProgressBar(){
+        mProgressBar.setProgress(progressCounter);
+        mProgressCounterView.setText(String.valueOf(progressCounter));
     }
 
     @OnClick(R.id.fragment_show_progress_container)
@@ -196,7 +199,7 @@ public class ShowProgressFragment extends Fragment {
                 .setFadeOut(PARTICLE_EMITTER_LIFETIME)
                 // Scale the images while flying from 20% to 40% of their original size within their lifetime
                 .addModifier(new ScaleModifier(0.2f, 0.4f, 0, PARTICLE_EMITTER_LIFETIME))
-                .oneShot(emitterAnchor, PARTICLE_EMITTER_AMOUNT);
+                .oneShot(mEmitterAnchor, PARTICLE_EMITTER_AMOUNT);
     }
 
 }

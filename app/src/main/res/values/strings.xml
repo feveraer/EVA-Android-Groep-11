@@ -30,6 +30,8 @@
     <!--Progress Strings-->
     <string name="progress.image.description">animation that shows the progress</string>
     <string name="progress.completion.final">Alle voltooid!</string>
+    <string name="progress.counter.start">0</string>
+    <string name="progress.counter.max">21</string>
 
     <!--Category Strings-->
     <string name="category.prompt">Kies een categorie voor vandaag</string>
