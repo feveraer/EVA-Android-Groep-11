@@ -27,7 +27,7 @@
             android:layout_width="@dimen/circleview_radius_tall"
             android:layout_height="@dimen/circleview_radius_tall"
             app:civ_border_width="@dimen/circleview_border"
-            app:civ_border_color="@color/deep_orange_500"
+            app:civ_border_color="@color/light_green_500"
             style="@style/DetailsCircleView" />
 
         <LinearLayout
