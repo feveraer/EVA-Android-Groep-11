@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -47,6 +48,7 @@ import butterknife.OnClick;
 public class CategoryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = "CATEGORY";
+    private static final String CATEGORY_PREFIX = "category_";
 
     private Uri mUri;
 
@@ -192,6 +194,17 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     private void setCategoryView(int categoryIndex, String categoryTitle){
         // Set the category title under the icon
         mCategoryTitles.get(categoryIndex).setText(categoryTitle);
+        mCategoryIcons.get(categoryIndex).setImageResource(getCategoryIconForTitle(categoryTitle));
+    }
+
+    private int getCategoryIconForTitle(String categoryTitle){
+        int resourceId =  getResources().getIdentifier(
+                CATEGORY_PREFIX + categoryTitle.toLowerCase(),
+                "drawable",
+                getActivity().getPackageName());
+
+        Log.i(TAG, "id found " + resourceId);
+        return  resourceId;
     }
 
     @Override
@@ -290,11 +303,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void selectCategoryAnimation(View categoryView, boolean isReversed){
-        Log.i(TAG, "starting animation");
         // Get the current Y position of the categoryView, to use it as start position
         float currentY = categoryView.getY();
 
-        Log.i(TAG, "y: " + currentY);
         // Set values for translation and scaling depending on isReversed
         float translateValue = isReversed ? 250 : -250;
         float scaleValue = isReversed ? 1.0f : 1.30f;
