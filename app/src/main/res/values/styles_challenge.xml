@@ -3,4 +3,7 @@
     <style name="ChallengeCircleView">
         <item name="android:src">@drawable/sandwich</item>
     </style>
+    <style name="ChallengeContainer">
+
+    </style>
 </resources>

@@ -1,36 +1,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_show_progress_container"
-    android:layout_width="300dp"
-    android:layout_height="150dp"
-    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="com.groep11.eva_app.ui.fragment.ShowProgressFragment">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
         <ImageView
             android:id="@+id/image_progress"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:background="@drawable/tree_frame_01"
-            android:contentDescription="@string/progress.image.description" />
+            style="@style/ProgressTree"/>
 
         <ImageView
             android:id="@+id/emitter_anchor"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="68dp"
+            android:layout_marginLeft="175dp"
             android:layout_marginTop="80dp" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/text_progress"
-        style="@style/Base.TextAppearance.AppCompat.Headline"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="10dp" />
+        style="@style/ProgressBarContainer">
 
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/progressbar_height"
+            app:rcProgressColor="@color/light_green_700"
+            app:rcBackgroundColor="@color/grey_500"
+            app:rcBackgroundPadding="@dimen/spacing_none"
+            app:rcMax="@string/progress.counter.max"
+            app:rcProgress="@string/progress.counter.start"
+            app:rcRadius="@dimen/spacing_none" />
+
+        <TextView
+            android:id="@+id/progress_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ProgressCounter" />
+    </FrameLayout>
 </LinearLayout>
