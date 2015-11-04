@@ -27,15 +27,25 @@
             android:layout_width="@dimen/circleview_radius_tall"
             android:layout_height="@dimen/circleview_radius_tall"
             app:civ_border_width="@dimen/circleview_border"
-            app:civ_border_color="@color/light_green_500"
+            app:civ_border_color="@color/light_green_700"
             style="@style/DetailsCircleView" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
+            android:gravity="left"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:paddingTop="@dimen/spacing_tiny">
+
+            <ImageView
+                android:paddingLeft="80dp"
+                android:layout_width="120dp"
+                android:layout_height="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:layerType="software"
+                android:src="@drawable/dotted" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -58,14 +68,23 @@
                 android:id="@+id/image_leaf_3"
                 android:contentDescription="@string/details.leaf.description" />
 
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:layout_width="40dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layerType="software"
+                android:src="@drawable/dotted" />
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/text_challenge_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/challenge.description.long"
-            style="@style/DetailsContentText" />
+            style="@style/DetailsContentText"
+            android:background="@color/grey_300"/>
 
     </LinearLayout>
 </ScrollView>
