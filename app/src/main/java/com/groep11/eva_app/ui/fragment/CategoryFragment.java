@@ -181,7 +181,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                         // Change our save button's text
                         updateSaveButtonText();
                     }
-                }, 500);
+                }, 1000);
 
             } else {
                 Log.e(TAG, "We need 3 challenges!");
@@ -211,14 +211,16 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
         mCurrentIds.clear();
 
+        FragmentManager fragmentManager = this.getActivity().getFragmentManager();
+
         // Create new progress & challenge fragment
         ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
         ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         // Replace Category fragment with Progress & Challenge fragment
-        transaction.remove(getFragmentManager().findFragmentByTag(CategoryFragment.TAG));
+        transaction.remove(fragmentManager.findFragmentByTag(CategoryFragment.TAG));
         transaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
         transaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
 

@@ -9,10 +9,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="200dp">
         <ImageView
             android:id="@+id/image_progress"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             style="@style/ProgressTree"/>
 
@@ -21,7 +21,15 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="175dp"
-            android:layout_marginTop="80dp" />
+            android:layout_marginTop="110dp" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:id="@+id/next_day_demo"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="#00ffffff" />
     </RelativeLayout>
 
     <FrameLayout

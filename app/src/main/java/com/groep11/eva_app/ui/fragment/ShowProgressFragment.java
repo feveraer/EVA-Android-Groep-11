@@ -1,7 +1,10 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
@@ -138,6 +141,15 @@ public class ShowProgressFragment extends Fragment {
     private void updateProgressBar(){
         mProgressBar.setProgress(progressCounter);
         mProgressCounterView.setText(String.valueOf(progressCounter));
+    }
+
+    //This will restart our application do this after completing a challenge in the demo TODO: remove after demo
+    @OnClick(R.id.next_day_demo)
+    public void nextDay(){
+        Intent i = getActivity().getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage( getActivity().getBaseContext().getPackageName() );
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 
     @OnClick(R.id.fragment_show_progress_container)
