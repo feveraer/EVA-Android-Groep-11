@@ -228,7 +228,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Create new progress & challenge fragment
         ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
-        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
+        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance(false);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -381,9 +381,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
             if(mCurrentIds != null){
                 long id = mCurrentIds.get(position);
                 Uri uri = EvaContract.ChallengeEntry.buildChallengeUri(id);
-                return ShowChallengeFragment.newInstance(uri);
+                return ShowChallengeFragment.newInstance(uri, true);
             } else {
-                return ShowChallengeFragment.newInstance();
+                return ShowChallengeFragment.newInstance(true);
             }
         }
 

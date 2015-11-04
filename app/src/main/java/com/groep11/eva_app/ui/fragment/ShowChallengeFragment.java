@@ -36,6 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String URI = "URI";
+    public static final String PREVIEW = "PREVIEW";
     public static final String TAG = "SHOW_CHALLENGE";
     public static final String BUNDLE_CHALLENGE_ID = "challenge_id";
     private static final String CATEGORY_PREFIX = "category_";
@@ -62,6 +63,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
     private String category;
+    private boolean canComplete;
 
     //Field binding using Butterknife
     @Bind(R.id.text_challenge_title)
@@ -89,15 +91,23 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         // Required empty public constructor
     }
 
-    public static ShowChallengeFragment newInstance(){
+    public static ShowChallengeFragment newInstance(boolean isPreview){
+        ShowChallengeFragment fragment = new ShowChallengeFragment();
+        if (isPreview) {
+            Bundle args = new Bundle();
+            args.putBoolean(PREVIEW, isPreview);
+            fragment.setArguments(args);
+        }
         return new ShowChallengeFragment();
     }
 
-    public static ShowChallengeFragment newInstance(Uri uri){
+    public static ShowChallengeFragment newInstance(Uri uri, boolean isPreview){
         ShowChallengeFragment fragment = new ShowChallengeFragment();
-
         Bundle args = new Bundle();
         args.putParcelable(URI, uri);
+        if (isPreview) {
+            args.putBoolean(PREVIEW, isPreview);
+        }
         fragment.setArguments(args);
 
         return fragment;
@@ -134,6 +144,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         View rootView = inflater.inflate(R.layout.fragment_show_challenge, container, false);
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
+
+        if (arguments != null && arguments.getBoolean(PREVIEW)) {
+            mCompleteChallenge.setVisibility(View.GONE);
+        }
 
         return rootView;
     }
