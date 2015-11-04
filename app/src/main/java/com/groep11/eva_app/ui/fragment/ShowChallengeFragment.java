@@ -1,11 +1,12 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -23,7 +24,6 @@ import android.widget.Toast;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
 import java.util.List;
@@ -76,6 +76,14 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     TextView mDescriptionView;
     @Bind(R.id.circle_challenge_image)
     CircleImageView mCircleImageView;
+    @Bind(R.id.challenge_complete)
+    ImageView mCompleteChallenge;
+
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onComplete();
+    }
 
     public ShowChallengeFragment() {
         // Required empty public constructor
@@ -93,6 +101,22 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity;
+        if (context instanceof Activity) {
+            activity = (Activity) context;
+
+            if (activity instanceof OnItemClickListener) {
+                listener = (OnItemClickListener) activity;
+            } else {
+                throw new ClassCastException(activity.toString() +
+                        " must implement OnItemClickListener");
+            }
+        }
     }
 
     @Override
@@ -157,6 +181,18 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         transaction.commit();
     }
 
+    @OnClick(R.id.challenge_complete)
+    public void onComplete(View view) {
+        //TODO: remove current challenge card
+        //TODO: increment progress
+        // Make sure listener is set.
+        listener = (OnItemClickListener) getActivity();
+
+        if (listener != null) {
+            listener.onComplete();
+        }
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(DETAIL_LOADER, null, this);
@@ -192,7 +228,9 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             //challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
 
             mTitleView.setText(challengeTitle);
-            mDescriptionView.setText(challengeDescription);
+            //mDescriptionView.setText(challengeDescription);
+            //TODO: replace
+            mDescriptionView.setText(R.string.challenge_description_short);
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             // The cursor is empty, so fill the views with their default representations
