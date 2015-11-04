@@ -26,28 +26,13 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Create a transparent color drawable
-        ColorDrawable newColor = new ColorDrawable(getResources().getColor(R.color.white_1000));
-        newColor.setAlpha(256);
-        // Use this transparent color drawable to make our action bar transparent
-        getActionBar().setBackgroundDrawable(newColor);
-
-        Window window = getWindow();
-
-        // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        // finally change the color
-        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initActionBar();
 
-
+        // Hide action bar on categoryFragment
+        getActionBar().hide();
 
         //Add challenge fragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -66,10 +51,31 @@ public class MainActivity extends Activity {
         EvaSyncAdapter.initializeSyncAdapter(this);
     }
 
+    private void initActionBar(){
+        // Create a transparent color drawable
+        ColorDrawable newColor = new ColorDrawable(getResources().getColor(R.color.white_1000));
+        newColor.setAlpha(256);
+
+        // Use this transparent color drawable to make our action bar transparent
+        getActionBar().setBackgroundDrawable(newColor);
+        getActionBar().setDisplayShowTitleEnabled(false);
+
+        Window window = getWindow();
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        // getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 
@@ -84,6 +90,7 @@ public class MainActivity extends Activity {
         switch (id){
             case android.R.id.home:
                 getFragmentManager().popBackStack();
+                getActionBar().hide();
                 return true;
             case R.id.action_settings:
                 return true;

@@ -75,6 +75,9 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
 
+        // Show the action bar for navigation
+        getActivity().getActionBar().show();
+
         return rootView;
     }
 
