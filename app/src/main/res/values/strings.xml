@@ -41,4 +41,8 @@
     <string name="category.icon.description">Icon that represents the category</string>
     <string name="category.title.default">Category</string>
 
+    <!-- Category Colors -->
+    <string name="color.social">#fffec9</string>
+    <string name="color.dinner">#c9ffdc</string>
+    <string name="color.lunch">#ffc9c9</string>
 </resources>

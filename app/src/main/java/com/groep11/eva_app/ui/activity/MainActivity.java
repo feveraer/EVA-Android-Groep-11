@@ -5,10 +5,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.remote.Category;
@@ -23,8 +26,28 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Create a transparent color drawable
+        ColorDrawable newColor = new ColorDrawable(getResources().getColor(R.color.white_1000));
+        newColor.setAlpha(256);
+        // Use this transparent color drawable to make our action bar transparent
+        getActionBar().setBackgroundDrawable(newColor);
+
+        Window window = getWindow();
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
         //Add challenge fragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

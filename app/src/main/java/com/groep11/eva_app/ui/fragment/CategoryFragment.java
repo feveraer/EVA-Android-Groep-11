@@ -1,6 +1,7 @@
 package com.groep11.eva_app.ui.fragment;
 
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -11,11 +12,14 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,6 +84,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     // Necessary to check if the current animation is still running,
     // prevents buggy animations :)
     private AnimatorSet selectionAnimation;
+    private String mBackgroundColor = "#ffffff";
 
     private View mSelectedContainer;
     private List<Long> mCurrentIds = new LinkedList<>();
@@ -248,6 +253,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
             // Execute the selection animation for a category icon
             selectCategoryAnimation(view, false);
+
+            // TODO: enable if we want our background color animating into our currently selected category color
+            //updateBackgroundColor();
         }
     }
 
@@ -289,6 +297,47 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Set the currently selected category icon, we'll be able to reverse it's animation later on
         mSelectedContainer = isReversed ? null : categoryView;
+    }
+
+    private void updateBackgroundColor(){
+        // Get the currently selected color
+        String newColor = getCurrentCategoryColor();
+
+        // Find the fragment container to change it's background color
+        View background = this.getActivity().findViewById(R.id.fragment_container);
+
+        // Create an animator which will transition from one color to another
+        ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(background,
+                "backgroundColor",
+                new ArgbEvaluator(),
+                Color.parseColor(mBackgroundColor),
+                Color.parseColor(newColor));
+
+        // Set the duration and start the animation
+        backgroundColorAnimator.setDuration(1000);
+        backgroundColorAnimator.start();
+
+        // Hold the new color in our current background color
+        mBackgroundColor = newColor;
+
+//        // Create a transparent color drawable
+//        ColorDrawable transparentColor = new ColorDrawable(Color.parseColor(newColor));
+//        transparentColor.setAlpha(120);
+//        // Use this transparent color drawable to make our action bar transparent
+//        this.getActivity().getActionBar().setBackgroundDrawable(transparentColor);
+    }
+
+    private String getCurrentCategoryColor(){
+        int selectedCategoryIndex = getClickedCategoryIndex(mSelectedContainer.getId());
+        String categoryName = "color." + mCategoryTitles.get(selectedCategoryIndex).getText().toString().toLowerCase();
+        int categoryColorId =  getResources().getIdentifier(categoryName , "string", this.getActivity().getPackageName());
+
+        try{
+            getResources().getString(categoryColorId);
+        } catch (Exception e) {
+            return "#ffffff";
+        }
+        return getResources().getString(categoryColorId);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
