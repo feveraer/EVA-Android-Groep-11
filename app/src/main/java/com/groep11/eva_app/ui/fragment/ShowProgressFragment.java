@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.util.DateFaker;
 import com.plattysoft.leonids.ParticleSystem;
 import com.plattysoft.leonids.modifiers.ScaleModifier;
 
@@ -47,8 +48,7 @@ public class ShowProgressFragment extends Fragment {
     @Bind(R.id.progress_counter)
     TextView mProgressCounterView;
 
-//    @Bind(R.id.text_progress)
-//    TextView progressText;
+    DateFaker dateFaker;
 
     public ShowProgressFragment() {
         // Required empty public constructor
@@ -64,6 +64,7 @@ public class ShowProgressFragment extends Fragment {
         editor.putBoolean("isFragmentRestoration", false);
         editor.apply();
 
+        dateFaker = new DateFaker(this.getActivity());
         super.onCreate(savedInstanceState);
     }
 
@@ -123,6 +124,7 @@ public class ShowProgressFragment extends Fragment {
         if(progressCounter < 21) {
             progressCounter++;
             updateProgressBar();
+            dateFaker.nextDay();
         }
 
         emitParticles(this.getActivity().getApplicationContext());
