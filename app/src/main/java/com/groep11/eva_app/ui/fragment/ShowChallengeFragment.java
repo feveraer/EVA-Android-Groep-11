@@ -30,12 +30,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String URI = "URI";
     public static final String TAG = "SHOW_CHALLENGE";
     public static final String BUNDLE_CHALLENGE_ID = "challenge_id";
+    private static final String CATEGORY_PREFIX = "category_";
 
     private Uri mUri;
 
@@ -46,6 +48,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             EvaContract.ChallengeEntry.COLUMN_TITLE,
             EvaContract.ChallengeEntry.COLUMN_DESCRIPTION,
             EvaContract.ChallengeEntry.COLUMN_DIFFICULTY,
+            EvaContract.ChallengeEntry.COLUMN_CATEGORY
     };
 
     // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
@@ -54,8 +57,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     public static final int COL_CHALLENGE_TITLE = 1;
     public static final int COL_CHALLENGE_DESCRIPTION = 2;
     public static final int COL_CHALLENGE_DIFFICULTY = 3;
+    public static final int COL_CHALLENGE_CATEGORY = 4;
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
+    private String category;
 
     //Field binding using Butterknife
     @Bind(R.id.text_challenge_title)
@@ -66,6 +71,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     List<ImageView> mDifficultyView;
     @Bind(R.id.text_challenge_description)
     TextView mDescriptionView;
+    @Bind(R.id.circle_challenge_image)
+    CircleImageView mCircleImageView;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
@@ -102,6 +109,13 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
         ButterKnife.bind(this, rootView);
 
         return rootView;
+    }
+
+    private void setCategoryIcon() {
+        mCircleImageView.setImageResource(getResources().getIdentifier(
+                CATEGORY_PREFIX + category,
+                "drawable",
+                getActivity().getPackageName()));
     }
 
     @OnClick(R.id.card_challenge)
@@ -169,6 +183,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
+            category = data.getString(COL_CHALLENGE_CATEGORY).toLowerCase();
+            setCategoryIcon();
 
             //challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
 
