@@ -178,7 +178,6 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void setCategoryView(int categoryIndex, String categoryTitle){
-        // TODO: .get(categoryIndex).setBackgroundResource(...);
         // Set the category title under the icon
         mCategoryTitles.get(categoryIndex).setText(categoryTitle);
     }
