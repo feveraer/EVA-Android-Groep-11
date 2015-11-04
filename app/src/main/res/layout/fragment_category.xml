@@ -11,7 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/challenge_preview_container"
         android:layout_width="wrap_content"
-        android:layout_height="200dp" />
+        android:layout_height="250dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -127,6 +127,13 @@
         android:layout_height="wrap_content"
         android:text="@string/category.confirm"
         android:id="@+id/category_button_save"
-        style="@style/CategorySaveButton"/>
+        android:stateListAnimator="@null"
+        style="@style/CategorySaveButton"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/light_green_400"
+        android:paddingRight="@dimen/spacing_large"
+        android:paddingLeft="@dimen/spacing_large"
+        android:textColor="@color/white_1000"
+        android:textAllCaps="false"/>
 
 </LinearLayout>

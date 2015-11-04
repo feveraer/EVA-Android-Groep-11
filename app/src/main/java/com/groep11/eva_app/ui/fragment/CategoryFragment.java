@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -76,6 +77,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 })
     List<LinearLayout> mCategoryContainers;
+
+    @Bind({R.id.category_button_save})
+    Button mSaveButton;
 
     @Bind(R.id.challenge_preview_container)
     ToggleSwipeViewPager mPreviewsPager;
@@ -173,6 +177,9 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                     public void run() {
                         selectCategoryAnimation(mSelectedContainer, false);
                         mPreviewsPager.setCurrentItem(getClickedCategoryIndex(mSelectedContainer.getId()));
+
+                        // Change our save button's text
+                        updateSaveButtonText();
                     }
                 }, 500);
 
@@ -218,6 +225,13 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         transaction.commit();
     }
 
+    private void updateSaveButtonText(){
+        int selectedIndex = getClickedCategoryIndex(mSelectedContainer.getId());
+        String newText = String.format("Ga een %s challenge aan!", mCategoryTitles.get(selectedIndex).getText());
+
+        mSaveButton.setText(newText);
+    }
+
     private void updateChallengeStatus(Long id, int status) {
         ContentValues updateValues = new ContentValues();
 
@@ -231,7 +245,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
         );
 
         //TODO: remove for demo!
-        Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick({R.id.category_1, R.id.category_2, R.id.category_3})
@@ -253,6 +267,8 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
             // Execute the selection animation for a category icon
             selectCategoryAnimation(view, false);
 
+            // Change our save button's text
+            updateSaveButtonText();
             // TODO: enable if we want our background color animating into our currently selected category color
             //updateBackgroundColor();
         }
