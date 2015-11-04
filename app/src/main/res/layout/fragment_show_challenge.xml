@@ -3,19 +3,20 @@
     android:id="@+id/fragment_show_challenge_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="8dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="24dp"
+    android:background="@color/grey_300"
     tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeFragment">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_challenge"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         card_view:contentPadding="0dp"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardCornerRadius="0dp"
         card_view:cardElevation="0dp">
 
         <LinearLayout
@@ -26,7 +27,6 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_green_200"
                 android:id="@+id/challenge_card_top">
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -34,8 +34,7 @@
                     android:layout_width="@dimen/circleview_radius_small"
                     android:layout_height="@dimen/circleview_radius_small"
                     android:layout_margin="8dp"
-                    app:civ_border_width="3dp"
-                    app:civ_border_color="@color/light_green_200"
+                    app:civ_border_width="0dp"
                     style="@style/ChallengeCircleView" />
 
                 <TextView
@@ -43,7 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@color/light_green_700"
                     android:text="@string/challenge.title"
                     android:layout_toRightOf="@+id/circle_challenge_image" />
 
