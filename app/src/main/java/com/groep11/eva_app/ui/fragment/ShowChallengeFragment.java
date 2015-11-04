@@ -118,6 +118,10 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
                 getActivity().getPackageName()));
     }
 
+    private void setCategoryColor() {
+
+    }
+
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
 

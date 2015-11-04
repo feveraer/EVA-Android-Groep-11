@@ -57,4 +57,9 @@
     <color name="light_green_A400">#76FF03</color>
     <color name="light_green_A700">#64DD17</color>
 
+    <!-- Category colors -->
+    <color name="category_breakfast">#C9FFDC</color>
+    <color name="category_social">#FFFEC9</color>
+    <color name="category_lunch">#FFC9C9</color>
+
 </resources>
