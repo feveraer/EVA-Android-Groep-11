@@ -183,12 +183,21 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @OnClick(R.id.challenge_complete)
     public void onComplete(View view) {
-        //TODO: remove current challenge card
-        //TODO: increment progress
+        // Remove current challenge card
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out,
+                android.R.animator.fade_in, android.R.animator.fade_out);
+
+        transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
+        transaction.commit();
+
         // Make sure listener is set.
         listener = (OnItemClickListener) getActivity();
 
         if (listener != null) {
+            // Increment progress
             listener.onComplete();
         }
     }
