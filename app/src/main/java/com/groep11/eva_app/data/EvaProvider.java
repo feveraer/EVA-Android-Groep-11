@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.util.DateFaker;
 import com.groep11.eva_app.util.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
 
@@ -125,7 +126,7 @@ public class EvaProvider extends ContentProvider {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? " +
                 "AND " + ChallengeEntry.COLUMN_STATUS + " != ? ";
         String[] selectionArgs = new String[]{
-                DateConversion.formatDate(new Date()),
+                DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate()),
                 "" + TaskStatus.NONE.value
         };
         return getChallenge(projection, selection, selectionArgs, sortOrder);
@@ -140,7 +141,7 @@ public class EvaProvider extends ContentProvider {
      */
     private Cursor getChallengesToday(Uri uri, String[] projection, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
-        String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
+        String[] selectionArgs = new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate())};
         return getChallenge(projection, selection, selectionArgs, sortOrder);
     }
 
@@ -149,7 +150,7 @@ public class EvaProvider extends ContentProvider {
      */
     private Cursor getCurrentCategories(Uri uri, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
-        String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
+        String[] selectionArgs = new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate())};
 
         //Only category column will be returned
         return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, sortOrder);
@@ -255,7 +256,7 @@ public class EvaProvider extends ContentProvider {
 
     // Update challenge status, select challenge of today in certain category
     private String[] buildUpdateSelectionArgs(String[] selectionArgs) {
-        return new String[]{DateConversion.formatDate(new Date()), selectionArgs[0]};
+        return new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate()), selectionArgs[0]};
     }
 
     @Override
