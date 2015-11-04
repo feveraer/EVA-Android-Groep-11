@@ -32,13 +32,13 @@
         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="@dimen/progressbar_height"
             app:rcProgressColor="@color/light_green_700"
             app:rcBackgroundColor="@color/grey_500"
-            app:rcBackgroundPadding="0dp"
+            app:rcBackgroundPadding="@dimen/spacing_none"
             app:rcMax="@string/progress.counter.max"
             app:rcProgress="@string/progress.counter.start"
-            app:rcRadius="0dp" />
+            app:rcRadius="@dimen/spacing_none" />
 
         <TextView
             android:id="@+id/progress_counter"

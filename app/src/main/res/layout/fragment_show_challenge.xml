@@ -3,10 +3,6 @@
     android:id="@+id/fragment_show_challenge_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="8dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="24dp"
     android:background="@color/grey_300"
     tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeFragment">
 
@@ -14,7 +10,7 @@
         android:id="@+id/card_challenge"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         card_view:contentPadding="0dp"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="0dp">

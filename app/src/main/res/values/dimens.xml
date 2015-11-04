@@ -24,4 +24,7 @@
     <dimen name="circleview_radius_small">60dp</dimen>
     <dimen name="circleview_radius_tiny">40dp</dimen>
     <dimen name="circleview_border">3dp</dimen>
+
+    <!-- Progress bar sizes -->
+    <dimen name="progressbar_height">55dp</dimen>
 </resources>
