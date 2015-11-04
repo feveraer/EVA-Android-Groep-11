@@ -7,7 +7,7 @@
     </style>
 
     <style name="ProgressBarContainer">
-        <item name="android:paddingTop">@dimen/spacing_large</item>
+        <item name="android:paddingTop">@dimen/spacing_none</item>
         <item name="android:paddingBottom">@dimen/spacing_none</item>
     </style>
 
