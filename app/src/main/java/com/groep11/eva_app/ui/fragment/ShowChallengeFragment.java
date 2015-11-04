@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     TextView mTitleView;
     @Bind(R.id.fragment_show_challenge_container)
     View mContainer;
+    @Bind(R.id.challenge_card_top)
+    RelativeLayout mChallengeCardTop;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
     List<ImageView> mDifficultyView;
     @Bind(R.id.text_challenge_description)
