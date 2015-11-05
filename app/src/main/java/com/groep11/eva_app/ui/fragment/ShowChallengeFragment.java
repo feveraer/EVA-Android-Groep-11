@@ -251,9 +251,8 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             //challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
 
             mTitleView.setText(challengeTitle);
-            //mDescriptionView.setText(challengeDescription);
-            //TODO: replace
-            mDescriptionView.setText(R.string.challenge_description_short);
+            mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
+                    challengeDescription.indexOf(" ", 30)+1) + "...");
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             // The cursor is empty, so fill the views with their default representations
