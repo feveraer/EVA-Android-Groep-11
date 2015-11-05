@@ -22,7 +22,7 @@ import com.groep11.eva_app.ui.fragment.CategoryFragment;
 import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ShowChallengeFragment.OnItemClickListener{
 
     public static final String TAG = "MAIN_ACTIVITY";
 
@@ -124,5 +124,17 @@ public class MainActivity extends Activity {
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onComplete() {
+        ShowChallengeFragment challengeFragment = (ShowChallengeFragment) getFragmentManager()
+                .findFragmentByTag(ShowChallengeFragment.TAG);
+        ShowProgressFragment progressFragment = (ShowProgressFragment) getFragmentManager()
+                .findFragmentByTag(ShowProgressFragment.TAG);
+        if (challengeFragment != null && progressFragment != null) {
+            progressFragment.increaseProgress();
+        }
     }
 }
