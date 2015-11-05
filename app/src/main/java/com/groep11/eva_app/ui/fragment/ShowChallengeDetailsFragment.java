@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,7 +123,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             setCategoryIcon();
 
             mTitleView.setText(challengeTitle);
-            mDescriptionView.setText(challengeDescription);
+            mDescriptionView.setText(Html.fromHtml(challengeDescription));
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
