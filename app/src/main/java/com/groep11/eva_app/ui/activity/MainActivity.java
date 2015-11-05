@@ -21,6 +21,7 @@ import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.fragment.CategoryFragment;
 import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
+import com.groep11.eva_app.util.DateFaker;
 
 public class MainActivity extends Activity implements ShowChallengeFragment.OnItemClickListener{
 
@@ -135,6 +136,7 @@ public class MainActivity extends Activity implements ShowChallengeFragment.OnIt
                 .findFragmentByTag(ShowProgressFragment.TAG);
         if (challengeFragment != null && progressFragment != null) {
             progressFragment.increaseProgress();
+            new DateFaker(this).nextDay();
         }
     }
 }
