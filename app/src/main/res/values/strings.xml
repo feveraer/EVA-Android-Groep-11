@@ -47,4 +47,11 @@
     <string name="color.social">#fffec9</string>
     <string name="color.dinner">#c9ffdc</string>
     <string name="color.lunch">#ffc9c9</string>
+
+    <!-- Category demo titles -->
+    <string name="title.breakfast">Ontbijt</string>
+    <string name="title.dinner">Avondeten</string>
+    <string name="title.restaurant">Uit eten</string>
+    <string name="title.snack">Snack</string>
+    <string name="title.social">Sociaal</string>
 </resources>

@@ -37,7 +37,7 @@
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_gravity="bottom"
+                android:layout_gravity="center_horizontal|bottom"
                 android:src="@drawable/category_snack"
                 android:contentDescription="@string/category.icon.description"
                 android:id="@+id/category_icon_1" />
@@ -68,7 +68,7 @@
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_gravity="bottom"
+                android:layout_gravity="center_horizontal|bottom"
                 android:src="@drawable/category_breakfast"
                 android:contentDescription="@string/category.icon.description"
                 android:id="@+id/category_icon_2" />
@@ -99,7 +99,7 @@
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_gravity="bottom"
+                android:layout_gravity="center_horizontal|bottom"
                 android:src="@drawable/category_dinner"
                 android:contentDescription="@string/category.icon.description"
                 android:id="@+id/category_icon_3" />
