@@ -13,14 +13,11 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.support.v13.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,13 +28,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.ui.ToggleSwipeViewPager;
 import com.groep11.eva_app.util.TaskStatus;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,7 +45,8 @@ import butterknife.OnClick;
 public class CategoryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = "CATEGORY";
-    private static final String CATEGORY_PREFIX = "category_";
+    private static final String CATEGORY_ICON_PREFIX = "category_",
+                                CATEGORY_TITLE_PREFIX = "title.";
 
     private Uri mUri;
 
@@ -76,6 +74,8 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Bind({ R.id.category_title_1, R.id.category_title_2, R.id.category_title_3 })
     List<TextView> mCategoryTitles;
+
+    List<String> mDbCategoryTitles = new ArrayList<>();
 
     @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 })
     List<LinearLayout> mCategoryContainers;
@@ -164,7 +164,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
                 mCurrentIds.clear();
                 do {
                     mCurrentIds.add(data.getLong(COL_CHALLENGE_ID));
-                    setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY));
+                    setCategoryView(data.getPosition(), data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
                 } while (data.moveToNext());
 
                 // Create a new pager adapter which will load the challengePreviewFragments with the right URI's
@@ -193,18 +193,38 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void setCategoryView(int categoryIndex, String categoryTitle){
         // Set the category title under the icon
-        mCategoryTitles.get(categoryIndex).setText(categoryTitle);
+        mDbCategoryTitles.add(categoryTitle);
+        mCategoryTitles.get(categoryIndex).setText(getCorrectCategoryTitle(categoryTitle));
         mCategoryIcons.get(categoryIndex).setImageResource(getCategoryIconForTitle(categoryTitle));
     }
 
     private int getCategoryIconForTitle(String categoryTitle){
         int resourceId =  getResources().getIdentifier(
-                CATEGORY_PREFIX + categoryTitle.toLowerCase(),
+                CATEGORY_ICON_PREFIX + categoryTitle,
                 "drawable",
                 getActivity().getPackageName());
 
-        Log.i(TAG, "id found " + resourceId);
+        Log.i(TAG, "Searched for icon with name " + CATEGORY_ICON_PREFIX + categoryTitle + " found " + resourceId);
         return  resourceId;
+    }
+
+    private String getCorrectCategoryTitle(String categoryTitle){
+        int resourceId = getResources().getIdentifier(
+                CATEGORY_TITLE_PREFIX + categoryTitle,
+                "string",
+                getActivity().getPackageName());
+
+        Log.i(TAG, "Searched for title with name " + CATEGORY_TITLE_PREFIX + categoryTitle + " found " + resourceId);
+
+        String correctCategoryTitle;
+
+        try{
+            correctCategoryTitle = getResources().getString(resourceId);
+        } catch (Exception e) {
+            correctCategoryTitle = "Categorie";
+        }
+
+        return correctCategoryTitle;
     }
 
     @Override
@@ -357,7 +377,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     private String getCurrentCategoryColor(){
         int selectedCategoryIndex = getClickedCategoryIndex(mSelectedContainer.getId());
-        String categoryName = "color." + mCategoryTitles.get(selectedCategoryIndex).getText().toString().toLowerCase();
+        String categoryName = "color." + mDbCategoryTitles.get(selectedCategoryIndex);
         int categoryColorId =  getResources().getIdentifier(categoryName , "string", this.getActivity().getPackageName());
 
         try{

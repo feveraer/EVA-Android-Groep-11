@@ -36,7 +36,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
-    private static final String sBaseUrl = "http://172.18.163.215:1337/api/";
+    private static final String sBaseUrl = "http://95.85.59.29:1337/api/";
     private static final String sUserId = "562ba076ce597a91722bab4c";
 
     public EvaSyncAdapter(Context context, boolean autoInitialize) {
