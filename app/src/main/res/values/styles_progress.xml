@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <style name="ProgressTree">
         <item name="android:background">@drawable/tree_frame_01</item>
         <item name="android:contentDescription">@string/progress.image.description</item>

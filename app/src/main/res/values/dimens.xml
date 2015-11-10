@@ -27,9 +27,10 @@
     <dimen name="circleview_border">3dp</dimen>
 
     <!-- ImageView sizes -->
+    <dimen name="image_huge">100dp</dimen>
     <dimen name="image_small">24dp</dimen>
 
-    <!-- Progress bar sizes -->
+    <!-- Progress sizes -->
     <dimen name="progressbar_height">55dp</dimen>
 
     <!-- Dotted line sizes -->
