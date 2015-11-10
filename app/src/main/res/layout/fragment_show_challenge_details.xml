@@ -38,42 +38,40 @@
             android:paddingTop="@dimen/spacing_tiny">
 
             <ImageView
-                android:paddingLeft="80dp"
-                android:layout_width="120dp"
-                android:layout_height="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center"
-                android:layerType="software"
-                android:src="@drawable/dotted" />
+                android:layout_width="@dimen/dotted_left_width"
+                android:layout_height="@dimen/dotted_left_height"
+                android:layout_marginRight="@dimen/spacing_small"
+                android:paddingLeft="@dimen/spacing_gigantic"
+                android:src="@drawable/dotted"
+                style="@style/DetailsDottedLine"/>
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/image_small"
+                android:layout_height="@dimen/image_small"
                 android:src="@drawable/leaf"
                 android:id="@+id/image_leaf_1"
                 android:contentDescription="@string/details.leaf.description" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/image_small"
+                android:layout_height="@dimen/image_small"
                 android:src="@drawable/leaf"
                 android:id="@+id/image_leaf_2"
                 android:contentDescription="@string/details.leaf.description" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/image_small"
+                android:layout_height="@dimen/image_small"
                 android:src="@drawable/leaf"
                 android:id="@+id/image_leaf_3"
                 android:contentDescription="@string/details.leaf.description" />
 
             <ImageView
-                android:layout_marginLeft="10dp"
-                android:layout_width="40dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:layerType="software"
-                android:src="@drawable/dotted" />
+                android:layout_width="@dimen/dotted_right_width"
+                android:layout_height="@dimen/dotted_right_height"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:src="@drawable/dotted"
+                style="@style/DetailsDottedLine" />
 
         </LinearLayout>
 
@@ -82,8 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/challenge.description.long"
-            style="@style/DetailsContentText"
-            android:background="@color/grey_300"/>
+            style="@style/DetailsContentText" />
 
     </LinearLayout>
 </ScrollView>

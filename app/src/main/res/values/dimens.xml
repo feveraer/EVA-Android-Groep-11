@@ -3,14 +3,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!-- Font -->
+    <!-- Font sizes -->
     <dimen name="font_huge">26sp</dimen>
     <dimen name="font_large">22sp</dimen>
     <dimen name="font_normal">18sp</dimen>
     <dimen name="font_small">15sp</dimen>
     <dimen name="font_tiny">12sp</dimen>
 
-    <!-- Spacing sized (use this for margins and paddings) -->
+    <!-- Spacing sizes(use this for margins and paddings) -->
+    <dimen name="spacing_gigantic">80dp</dimen>
     <dimen name="spacing_huge">40dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_normal">14dp</dimen>
@@ -25,6 +26,16 @@
     <dimen name="circleview_radius_tiny">40dp</dimen>
     <dimen name="circleview_border">3dp</dimen>
 
+    <!-- ImageView sizes -->
+    <dimen name="image_small">24dp</dimen>
+
     <!-- Progress bar sizes -->
     <dimen name="progressbar_height">55dp</dimen>
+
+    <!-- Dotted line sizes -->
+    <dimen name="dotted_left_width">120dp</dimen>
+    <dimen name="dotted_left_height">10dp</dimen>
+    <dimen name="dotted_right_width">40dp</dimen>
+    <dimen name="dotted_right_height">10dp</dimen>
+
 </resources>

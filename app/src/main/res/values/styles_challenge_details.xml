@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Text styles -->
     <style name="DetailsTitleText">
         <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@color/light_green_700</item>
@@ -8,6 +9,7 @@
 
     <style name="DetailsContentText">
         <item name="android:textSize">@dimen/font_tiny</item>
+        <item name="android:background">@color/grey_300</item>
         <item name="android:textColor">@color/grey_700</item>
         <item name="android:paddingStart">@dimen/spacing_large</item>
         <item name="android:paddingEnd">@dimen/spacing_large</item>
@@ -17,9 +19,17 @@
         <item name="android:autoLink">web</item>
     </style>
 
+    <!-- Imageview styles -->
     <style name="DetailsCircleView">
         <item name="android:paddingBottom">@dimen/spacing_large</item>
         <item name="android:paddingTop">@dimen/spacing_large</item>
         <item name="android:src">@drawable/sandwich</item>
     </style>
+
+    <!-- Dotted line styles -->
+    <style name="DetailsDottedLine">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layerType">software</item>
+    </style>
+
 </resources>

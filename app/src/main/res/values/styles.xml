@@ -7,5 +7,9 @@
         <item name="android:colorAccent">@color/light_green_700</item>
     </style>
 
+    <style name="MainActivity">
+        <item name="android:padding">@dimen/spacing_none</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
 </resources>
 
