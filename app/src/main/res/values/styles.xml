@@ -11,5 +11,9 @@
         <item name="android:padding">@dimen/spacing_none</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
+
+    <style name="ShowChallengeFragment">
+        <item name="android:background">@color/grey_300</item>
+    </style>
 </resources>
 

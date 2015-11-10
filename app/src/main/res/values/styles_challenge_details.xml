@@ -26,10 +26,4 @@
         <item name="android:src">@drawable/sandwich</item>
     </style>
 
-    <!-- Dotted line styles -->
-    <style name="DetailsDottedLine">
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layerType">software</item>
-    </style>
-
 </resources>

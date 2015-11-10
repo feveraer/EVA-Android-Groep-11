@@ -3,17 +3,17 @@
     android:id="@+id/fragment_show_challenge_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_300"
-    tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeFragment">
+    tools:context="com.groep11.eva_app.ui.fragment.ShowChallengeFragment"
+    style="@style/ShowChallengeFragment">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_challenge"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="@dimen/card_height_normal"
         android:layout_gravity="center"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="0dp"
-        card_view:contentPadding="16dp">
+        card_view:contentPadding="@dimen/card_content_padding_normal">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -27,22 +27,16 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/circle_challenge_image"
-                    style="@style/ChallengeCircleView"
                     android:layout_width="@dimen/circleview_radius_small"
                     android:layout_height="@dimen/circleview_radius_small"
-                    android:layout_margin="8dp"
-                    app:civ_border_width="0dp" />
+                    app:civ_border_width="0dp"
+                    style="@style/ChallengeCircleView" />
 
                 <TextView
                     android:id="@+id/text_challenge_title"
-                    style="@style/Base.TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_toRightOf="@+id/circle_challenge_image"
-                    android:padding="8dp"
-                    android:text="@string/challenge.title"
-                    android:textColor="@color/light_green_700" />
+                    style="@style/ChallengeTitle" />
 
             </RelativeLayout>
 
@@ -50,45 +44,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="8dp">
+                android:paddingBottom="@dimen/spacing_small">
 
                 <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layerType="software"
-                    android:paddingLeft="80dp"
-                    android:src="@drawable/dotted" />
+                    android:layout_width="@dimen/dotted_left_width"
+                    android:layout_height="@dimen/dotted_height"
+                    android:paddingLeft="@dimen/spacing_gigantic"
+                    android:layout_marginRight="@dimen/spacing_small"
+                    style="@style/DetailsDottedLine" />
 
                 <ImageView
                     android:id="@+id/image_leaf_1"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"
                     android:contentDescription="@string/details.leaf.description"
                     android:src="@drawable/leaf" />
 
                 <ImageView
                     android:id="@+id/image_leaf_2"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"
                     android:contentDescription="@string/details.leaf.description"
                     android:src="@drawable/leaf" />
 
                 <ImageView
                     android:id="@+id/image_leaf_3"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"
                     android:contentDescription="@string/details.leaf.description"
                     android:src="@drawable/leaf" />
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layerType="software"
-                    android:src="@drawable/dotted" />
+                    android:layout_width="@dimen/dotted_right_width"
+                    android:layout_height="@dimen/dotted_height"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    style="@style/DetailsDottedLine"/>
 
             </LinearLayout>
 
@@ -101,7 +91,7 @@
                     android:id="@+id/text_challenge_description"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/spacing_small"
                     android:text="@string/challenge.description.short" />
 
                 <View
