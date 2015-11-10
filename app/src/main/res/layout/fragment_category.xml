@@ -36,20 +36,16 @@
             android:id="@+id/category_1">
 
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:src="@drawable/category_snack"
-                android:contentDescription="@string/category.icon.description"
-                android:id="@+id/category_icon_1" />
+                android:layout_width="@dimen/image_normal"
+                android:layout_height="@dimen/image_normal"
+                android:id="@+id/category_icon_1"
+                style="@style/CategoryIcon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/category.title.default"
                 android:id="@+id/category_title_1"
-                android:layout_gravity="center_horizontal" />
+                style="@style/CategoryTitle" />
         </LinearLayout>
 
         <View
@@ -67,20 +63,16 @@
             android:id="@+id/category_2">
 
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:src="@drawable/category_breakfast"
-                android:contentDescription="@string/category.icon.description"
-                android:id="@+id/category_icon_2" />
+                android:layout_width="@dimen/image_normal"
+                android:layout_height="@dimen/image_normal"
+                android:id="@+id/category_icon_2"
+                style="@style/CategoryIcon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/category.title.default"
                 android:id="@+id/category_title_2"
-                android:layout_gravity="center_horizontal" />
+                style="@style/CategoryTitle" />
         </LinearLayout>
 
         <View
@@ -98,20 +90,16 @@
             android:id="@+id/category_3">
 
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_horizontal|bottom"
-                android:src="@drawable/category_dinner"
-                android:contentDescription="@string/category.icon.description"
-                android:id="@+id/category_icon_3" />
+                android:layout_width="@dimen/image_normal"
+                android:layout_height="@dimen/image_normal"
+                android:id="@+id/category_icon_3"
+                style="@style/CategoryIcon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/category.title.default"
                 android:id="@+id/category_title_3"
-                android:layout_gravity="center_horizontal" />
+                style="@style/CategoryTitle" />
         </LinearLayout>
 
         <View
@@ -124,17 +112,9 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/button_width_large"
         android:layout_height="wrap_content"
-        android:text="@string/category.confirm"
         android:id="@+id/category_button_save"
-        android:stateListAnimator="@null"
-        style="@style/CategorySaveButton"
-        android:layout_marginBottom="@dimen/spacing_large"
-        android:background="@color/light_green_400"
-        android:paddingRight="@dimen/spacing_large"
-        android:paddingLeft="@dimen/spacing_large"
-        android:textColor="@color/white_1000"
-        android:textAllCaps="false"/>
+        style="@style/CategorySaveButton" />
 
 </LinearLayout>

@@ -29,13 +29,17 @@
 
     <!-- ImageView sizes -->
     <dimen name="image_huge">200dp</dimen>
+    <dimen name="image_normal">70dp</dimen>
     <dimen name="image_small">24dp</dimen>
+
+    <!-- Button sizes -->
+    <dimen name="button_width_large">300dp</dimen>
 
     <!-- CardView sizes -->
     <dimen name="card_height_normal">180dp</dimen>
     <dimen name="card_content_padding_normal">16dp</dimen>
 
-    <!-- Progress sizes -->
+    <!-- Progressbar size -->
     <dimen name="progressbar_height">55dp</dimen>
 
     <!-- Dotted line sizes -->
