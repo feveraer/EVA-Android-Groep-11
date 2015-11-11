@@ -34,19 +34,15 @@ public class MainActivity extends Activity implements ShowChallengeFragment.OnIt
 
         initActionBar();
 
-        // Hide action bar on categoryFragment
+        // Hide action bar on Category fragment
         getActionBar().hide();
 
-        //Add challenge fragment
+        // Add Category fragment to our fragment container
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         CategoryFragment categoryFragment = CategoryFragment.newInstance();
-//        ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
-//        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance();
 
         fragmentTransaction.add(R.id.fragment_container, categoryFragment, CategoryFragment.TAG);
-//        fragmentTransaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
-//        fragmentTransaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
         fragmentTransaction.commit();
 
         setOnBackStackChangedListener();
@@ -54,6 +50,56 @@ public class MainActivity extends Activity implements ShowChallengeFragment.OnIt
         EvaSyncAdapter.initializeSyncAdapter(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case android.R.id.home:
+                // When the back button is pressed,
+                // rewind the last transaction from the backstack
+                getFragmentManager().popBackStack();
+                // Hide the action bar when returning from challengeDetails
+                getActionBar().hide();
+                return true;
+            case R.id.action_settings:
+                return true;
+            case R.id.action_clear_progression:
+                ShowProgressFragment fragment = (ShowProgressFragment) getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG);
+                fragment.clearProgression();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Toggles our back button in our ActionBar depending on the backstack count
+    private void setOnBackStackChangedListener(){
+        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                int stackHeight = getFragmentManager().getBackStackEntryCount();
+                // Another fragment is on the backstack, enable back button
+                if (stackHeight > 0) {
+                    getActionBar().setHomeButtonEnabled(true);
+                    getActionBar().setDisplayHomeAsUpEnabled(true);
+                } else {
+                    getActionBar().setDisplayHomeAsUpEnabled(false);
+                    getActionBar().setHomeButtonEnabled(false);
+                }
+            }
+        });
+    }
+
+    // Initialize the properties of our ActionBar:
+    // Transparent, no title & green back button
     private void initActionBar(){
         // Set color of back button
         final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
@@ -78,53 +124,6 @@ public class MainActivity extends Activity implements ShowChallengeFragment.OnIt
 
         // finally change the color
         window.setStatusBarColor(getResources().getColor(R.color.statusBarColor));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id){
-            case android.R.id.home:
-                getFragmentManager().popBackStack();
-                getActionBar().hide();
-                return true;
-            case R.id.action_settings:
-                return true;
-            case R.id.action_clear_progression:
-                ShowProgressFragment fragment = (ShowProgressFragment) getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG);
-                fragment.clearProgression();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void setOnBackStackChangedListener(){
-        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                int stackHeight = getFragmentManager().getBackStackEntryCount();
-                if (stackHeight > 0) { // if we have something on the stack (doesn't include the current shown fragment)
-                    getActionBar().setHomeButtonEnabled(true);
-                    getActionBar().setDisplayHomeAsUpEnabled(true);
-                } else {
-                    getActionBar().setDisplayHomeAsUpEnabled(false);
-                    getActionBar().setHomeButtonEnabled(false);
-                }
-            }
-        });
     }
 
 

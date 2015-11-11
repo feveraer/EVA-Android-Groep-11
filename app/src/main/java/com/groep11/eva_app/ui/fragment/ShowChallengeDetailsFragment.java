@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
 import java.util.List;
 
@@ -24,31 +22,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ShowChallengeDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ShowChallengeDetailsFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
 
     public static final String DETAIL_URI = "URI";
     public static final String TAG = "SHOW_CHALLENGE_DETAILS";
     private static final String CATEGORY_PREFIX = "category_";
 
     private Uri mUri;
-
-    private static final int DETAIL_LOADER = 0;
-
-    private static final String[] DETAIL_COLUMNS = {
-            ChallengeEntry.TABLE_NAME + "." + ChallengeEntry._ID,
-            ChallengeEntry.COLUMN_TITLE,
-            ChallengeEntry.COLUMN_DESCRIPTION,
-            ChallengeEntry.COLUMN_DIFFICULTY,
-            ChallengeEntry.COLUMN_CATEGORY
-    };
-
-    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
-    // must change.
-    public static final int COL_CHALLENGE_ID = 0;
-    public static final int COL_CHALLENGE_TITLE = 1;
-    public static final int COL_CHALLENGE_DESCRIPTION = 2;
-    public static final int COL_CHALLENGE_DIFFICULTY = 3;
-    public static final int COL_CHALLENGE_CATEGORY = 4;
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
     private String category;
@@ -92,7 +73,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+        getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -104,7 +85,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             return new CursorLoader(
                     getActivity(),
                     mUri,
-                    DETAIL_COLUMNS,
+                    TABLE_COLUMNS,
                     null,
                     null,
                     null

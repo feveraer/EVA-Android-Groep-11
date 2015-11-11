@@ -42,7 +42,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CategoryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CategoryFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
 
     public static final String TAG = "CATEGORY";
     private static final String CATEGORY_ICON_PREFIX = "category_",
@@ -50,24 +51,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     private Uri mUri;
 
-    private static final int CATEGORY_LOADER = 0;
     private static final int NUM_OF_CATEGORIES = 3;
-
-    private static final String[] CATEGORY_COLUMNS = {
-            EvaContract.ChallengeEntry.TABLE_NAME + "." + EvaContract.ChallengeEntry._ID,
-            EvaContract.ChallengeEntry.COLUMN_TITLE,
-            EvaContract.ChallengeEntry.COLUMN_DESCRIPTION,
-            EvaContract.ChallengeEntry.COLUMN_DIFFICULTY,
-            EvaContract.ChallengeEntry.COLUMN_CATEGORY
-    };
-
-    // These indices are tied to CATEGORY_COLUMNS. If CATEGORY_COLUMNS changes, these
-    // must change.
-    public static final int COL_CHALLENGE_ID = 0;
-    public static final int COL_CHALLENGE_TITLE = 1;
-    public static final int COL_CHALLENGE_DESCRIPTION = 2;
-    public static final int COL_CHALLENGE_DIFFICULTY = 3;
-    public static final int COL_CHALLENGE_CATEGORY = 4;
 
     @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 })
     List<ImageView> mCategoryIcons;
@@ -116,7 +100,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(CATEGORY_LOADER, null, this);
+        getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
 
         // Set our selectedContainer variable to the previouslySelected category index (default is 0)
@@ -147,7 +131,7 @@ public class CategoryFragment extends Fragment implements LoaderManager.LoaderCa
             return new CursorLoader(
                     getActivity(),
                     mUri,
-                    CATEGORY_COLUMNS,
+                    TABLE_COLUMNS,
                     null,
                     null,
                     null

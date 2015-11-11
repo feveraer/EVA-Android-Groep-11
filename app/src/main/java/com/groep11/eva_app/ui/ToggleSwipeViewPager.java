@@ -5,6 +5,10 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+/**
+ * Custom ViewPager which is able to toggle the ability to swipe,
+ * use the method setSwipingEnabled(:boolean).
+ */
 public class ToggleSwipeViewPager extends ViewPager {
 
         private boolean isSwipeEnabled;

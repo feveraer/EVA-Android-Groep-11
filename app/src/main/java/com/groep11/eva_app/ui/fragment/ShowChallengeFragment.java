@@ -12,20 +12,17 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -33,7 +30,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ShowChallengeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ShowChallengeFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
 
     public static final String URI = "URI";
     public static final String PREVIEW = "PREVIEW";
@@ -42,24 +40,6 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
     private static final String CATEGORY_PREFIX = "category_";
 
     private Uri mUri;
-
-    private static final int DETAIL_LOADER = 0;
-
-    private static final String[] DETAIL_COLUMNS = {
-            EvaContract.ChallengeEntry.TABLE_NAME + "." + EvaContract.ChallengeEntry._ID,
-            EvaContract.ChallengeEntry.COLUMN_TITLE,
-            EvaContract.ChallengeEntry.COLUMN_DESCRIPTION,
-            EvaContract.ChallengeEntry.COLUMN_DIFFICULTY,
-            EvaContract.ChallengeEntry.COLUMN_CATEGORY
-    };
-
-    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
-    // must change.
-    public static final int COL_CHALLENGE_ID = 0;
-    public static final int COL_CHALLENGE_TITLE = 1;
-    public static final int COL_CHALLENGE_DESCRIPTION = 2;
-    public static final int COL_CHALLENGE_DIFFICULTY = 3;
-    public static final int COL_CHALLENGE_CATEGORY = 4;
 
     private final float LEAF_DISABLED_OPACITY = 0.5f;
     private String category;
@@ -218,7 +198,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+        getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -230,7 +210,7 @@ public class ShowChallengeFragment extends Fragment implements LoaderManager.Loa
             return new CursorLoader(
                     getActivity(),  // Parent activity context
                     mUri,           // Table to query
-                    DETAIL_COLUMNS, // Projection to return
+                    TABLE_COLUMNS, // Projection to return
                     null,           // No selection clause
                     null,           // No selection arguments
                     null            // Default sort order
