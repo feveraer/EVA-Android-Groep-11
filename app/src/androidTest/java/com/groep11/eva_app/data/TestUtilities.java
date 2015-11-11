@@ -1,6 +1,7 @@
 package com.groep11.eva_app.data;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,8 +10,9 @@ import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.util.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
+import com.groep11.eva_app.util.DateFaker;
+import com.groep11.eva_app.util.TaskStatus;
 import com.groep11.eva_app.utils.PollingCheck;
 
 import java.util.Calendar;
@@ -38,7 +40,7 @@ public class TestUtilities extends AndroidTestCase {
         return challengeValues;
     }
 
-    public static ContentValues createChosenContentValues(String title, String category){
+    public static ContentValues createChosenContentValues(String title, String category, Context context) {
         ContentValues challengeValues = new ContentValues();
         challengeValues.put(ChallengeEntry.COLUMN_TITLE, title);
         challengeValues.put(ChallengeEntry.COLUMN_DESCRIPTION, "Description");
@@ -46,7 +48,7 @@ public class TestUtilities extends AndroidTestCase {
         challengeValues.put(ChallengeEntry.COLUMN_STATUS, TaskStatus.CHOSEN.value); // true
         challengeValues.put(ChallengeEntry.COLUMN_CATEGORY, category);
         challengeValues.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 33442);
-        challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new Date()));
+        challengeValues.put(ChallengeEntry.COLUMN_DATE, DateConversion.formatDate(new DateFaker(context).getCurrentDate()));
         return challengeValues;
     }
 
@@ -65,9 +67,9 @@ public class TestUtilities extends AndroidTestCase {
             String expectedValue = entry.getValue().toString();
             String actualValue = valueCursor.getString(idx);
 
-            assertEquals("Value '" + entry.getValue().toString() +
+            assertEquals("Value '" + actualValue +
                     "' did not match the expected value '" +
-                    expectedValue + "'. " + error, expectedValue, actualValue);
+                    expectedValue + "' for column '" + columnName + "'. " + error, expectedValue, actualValue);
         }
     }
 

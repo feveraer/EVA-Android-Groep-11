@@ -201,9 +201,9 @@ public class TestProvider extends AndroidTestCase {
 
     static ContentValues[] createBulkInsertChallengeValues(int amount) {
         ContentValues[] returnContentValues = new ContentValues[amount];
-
+        int offset = 100;
         for (int i = 0; i < amount; i++) {
-            returnContentValues[i] = TestUtilities.createDummyChallengeValuesWithIndex(i);
+            returnContentValues[i] = TestUtilities.createDummyChallengeValuesWithIndex(i + offset);
         }
         return returnContentValues;
     }
@@ -291,7 +291,7 @@ public class TestProvider extends AndroidTestCase {
     }
 
     public void testQueryCurrentChallenge() {
-        ContentValues values = TestUtilities.createChosenContentValues("Current 1, chosen", "Cat 1");
+        ContentValues values = TestUtilities.createChosenContentValues("Current 1, chosen", "Cat 1", getContext());
         getContext().getContentResolver().insert(ChallengeEntry.CONTENT_URI, values);
         bulkInsert(BULK_INSERT_RECORDS_TO_INSERT);
 
