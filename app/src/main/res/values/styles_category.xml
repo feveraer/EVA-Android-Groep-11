@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CategorySaveButton">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/spacing_huge</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_large</item>
+        <item name="android:background">@color/light_green_400</item>
+        <item name="android:paddingRight">@dimen/spacing_large</item>
+        <item name="android:paddingLeft">@dimen/spacing_large</item>
+        <item name="android:textColor">@color/white_1000</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:text">@string/category.confirm</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="CategoryIcon">
+        <item name="android:layout_gravity">center_horizontal|bottom</item>
+        <item name="android:src">@drawable/category_undefined</item>
+        <item name="android:contentDescription">@string/category.icon.description</item>
+    </style>
+
+    <style name="CategoryTitle">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:text">@string/category.title.default</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+</resources>

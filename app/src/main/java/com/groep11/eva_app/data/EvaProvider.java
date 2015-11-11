@@ -8,7 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.data.remote.TaskStatus;
+import com.groep11.eva_app.util.DateFaker;
+import com.groep11.eva_app.util.TaskStatus;
 import com.groep11.eva_app.util.DateConversion;
 
 import java.util.Date;
@@ -23,6 +24,7 @@ public class EvaProvider extends ContentProvider {
     static final int CHALLENGE_CURRENT = 101;
     static final int CHALLENGE_WITH_ID = 102;
     static final int CHALLENGE_CURRENT_CATEGORIES = 103;
+    static final int CHALLENGES_TODAY = 104;
 
     /*
         This UriMatcher will match each URI to the CHALLENGE, CHALLENGE_CURRENT and
@@ -40,7 +42,9 @@ public class EvaProvider extends ContentProvider {
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE, CHALLENGE);
+        matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/today", CHALLENGES_TODAY);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current", CHALLENGE_CURRENT);
+        // Delete?
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current_categories", CHALLENGE_CURRENT_CATEGORIES);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/*", CHALLENGE_WITH_ID);
         return matcher;
@@ -60,25 +64,26 @@ public class EvaProvider extends ContentProvider {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             // "challenge/current"
-            case CHALLENGE_CURRENT: {
+            case CHALLENGE_CURRENT:
                 retCursor = getCurrentChallenge(uri, projection, sortOrder);
                 break;
-            }
+            // "challenge/today"
+            case CHALLENGES_TODAY:
+                retCursor = getChallengesToday(uri, projection, sortOrder);
+                break;
             // "challenge/*"
-            case CHALLENGE_WITH_ID: {
+            case CHALLENGE_WITH_ID:
                 retCursor = getChallengeById(uri, projection, sortOrder);
                 break;
-            }
             // "challenge"
-            case CHALLENGE: {
+            case CHALLENGE:
                 retCursor = getChallenge(projection, selection, selectionArgs, sortOrder);
                 break;
-            }
             // "challenge/current-categories"
-            case CHALLENGE_CURRENT_CATEGORIES: {
+            // delete this?
+            case CHALLENGE_CURRENT_CATEGORIES:
                 retCursor = getCurrentCategories(uri, sortOrder);
                 break;
-            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -121,15 +126,31 @@ public class EvaProvider extends ContentProvider {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? " +
                 "AND " + ChallengeEntry.COLUMN_STATUS + " != ? ";
         String[] selectionArgs = new String[]{
-                DateConversion.formatDate(new Date()),
-                "" + TaskStatus.NONE.ordinal()
+                DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate()),
+                "" + TaskStatus.NONE.value
         };
         return getChallenge(projection, selection, selectionArgs, sortOrder);
     }
 
+    /**
+     * select * where date = today
+     * @param uri
+     * @param projection
+     * @param sortOrder
+     * @return
+     */
+    private Cursor getChallengesToday(Uri uri, String[] projection, String sortOrder) {
+        String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
+        String[] selectionArgs = new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate())};
+        return getChallenge(projection, selection, selectionArgs, sortOrder);
+    }
+
+    /**
+     * Delete? I don't need this.
+     */
     private Cursor getCurrentCategories(Uri uri, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
-        String[] selectionArgs = new String[]{DateConversion.formatDate(new Date())};
+        String[] selectionArgs = new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate())};
 
         //Only category column will be returned
         return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, sortOrder);
@@ -214,6 +235,10 @@ public class EvaProvider extends ContentProvider {
                 rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
+            case CHALLENGE_WITH_ID:
+                rowsUpdated = db.update(ChallengeEntry.TABLE_NAME, values, ChallengeEntry._ID + " = ? ",
+                        new String[]{String.valueOf(ChallengeEntry.getIdFromUri(uri))});
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -221,6 +246,17 @@ public class EvaProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
+    }
+
+    // Update challenge status clause
+    private String buildUpdateSelectionClause() {
+        return EvaContract.ChallengeEntry.COLUMN_DATE + " = ? AND "
+                + EvaContract.ChallengeEntry.COLUMN_CATEGORY + " = ?";
+    }
+
+    // Update challenge status, select challenge of today in certain category
+    private String[] buildUpdateSelectionArgs(String[] selectionArgs) {
+        return new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate()), selectionArgs[0]};
     }
 
     @Override
