@@ -30,26 +30,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ShowProgressFragment extends Fragment {
-    public static final String TAG = "PROGRESS";
-    private static final String PROGRESS_PREFIX = "Dag";
-    private static final int ANIMATION_DELAY = 100;
-    private static final String ANIMATION_ARRAY_TYPE = "array",
-            ANIMATION_ARRAY_NAME = "completed_day_";
 
-    private static final int PARTICLE_EMITTER_AMOUNT = 120,
-            PARTICLE_EMITTER_LIFETIME = 1500;
+    public static final String TAG = "PROGRESS";
+
+    private static final int ANIMATION_DELAY = 100;
+    private static final String ANIMATION_ARRAY_TYPE = "array";
+    private static final String ANIMATION_ARRAY_NAME = "completed_day_";
+    private static final int PARTICLE_EMITTER_AMOUNT = 120;
+    private static final int PARTICLE_EMITTER_LIFETIME = 1500;
 
     private int progressCounter = 0;
     private boolean isFragmentRestoration = false;
 
-    @Bind(R.id.image_progress)
-    ImageView mProgressImage;
-    @Bind(R.id.emitter_anchor)
-    ImageView mEmitterAnchor;
-    @Bind(R.id.progress_bar)
-    RoundCornerProgressBar mProgressBar;
-    @Bind(R.id.progress_counter)
-    TextView mProgressCounterView;
+    @Bind(R.id.image_progress) ImageView mProgressImage;
+    @Bind(R.id.emitter_anchor) ImageView mEmitterAnchor;
+    @Bind(R.id.progress_bar) RoundCornerProgressBar mProgressBar;
+    @Bind(R.id.progress_counter) TextView mProgressCounterView;
 
     public ShowProgressFragment() {
         // Required empty public constructor
@@ -121,13 +117,17 @@ public class ShowProgressFragment extends Fragment {
     }
 
     public void increaseProgress() {
+        // Increase progressCounter if possible,
+        // update the progressbar to show our current progress
         if (progressCounter < 21) {
             progressCounter++;
             updateProgressBar();
         }
 
+        // Animate the leaves exploding out of the tree
         emitParticles(this.getActivity().getApplicationContext());
 
+        // Animate our tree
         AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), false);
         mProgressImage.setBackground(progressAnimation);
         progressAnimation.start();
@@ -139,7 +139,7 @@ public class ShowProgressFragment extends Fragment {
         mProgressCounterView.setText(String.valueOf(progressCounter));
     }
 
-    //This will restart our application do this after completing a challenge in the demo TODO: remove after demo
+    //This will restart our application do this after completing a challenge in the demo TODO: remove for production
     @OnClick(R.id.next_day_demo)
     public void nextDay() {
         Intent i = getActivity().getBaseContext().getPackageManager()
@@ -155,7 +155,6 @@ public class ShowProgressFragment extends Fragment {
 
     /**
      * Creates an AnimationDrawable from the tree_animation_array.xml file based on the progressCounter
-     *
      * @param fromStart starts animation from the first day when true
      */
     private AnimationDrawable createAnimationFromXMLArray(Context context, boolean fromStart) {
@@ -203,13 +202,13 @@ public class ShowProgressFragment extends Fragment {
         new ParticleSystem(this.getActivity(), PARTICLE_EMITTER_AMOUNT, R.drawable.leaf, PARTICLE_EMITTER_LIFETIME)
                 // set min and max speed for both x and y axis
                 .setSpeedByComponentsRange(-0.1f, 0.1f, -0.2f, 0.02f)
-                        // Accelerate the leaves upwards
+                // Accelerate the leaves upwards
                 .setAcceleration(0.00003f, 90)
                 .setInitialRotationRange(0, 360)
                 .setRotationSpeed(120)
-                        // Fade from 100 to 0 opacity over the lifetime
+                // Fade from 100 to 0 opacity over the lifetime
                 .setFadeOut(PARTICLE_EMITTER_LIFETIME)
-                        // Scale the images while flying from 20% to 40% of their original size within their lifetime
+                // Scale the images while flying from 20% to 40% of their original size within their lifetime
                 .addModifier(new ScaleModifier(0.2f, 0.4f, 0, PARTICLE_EMITTER_LIFETIME))
                 .oneShot(mEmitterAnchor, PARTICLE_EMITTER_AMOUNT);
     }
