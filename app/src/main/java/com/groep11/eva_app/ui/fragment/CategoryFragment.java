@@ -1,7 +1,6 @@
 package com.groep11.eva_app.ui.fragment;
 
 import android.animation.AnimatorSet;
-import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,7 +11,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -46,45 +44,31 @@ public class CategoryFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
 
     public static final String TAG = "CATEGORY";
-    private static final String CATEGORY_ICON_PREFIX = "category_",
-                                CATEGORY_TITLE_PREFIX = "title.";
 
-    private Uri mUri;
-
+    private static final String CATEGORY_ICON_PREFIX = "category_";
+    private static final String CATEGORY_TITLE_PREFIX = "title.";
     private static final int NUM_OF_CATEGORIES = 3;
 
-    @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 })
-    List<ImageView> mCategoryIcons;
-
-    @Bind({ R.id.category_title_1, R.id.category_title_2, R.id.category_title_3 })
-    List<TextView> mCategoryTitles;
-
-    List<String> mDbCategoryTitles = new ArrayList<>();
-
-    @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 })
-    List<LinearLayout> mCategoryContainers;
-
-    @Bind({R.id.category_button_save})
-    Button mSaveButton;
-
-    @Bind(R.id.challenge_preview_container)
-    ToggleSwipeViewPager mPreviewsPager;
-    private PagerAdapter mPagerAdapter;
-
-    // Necessary to check if the current animation is still running,
-    // prevents buggy animations :)
-    private AnimatorSet selectionAnimation;
-    private String mBackgroundColor = "#ffffff";
-
-    private View mSelectedContainer;
+    private Uri mUri;
+    private List<String> mDbCategoryTitles = new ArrayList<>();
     private List<Long> mCurrentIds = new LinkedList<>();
+    private PagerAdapter mPagerAdapter;
+    private AnimatorSet selectionAnimation;
+    private View mSelectedContainer;
 
-    public static CategoryFragment newInstance() {
-        return new CategoryFragment();
-    }
+    @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 }) List<LinearLayout> mCategoryContainers;
+    @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 }) List<ImageView> mCategoryIcons;
+    @Bind({ R.id.category_title_1, R.id.category_title_2, R.id.category_title_3 }) List<TextView> mCategoryTitles;
+
+    @Bind({R.id.category_button_save}) Button mSaveButton;
+    @Bind(R.id.challenge_preview_container) ToggleSwipeViewPager mPreviewsPager;
 
     public CategoryFragment() {
         // Required empty public constructor
+    }
+
+    public static CategoryFragment newInstance() {
+        return new CategoryFragment();
     }
 
     @Override
@@ -175,13 +159,14 @@ public class CategoryFragment extends Fragment
         }
     }
 
+    // Set the category icon and title to the related one
     private void setCategoryView(int categoryIndex, String categoryTitle){
-        // Set the category title under the icon
         mDbCategoryTitles.add(categoryTitle);
         mCategoryTitles.get(categoryIndex).setText(getCorrectCategoryTitle(categoryTitle));
         mCategoryIcons.get(categoryIndex).setImageResource(getCategoryIconForTitle(categoryTitle));
     }
 
+    // Gets the right category icon resource id for the given category title
     private int getCategoryIconForTitle(String categoryTitle){
         int resourceId =  getResources().getIdentifier(
                 CATEGORY_ICON_PREFIX + categoryTitle,
@@ -192,6 +177,7 @@ public class CategoryFragment extends Fragment
         return  resourceId;
     }
 
+    // Temporary localisation TODO: remove or update this method with user story 'Localisation'
     private String getCorrectCategoryTitle(String categoryTitle){
         int resourceId = getResources().getIdentifier(
                 CATEGORY_TITLE_PREFIX + categoryTitle,
@@ -244,6 +230,7 @@ public class CategoryFragment extends Fragment
         transaction.commit();
     }
 
+    // Sets the save category button text to a dynamic challenge text
     private void updateSaveButtonText(){
         int selectedIndex = getClickedCategoryIndex(mSelectedContainer.getId());
         String newText = String.format("Ga een %s challenge aan!", mCategoryTitles.get(selectedIndex).getText());
@@ -262,9 +249,6 @@ public class CategoryFragment extends Fragment
                 null,           // ContentProvider takes care of this
                 null
         );
-
-        //TODO: remove for demo!
-        //Toast.makeText(getActivity(), "Updated " + rowsUpdated + " rows!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick({R.id.category_1, R.id.category_2, R.id.category_3})
@@ -288,8 +272,6 @@ public class CategoryFragment extends Fragment
 
             // Change our save button's text
             updateSaveButtonText();
-            // TODO: enable if we want our background color animating into our currently selected category color
-            //updateBackgroundColor();
         }
     }
 
@@ -331,47 +313,7 @@ public class CategoryFragment extends Fragment
         mSelectedContainer = isReversed ? null : categoryView;
     }
 
-    private void updateBackgroundColor(){
-        // Get the currently selected color
-        String newColor = getCurrentCategoryColor();
-
-        // Find the fragment container to change it's background color
-        View background = this.getActivity().findViewById(R.id.fragment_container);
-
-        // Create an animator which will transition from one color to another
-        ObjectAnimator backgroundColorAnimator = ObjectAnimator.ofObject(background,
-                "backgroundColor",
-                new ArgbEvaluator(),
-                Color.parseColor(mBackgroundColor),
-                Color.parseColor(newColor));
-
-        // Set the duration and start the animation
-        backgroundColorAnimator.setDuration(1000);
-        backgroundColorAnimator.start();
-
-        // Hold the new color in our current background color
-        mBackgroundColor = newColor;
-
-//        // Create a transparent color drawable
-//        ColorDrawable transparentColor = new ColorDrawable(Color.parseColor(newColor));
-//        transparentColor.setAlpha(120);
-//        // Use this transparent color drawable to make our action bar transparent
-//        this.getActivity().getActionBar().setBackgroundDrawable(transparentColor);
-    }
-
-    private String getCurrentCategoryColor(){
-        int selectedCategoryIndex = getClickedCategoryIndex(mSelectedContainer.getId());
-        String categoryName = "color." + mDbCategoryTitles.get(selectedCategoryIndex);
-        int categoryColorId =  getResources().getIdentifier(categoryName , "string", this.getActivity().getPackageName());
-
-        try{
-            getResources().getString(categoryColorId);
-        } catch (Exception e) {
-            return "#ffffff";
-        }
-        return getResources().getString(categoryColorId);
-    }
-
+    // Regulate the fragments being shown in our ViewPager
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fragmentManager) {
           super(fragmentManager);
