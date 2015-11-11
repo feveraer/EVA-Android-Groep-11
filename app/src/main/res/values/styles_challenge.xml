@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ChallengeCircleView">
         <item name="android:src">@drawable/sandwich</item>
+        <item name="android:layout_margin">@dimen/spacing_small</item>
     </style>
+
+    <style name="ChallengeTitle" parent="@style/Base.TextAppearance.AppCompat.Large">
+        <item name="android:layout_marginTop">@dimen/spacing_normal</item>
+        <item name="android:layout_toRightOf">@+id/circle_challenge_image</item>
+        <item name="android:padding">@dimen/spacing_small</item>
+        <item name="android:text">@string/challenge.title</item>
+        <item name="android:textColor">@color/light_green_700</item>
+    </style>
+
+    <!-- Dotted line styles -->
+    <style name="DetailsDottedLine">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layerType">software</item>
+        <item name="android:src">@drawable/dotted</item>
+    </style>
+
 </resources>

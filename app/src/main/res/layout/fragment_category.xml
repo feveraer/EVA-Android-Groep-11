@@ -1,0 +1,120 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_category_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.groep11.eva_app.ui.fragment.CategoryFragment">
+
+    <com.groep11.eva_app.ui.ToggleSwipeViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/challenge_preview_container"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:id="@+id/categories_container">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:id="@+id/spacing_outer_left">
+        </View>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/category_1">
+
+            <ImageView
+                android:layout_width="@dimen/image_normal"
+                android:layout_height="@dimen/image_normal"
+                android:id="@+id/category_icon_1"
+                style="@style/CategoryIcon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/category_title_1"
+                style="@style/CategoryTitle" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:id="@+id/spacing_middle_left">
+        </View>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/category_2">
+
+            <ImageView
+                android:layout_width="@dimen/image_normal"
+                android:layout_height="@dimen/image_normal"
+                android:id="@+id/category_icon_2"
+                style="@style/CategoryIcon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/category_title_2"
+                style="@style/CategoryTitle" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:id="@+id/spacing_middle_right">
+        </View>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/category_3">
+
+            <ImageView
+                android:layout_width="@dimen/image_normal"
+                android:layout_height="@dimen/image_normal"
+                android:id="@+id/category_icon_3"
+                style="@style/CategoryIcon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/category_title_3"
+                style="@style/CategoryTitle" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:id="@+id/spacing_outer_right">
+        </View>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="@dimen/button_width_large"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_button_save"
+        style="@style/CategorySaveButton" />
+
+</LinearLayout>

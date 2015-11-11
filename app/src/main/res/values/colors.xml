@@ -9,7 +9,7 @@
     <color name="foreground_material_light">#f9f9f9</color>
     <color name="primary_text_default_material_light">#dee9e9e9</color>
     <color name="primary_text_material_light">#c4191717</color>
-    <color name="statusBarColor">#00bf360c</color>
+    <color name="statusBarColor">#000000</color>
 
     <!-- Grayscale -->
     <color name="grey_50">#FAFAFA</color>
@@ -26,7 +26,7 @@
     <color name="white_1000">#ffffff</color>
 
     <!-- Deep orange -->
-    <color name="deep_orange_50">#FBE9A7</color>
+    <color name="deep_orange_50">#FBE9E7</color>
     <color name="deep_orange_100">#FFCCBC</color>
     <color name="deep_orange_200">#FFAB91</color>
     <color name="deep_orange_300">#FF8A65</color>
@@ -39,7 +39,22 @@
     <color name="deep_orange_A100">#FF9E80</color>
     <color name="deep_orange_A200">#FF6E40</color>
     <color name="deep_orange_A400">#FF3D00</color>
-    <color name="deep_orange_A700">#DD2600</color>
+    <color name="deep_orange_A700">#DD2C00</color>
 
+    <!-- Light green -->
+    <color name="light_green_50">#F1F8E9</color>
+    <color name="light_green_100">#DCEDC8</color>
+    <color name="light_green_200">#C5E1A5</color>
+    <color name="light_green_300">#AED581</color>
+    <color name="light_green_400">#9CCC65</color>
+    <color name="light_green_500">#8BC34A</color>
+    <color name="light_green_600">#7CB342</color>
+    <color name="light_green_700">#689F38</color>
+    <color name="light_green_800">#558B2F</color>
+    <color name="light_green_900">#33691E</color>
+    <color name="light_green_A100">#CCFF90</color>
+    <color name="light_green_A200">#B2FF59</color>
+    <color name="light_green_A400">#76FF03</color>
+    <color name="light_green_A700">#64DD17</color>
 
 </resources>

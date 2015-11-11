@@ -1,14 +1,16 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +19,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.util.DateFaker;
 import com.plattysoft.leonids.ParticleSystem;
-import com.plattysoft.leonids.modifiers.AccelerationModifier;
 import com.plattysoft.leonids.modifiers.ScaleModifier;
 
 import butterknife.Bind;
@@ -27,30 +30,28 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ShowProgressFragment extends Fragment {
-    public static final String TAG = "PROGRESS";
-    private static final String PROGRESS_PREFIX = "Dag";
-    private static final int ANIMATION_DELAY = 100;
-    private static final String ANIMATION_ARRAY_TYPE = "array",
-                          ANIMATION_ARRAY_NAME = "completed_day_";
 
-    private static final int PARTICLE_EMITTER_AMOUNT = 120,
-                             PARTICLE_EMITTER_LIFETIME = 1500;
+    public static final String TAG = "PROGRESS";
+
+    private static final int ANIMATION_DELAY = 100;
+    private static final String ANIMATION_ARRAY_TYPE = "array";
+    private static final String ANIMATION_ARRAY_NAME = "completed_day_";
+    private static final int PARTICLE_EMITTER_AMOUNT = 120;
+    private static final int PARTICLE_EMITTER_LIFETIME = 1500;
 
     private int progressCounter = 0;
     private boolean isFragmentRestoration = false;
 
-    @Bind(R.id.image_progress)
-    ImageView progressImage;
-    @Bind(R.id.emitter_anchor)
-    ImageView emitterAnchor;
-    @Bind(R.id.text_progress)
-    TextView progressText;
+    @Bind(R.id.image_progress) ImageView mProgressImage;
+    @Bind(R.id.emitter_anchor) ImageView mEmitterAnchor;
+    @Bind(R.id.progress_bar) RoundCornerProgressBar mProgressBar;
+    @Bind(R.id.progress_counter) TextView mProgressCounterView;
 
     public ShowProgressFragment() {
         // Required empty public constructor
     }
 
-    public static ShowProgressFragment newInstance(){
+    public static ShowProgressFragment newInstance() {
         return new ShowProgressFragment();
     }
 
@@ -81,20 +82,15 @@ public class ShowProgressFragment extends Fragment {
         //Find our values in the sharedPreferences
         SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         progressCounter = prefs.getInt("progressCounter", 0);
+        updateProgressBar();
         isFragmentRestoration = prefs.getBoolean("isFragmentRestoration", false);
 
-        //String.format needed, setText with an integer argument looks for a resource
-
-        progressText.setText(progressCounter == 21 ?
-                        getResources().getString(R.string.progress_completion_final) :
-                        String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
-
         //Only show the full animation when the user has some progress and he's not returning from another fragment
-        if(progressCounter == 0 || isFragmentRestoration) {
-            progressImage.setBackground(getLastAnimationFrame(this.getActivity()));
+        if (progressCounter == 0 || isFragmentRestoration) {
+            mProgressImage.setBackground(getLastAnimationFrame(this.getActivity()));
         } else {
             AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), true);
-            progressImage.setBackground(progressAnimation);
+            mProgressImage.setBackground(progressAnimation);
             progressAnimation.start();
         }
 
@@ -114,29 +110,46 @@ public class ShowProgressFragment extends Fragment {
         super.onPause();
     }
 
-    public void clearProgression(){
+    public void clearProgression() {
         progressCounter = 0;
-        progressText.setText(String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
-        progressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        mProgressImage.setBackgroundResource(R.drawable.tree_frame_01);
+        updateProgressBar();
     }
 
-    public void increaseProgress(){
-        if(progressCounter < 21) {
+    public void increaseProgress() {
+        // Increase progressCounter if possible,
+        // update the progressbar to show our current progress
+        if (progressCounter < 21) {
             progressCounter++;
-            progressText.setText(progressCounter == 21 ?
-                    getResources().getString(R.string.progress_completion_final) :
-                    String.format("%s %d", PROGRESS_PREFIX, progressCounter + 1));
+            updateProgressBar();
         }
 
+        // Animate the leaves exploding out of the tree
         emitParticles(this.getActivity().getApplicationContext());
 
+        // Animate our tree
         AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), false);
-        progressImage.setBackground(progressAnimation);
+        mProgressImage.setBackground(progressAnimation);
         progressAnimation.start();
     }
 
+    // Update progress bar's text and visuals to represent the current progressCounter
+    private void updateProgressBar() {
+        mProgressBar.setProgress(progressCounter);
+        mProgressCounterView.setText(String.valueOf(progressCounter));
+    }
+
+    //This will restart our application do this after completing a challenge in the demo TODO: remove for production
+    @OnClick(R.id.next_day_demo)
+    public void nextDay() {
+        Intent i = getActivity().getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
     @OnClick(R.id.fragment_show_progress_container)
-    public void onFragmentClick(){
+    public void onFragmentClick() {
         increaseProgress();
     }
 
@@ -149,7 +162,7 @@ public class ShowProgressFragment extends Fragment {
         //Start animation from the first day when fromStart is true
         int startDay = fromStart ? 1 : progressCounter;
 
-        for(int dayIndex = startDay; dayIndex <= progressCounter; dayIndex++){
+        for (int dayIndex = startDay; dayIndex <= progressCounter; dayIndex++) {
             //Find the array with the animation frames for dayIndex
             TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(dayIndex));
 
@@ -169,7 +182,8 @@ public class ShowProgressFragment extends Fragment {
 
     private Drawable getLastAnimationFrame(Context context) {
         //If the user hasn't made any progress yet, show him the first frame
-        if(progressCounter == 0) return ContextCompat.getDrawable(context, R.drawable.tree_frame_01);
+        if (progressCounter == 0)
+            return ContextCompat.getDrawable(context, R.drawable.tree_frame_01);
 
         //Get the last frame from our current day array
         TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(progressCounter));
@@ -180,11 +194,11 @@ public class ShowProgressFragment extends Fragment {
     }
 
     //Find the array id based on dayIndex: "completed_day_:dayIndex"
-    private int getArrayIdFromDay(int dayIndex){
+    private int getArrayIdFromDay(int dayIndex) {
         return getResources().getIdentifier(ANIMATION_ARRAY_NAME + dayIndex, ANIMATION_ARRAY_TYPE, this.getActivity().getPackageName());
     }
 
-    private void emitParticles(Context context){
+    private void emitParticles(Context context) {
         new ParticleSystem(this.getActivity(), PARTICLE_EMITTER_AMOUNT, R.drawable.leaf, PARTICLE_EMITTER_LIFETIME)
                 // set min and max speed for both x and y axis
                 .setSpeedByComponentsRange(-0.1f, 0.1f, -0.2f, 0.02f)
@@ -196,7 +210,7 @@ public class ShowProgressFragment extends Fragment {
                 .setFadeOut(PARTICLE_EMITTER_LIFETIME)
                 // Scale the images while flying from 20% to 40% of their original size within their lifetime
                 .addModifier(new ScaleModifier(0.2f, 0.4f, 0, PARTICLE_EMITTER_LIFETIME))
-                .oneShot(emitterAnchor, PARTICLE_EMITTER_AMOUNT);
+                .oneShot(mEmitterAnchor, PARTICLE_EMITTER_AMOUNT);
     }
 
 }

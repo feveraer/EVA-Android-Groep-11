@@ -2,10 +2,18 @@
 
     <style name="EvaTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
         //Theme base colors
-        <item name="android:colorPrimary">@color/primary_material_light</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark_material_light</item>
-        <item name="android:colorAccent">@color/accent_material_light</item>
+        <item name="android:colorPrimary">@color/light_green_300</item>
+        <item name="android:colorPrimaryDark">@color/light_green_500</item>
+        <item name="android:colorAccent">@color/light_green_700</item>
     </style>
 
+    <style name="MainActivity">
+        <item name="android:padding">@dimen/spacing_none</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="ShowChallengeFragment">
+        <item name="android:background">@color/grey_300</item>
+    </style>
 </resources>
 

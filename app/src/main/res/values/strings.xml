@@ -11,8 +11,7 @@
     <string name="action.settings">Settings</string>
 
     <!-- Challenge Strings -->
-    <string name="challenge.id">Challenge Id (default)</string>
-    <string name="challenge.title">Challenge Title (default)</string>
+    <string name="challenge.title">Voorbeeld uitdaging</string>
     <string name="challenge.description.long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sagittis, leo sit amet consequat scelerisque, odio nisl blandit nisl,
         et aliquam urna magna et nulla. Fusce leo justo, ultrices ultricies nulla vel, semper hendrerit arcu. Vestibulum viverra elementum volutpat. Sed tortor dolor, egestas non tristique vitae,
         rutrum eu odio. Praesent lorem lorem, gravida ut tempor non, dictum eget metus. Praesent dapibus nulla at eros fermentum ornare. Quisque posuere tempus posuere.
@@ -31,5 +30,28 @@
     <!--Progress Strings-->
     <string name="progress.image.description">animation that shows the progress</string>
     <string name="progress.completion.final">Alle voltooid!</string>
+    <string name="progress.counter.start">0</string>
+    <string name="progress.counter.max">21</string>
 
+    <!--Category Strings-->
+    <string name="category.prompt">Kies een categorie voor vandaag</string>
+    <string name="category.one">Category 1 (Default)</string>
+    <string name="category.two">Category 2 (Default)</string>
+    <string name="category.three">Category 3 (Default)</string>
+    <string name="category.confirm">Ga deze challenge aan!</string>
+    <string name="category.cancel">Annuleer</string>
+    <string name="category.icon.description">Icon that represents the category</string>
+    <string name="category.title.default">Category</string>
+
+    <!-- Category Colors -->
+    <string name="color.social">#fffec9</string>
+    <string name="color.dinner">#c9ffdc</string>
+    <string name="color.lunch">#ffc9c9</string>
+
+    <!-- Category demo titles -->
+    <string name="title.breakfast">Ontbijt</string>
+    <string name="title.dinner">Avondeten</string>
+    <string name="title.restaurant">Uit eten</string>
+    <string name="title.snack">Snack</string>
+    <string name="title.social">Sociaal</string>
 </resources>

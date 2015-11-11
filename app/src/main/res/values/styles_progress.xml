@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <style name="ProgressTree">
+        <item name="android:background">@drawable/tree_frame_01</item>
+        <item name="android:contentDescription">@string/progress.image.description</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="ProgressBarContainer">
+        <item name="android:paddingTop">@dimen/spacing_none</item>
+        <item name="android:paddingBottom">@dimen/spacing_none</item>
+    </style>
+
+    <style name="ProgressCounter">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white_1000</item>
+        <item name="android:textSize">@dimen/font_huge</item>
+        <item name="android:text">0</item>
+    </style>
+</resources>

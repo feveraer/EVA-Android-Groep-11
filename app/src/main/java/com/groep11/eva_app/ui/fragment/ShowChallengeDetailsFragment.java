@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,44 +15,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ShowChallengeDetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ShowChallengeDetailsFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
 
     public static final String DETAIL_URI = "URI";
+    public static final String TAG = "SHOW_CHALLENGE_DETAILS";
+
+    private static final String CATEGORY_PREFIX = "category_";
+    private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
     private Uri mUri;
 
-    private static final int DETAIL_LOADER = 0;
-
-    private static final String[] DETAIL_COLUMNS = {
-            ChallengeEntry.TABLE_NAME + "." + ChallengeEntry._ID,
-            ChallengeEntry.COLUMN_TITLE,
-            ChallengeEntry.COLUMN_DESCRIPTION,
-            ChallengeEntry.COLUMN_DIFFICULTY,
-    };
-
-    // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
-    // must change.
-    public static final int COL_CHALLENGE_ID = 0;
-    public static final int COL_CHALLENGE_TITLE = 1;
-    public static final int COL_CHALLENGE_DESCRIPTION = 2;
-    public static final int COL_CHALLENGE_DIFFICULTY = 3;
-
-    private final float LEAF_DISABLED_OPACITY = 0.5f;
-
-    @Bind(R.id.text_challenge_title)
-    TextView mTitleView;
-    @Bind(R.id.text_challenge_description)
-    TextView mDescriptionView;
-
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
-    List<ImageView> mDifficultyView;
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
+    @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
@@ -74,12 +59,15 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
 
+        // Show the action bar for navigation
+        getActivity().getActionBar().show();
+
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+        getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -91,7 +79,7 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             return new CursorLoader(
                     getActivity(),
                     mUri,
-                    DETAIL_COLUMNS,
+                    TABLE_COLUMNS,
                     null,
                     null,
                     null
@@ -108,7 +96,8 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
             mTitleView.setText(challengeTitle);
-            mDescriptionView.setText(challengeDescription);
+            mDescriptionView.setText(Html.fromHtml(challengeDescription));
+            setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
@@ -123,6 +112,13 @@ public class ShowChallengeDetailsFragment extends Fragment implements LoaderMana
         mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
         //Set opacity leaf #2
         mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
+    }
+
+    private void setCategoryIcon(String category) {
+        mCircleImageView.setImageResource(getResources().getIdentifier(
+                CATEGORY_PREFIX + category,
+                "drawable",
+                getActivity().getPackageName()));
     }
 
     @Override
