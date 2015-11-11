@@ -27,22 +27,16 @@ public class ShowChallengeDetailsFragment extends Fragment
 
     public static final String DETAIL_URI = "URI";
     public static final String TAG = "SHOW_CHALLENGE_DETAILS";
+
     private static final String CATEGORY_PREFIX = "category_";
+    private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
     private Uri mUri;
 
-    private final float LEAF_DISABLED_OPACITY = 0.5f;
-    private String category;
-
-    @Bind(R.id.text_challenge_title)
-    TextView mTitleView;
-    @Bind(R.id.text_challenge_description)
-    TextView mDescriptionView;
-    @Bind(R.id.circle_challenge_image)
-    CircleImageView mCircleImageView;
-
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
-    List<ImageView> mDifficultyView;
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
+    @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
@@ -100,11 +94,10 @@ public class ShowChallengeDetailsFragment extends Fragment
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
-            category = data.getString(COL_CHALLENGE_CATEGORY).toLowerCase();
-            setCategoryIcon();
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(Html.fromHtml(challengeDescription));
+            setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             //the cursor is empty, so fill the views with their default representations
@@ -121,7 +114,7 @@ public class ShowChallengeDetailsFragment extends Fragment
         mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
-    private void setCategoryIcon() {
+    private void setCategoryIcon(String category) {
         mCircleImageView.setImageResource(getResources().getIdentifier(
                 CATEGORY_PREFIX + category,
                 "drawable",

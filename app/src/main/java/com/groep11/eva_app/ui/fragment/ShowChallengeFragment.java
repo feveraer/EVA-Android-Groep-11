@@ -37,15 +37,15 @@ public class ShowChallengeFragment extends Fragment
     public static final String TAG = "SHOW_CHALLENGE";
 
     private static final String CATEGORY_PREFIX = "category_";
-    private final float LEAF_DISABLED_OPACITY = 0.5f;
+    private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
     private Uri mUri;
 
 
     @Bind(R.id.text_challenge_title) TextView mTitleView;
     @Bind(R.id.text_challenge_description) TextView mDescriptionView;
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
     @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
     @Bind(R.id.challenge_complete) ImageView mCompleteChallengeView;
 
 
@@ -206,11 +206,12 @@ public class ShowChallengeFragment extends Fragment
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
-            setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
+
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
                     challengeDescription.indexOf(" ", 25)+1) + "...");
+            setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
             // The cursor is empty, so fill the views with their default representations
