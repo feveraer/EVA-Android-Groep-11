@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
@@ -36,30 +35,19 @@ public class ShowChallengeFragment extends Fragment
     public static final String URI = "URI";
     public static final String PREVIEW = "PREVIEW";
     public static final String TAG = "SHOW_CHALLENGE";
-    public static final String BUNDLE_CHALLENGE_ID = "challenge_id";
+
     private static final String CATEGORY_PREFIX = "category_";
+    private final float LEAF_DISABLED_OPACITY = 0.5f;
 
     private Uri mUri;
 
-    private final float LEAF_DISABLED_OPACITY = 0.5f;
-    private String category;
-    private boolean canComplete;
 
-    //Field binding using Butterknife
-    @Bind(R.id.text_challenge_title)
-    TextView mTitleView;
-    @Bind(R.id.fragment_show_challenge_container)
-    View mContainer;
-    @Bind(R.id.challenge_card_top)
-    RelativeLayout mChallengeCardTop;
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
-    List<ImageView> mDifficultyView;
-    @Bind(R.id.text_challenge_description)
-    TextView mDescriptionView;
-    @Bind(R.id.circle_challenge_image)
-    CircleImageView mCircleImageView;
-    @Bind(R.id.challenge_complete)
-    ImageView mCompleteChallenge;
+    @Bind(R.id.text_challenge_title) TextView mTitleView;
+    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
+    @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
+    @Bind(R.id.challenge_complete) ImageView mCompleteChallengeView;
+
 
     private OnItemClickListener listener;
 
@@ -126,17 +114,10 @@ public class ShowChallengeFragment extends Fragment
         ButterKnife.bind(this, rootView);
 
         if (arguments != null && arguments.getBoolean(PREVIEW)) {
-            mCompleteChallenge.setVisibility(View.GONE);
+            mCompleteChallengeView.setVisibility(View.GONE);
         }
 
         return rootView;
-    }
-
-    private void setCategoryIcon() {
-        mCircleImageView.setImageResource(getResources().getIdentifier(
-                CATEGORY_PREFIX + category,
-                "drawable",
-                getActivity().getPackageName()));
     }
 
     @OnClick(R.id.card_challenge)
@@ -225,10 +206,7 @@ public class ShowChallengeFragment extends Fragment
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
-            category = data.getString(COL_CHALLENGE_CATEGORY).toLowerCase();
-            setCategoryIcon();
-
-            //challengeDescription = challengeDescription.replace("\n", "").substring(0,challengeDescription.indexOf(" ", 96)+1) + "...";
+            setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
@@ -240,6 +218,14 @@ public class ShowChallengeFragment extends Fragment
             mDescriptionView.setText(R.string.challenge_description_short);
             setLeavesOpacity(R.string.challenge_difficulty_middle);
         }
+    }
+
+
+    private void setCategoryIcon(String category) {
+        mCircleImageView.setImageResource(getResources().getIdentifier(
+                CATEGORY_PREFIX + category,
+                "drawable",
+                getActivity().getPackageName()));
     }
 
     @Override
