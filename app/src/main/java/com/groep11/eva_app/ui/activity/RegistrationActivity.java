@@ -27,5 +27,7 @@ public class RegistrationActivity extends TransparentBarActivity {
 
         fragmentTransaction.add(R.id.fragment_registration_container, loginFragment, CategoryFragment.TAG);
         fragmentTransaction.commit();
+
+        setOnBackStackChangedListener();
     }
 }
