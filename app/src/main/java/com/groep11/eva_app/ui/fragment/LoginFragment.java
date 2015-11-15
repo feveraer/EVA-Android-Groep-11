@@ -4,6 +4,7 @@ package com.groep11.eva_app.ui.fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.ui.activity.MainActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +67,8 @@ public class LoginFragment extends Fragment {
         // TODO: Authenticate login
         // TODO: Login succeeded    --> Show Main Activity (category or main fragment depending on challenge completion)
         // TODO: Login failed       --> Show toast with login error message
+        Intent intent = new Intent(this.getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 
 }
