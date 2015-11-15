@@ -2,13 +2,10 @@ package com.groep11.eva_app.ui.activity;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.RegistrationFragment;
+import com.groep11.eva_app.ui.fragment.LoginFragment;
 import com.groep11.eva_app.ui.fragment.CategoryFragment;
-
-import butterknife.Bind;
 
 public class RegistrationActivity extends TransparentBarActivity {
 
@@ -26,9 +23,9 @@ public class RegistrationActivity extends TransparentBarActivity {
         // Add Registration fragment to our fragment container
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        RegistrationFragment registrationFragment = RegistrationFragment.newInstance();
+        LoginFragment loginFragment = LoginFragment.newInstance();
 
-        fragmentTransaction.add(R.id.fragment_registration_container, registrationFragment, CategoryFragment.TAG);
+        fragmentTransaction.add(R.id.fragment_registration_container, loginFragment, CategoryFragment.TAG);
         fragmentTransaction.commit();
     }
 }
