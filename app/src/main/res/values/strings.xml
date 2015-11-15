@@ -56,8 +56,10 @@
     <string name="title.social">Sociaal</string>
 
     <!-- Registration Strings -->
-    <string name="registration.signup">Nog geen lid ? Registreer hier !</string>
+    <string name="registration.signup">Registreer</string>
+    <string name="registration.signup.redirect">Nog geen lid ? Registreer hier !</string>
     <string name="registration.login">Aanmelden</string>
     <string name="registration.hint.mail">e-mail</string>
     <string name="registration.hint.password">password</string>
+
 </resources>

@@ -1,8 +1,8 @@
 package com.groep11.eva_app.ui.fragment;
 
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,45 +15,40 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginFragment extends Fragment {
-    private static final String TAG = "LOGIN";
+public class RegistrationFragment extends Fragment {
+    private static final String TAG = "REGISTRATION";
 
-    @Bind(R.id.input_login_mail) EditText mInputMail;
-    @Bind(R.id.input_login_password) EditText mInputPassword;
+    @Bind(R.id.input_registration_mail) EditText mInputMail;
+    @Bind(R.id.input_registration_password) EditText mInputPassword;
 
 
-    public LoginFragment() {
+    public RegistrationFragment() {
         // Required empty public constructor
     }
 
-    public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        return fragment;
+    public static RegistrationFragment newInstance() {
+        RegistrationFragment fragment = new RegistrationFragment();
+        return  fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_registration, container, false);
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
 
         return rootView;
     }
 
-    @OnClick(R.id.text_login_signup)
-    public void showRegistration() {
-        Log.i(TAG, "Signup clicked!");
-        // TODO: show Registration fragment
-    }
-
-    @OnClick(R.id.btn_login_login)
+    @OnClick(R.id.btn_registration_signup)
     public void showMain() {
         Log.i(TAG, "Login clicked!");
         // TODO: Authenticate login
         // TODO: Login succeeded    --> Show Main Activity (category or main fragment depending on challenge completion)
         // TODO: Login failed       --> Show toast with login error message
     }
+
 
 }

@@ -1,6 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.groep11.eva_app.ui.fragment.LoginFragment">
+    android:layout_height="match_parent"
+    tools:context="com.groep11.eva_app.ui.fragment.RegistrationFragment">
+
 
 
     <LinearLayout
@@ -15,7 +17,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/input_login_mail"
+            android:id="@+id/input_registration_mail"
             android:editable="true"
             android:password="false"
             android:hint="@string/registration.hint.mail" />
@@ -25,7 +27,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/input_login_password"
+            android:id="@+id/input_registration_password"
             android:editable="true"
             android:password="true"
             android:hint="@string/registration.hint.password" />
@@ -33,20 +35,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/registration.login"
-            android:id="@+id/btn_login_login"
+            android:text="@string/registration.signup"
+            android:id="@+id/btn_registration_signup"
             android:layout_marginTop="@dimen/spacing_huge" />
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="@string/registration.signup.redirect"
-        android:id="@+id/text_login_signup"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="18sp"
-        android:textIsSelectable="false"
-        android:clickable="true" />
 </FrameLayout>
