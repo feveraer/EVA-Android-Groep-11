@@ -41,19 +41,22 @@ public class RegistrationFragment extends Fragment {
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
 
-        // Show the action bar for navigation
-        getActivity().getActionBar().show();
-
         return rootView;
     }
 
     @OnClick(R.id.btn_registration_signup)
     public void showMain() {
-        Log.i(TAG, "Login clicked!");
+        Log.i(TAG, "Signup clicked!");
         // TODO: Post registration
         // TODO: Show difficulty screen
         Intent intent = new Intent(this.getActivity(), MainActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.text_registration_login)
+    public void showLogin(){
+        Log.i(TAG, "Login clicked!");
+        getFragmentManager().popBackStack();
     }
 
 
