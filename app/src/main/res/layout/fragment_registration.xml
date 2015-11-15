@@ -41,4 +41,13 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/image_registration_logo"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/leaf"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:contentDescription="@string/registration.logo.description" />
+
 </FrameLayout>
