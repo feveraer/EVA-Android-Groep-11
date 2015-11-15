@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegistrationFragment extends Fragment {
-    private static final String TAG = "REGISTRATION";
+    public static final String TAG = "REGISTRATION";
 
     @Bind(R.id.input_registration_mail) EditText mInputMail;
     @Bind(R.id.input_registration_password) EditText mInputPassword;
@@ -38,6 +38,9 @@ public class RegistrationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_registration, container, false);
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
+
+        // Show the action bar for navigation
+        getActivity().getActionBar().show();
 
         return rootView;
     }

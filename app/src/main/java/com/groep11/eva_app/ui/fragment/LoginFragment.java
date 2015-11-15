@@ -2,6 +2,8 @@ package com.groep11.eva_app.ui.fragment;
 
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +47,16 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.text_login_signup)
     public void showRegistration() {
         Log.i(TAG, "Signup clicked!");
-        // TODO: show Registration fragment
+
+        FragmentManager fragmentManager = this.getActivity().getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        RegistrationFragment registrationFragment = RegistrationFragment.newInstance();
+
+        transaction.replace(R.id.fragment_registration_container, registrationFragment, RegistrationFragment.TAG);
+
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @OnClick(R.id.btn_login_login)
