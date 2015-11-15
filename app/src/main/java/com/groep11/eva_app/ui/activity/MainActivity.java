@@ -1,29 +1,16 @@
 package com.groep11.eva_app.ui.activity;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.fragment.CategoryFragment;
 import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
 import com.groep11.eva_app.util.DateFaker;
 
-public class MainActivity extends HiddenBarActivity implements ShowChallengeFragment.OnItemClickListener{
+public class MainActivity extends TransparentBarActivity implements ShowChallengeFragment.OnItemClickListener{
     public static final String TAG = "MAIN_ACTIVITY";
 
     @Override
