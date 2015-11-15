@@ -54,4 +54,8 @@
     <string name="title.restaurant">Uit eten</string>
     <string name="title.snack">Snack</string>
     <string name="title.social">Sociaal</string>
+
+    <!-- Registration Strings -->
+    <string name="registration.signup">Registreer</string>
+    <string name="registration.login">Aanmelden</string>
 </resources>

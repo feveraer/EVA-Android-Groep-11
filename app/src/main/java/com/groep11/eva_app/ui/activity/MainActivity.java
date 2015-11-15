@@ -18,6 +18,7 @@ public class MainActivity extends TransparentBarActivity implements ShowChalleng
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Make our action bar transparent for future use
         initActionBar();
 
         // Hide action bar on Category fragment
@@ -28,7 +29,7 @@ public class MainActivity extends TransparentBarActivity implements ShowChalleng
 
         CategoryFragment categoryFragment = CategoryFragment.newInstance();
 
-        fragmentTransaction.add(R.id.fragment_container, categoryFragment, CategoryFragment.TAG);
+        fragmentTransaction.add(R.id.fragment_main_container, categoryFragment, CategoryFragment.TAG);
         fragmentTransaction.commit();
 
         setOnBackStackChangedListener();

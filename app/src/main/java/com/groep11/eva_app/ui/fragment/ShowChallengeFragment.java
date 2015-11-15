@@ -143,12 +143,12 @@ public class ShowChallengeFragment extends Fragment
 
         if(categoryFragment != null) {
             // If category fragment is on the backstack, replace it with challengeDetails
-            transaction.replace(R.id.fragment_container, challengeDetailsFragment, TAG);
+            transaction.replace(R.id.fragment_main_container, challengeDetailsFragment, TAG);
         } else {
             // Category fragment is not on the backstack, so we'll replace Progress & Challenge with challengeDetails
             transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
             transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
-            transaction.add(R.id.fragment_container, challengeDetailsFragment, TAG);
+            transaction.add(R.id.fragment_main_container, challengeDetailsFragment, TAG);
         }
 
         // Adds challengeFragment to backStack

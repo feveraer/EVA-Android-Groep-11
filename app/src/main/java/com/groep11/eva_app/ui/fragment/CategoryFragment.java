@@ -224,8 +224,8 @@ public class CategoryFragment extends Fragment
 
         // Replace Category fragment with Progress & Challenge fragment
         transaction.remove(fragmentManager.findFragmentByTag(CategoryFragment.TAG));
-        transaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
-        transaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
+        transaction.add(R.id.fragment_main_container, progressFragment, ShowProgressFragment.TAG);
+        transaction.add(R.id.fragment_main_container, challengeFragment, ShowChallengeFragment.TAG);
 
         transaction.commit();
     }
