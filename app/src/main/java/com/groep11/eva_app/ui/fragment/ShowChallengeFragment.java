@@ -158,6 +158,9 @@ public class ShowChallengeFragment extends Fragment
 
     @OnClick(R.id.challenge_complete)
     public void onComplete(View view) {
+        // Show Challenge Complete dialog
+        showChallengeCompleteDialog();
+
         // Remove current challenge card
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -175,6 +178,12 @@ public class ShowChallengeFragment extends Fragment
             // Increment progress
             listener.onComplete();
         }
+    }
+
+    private void showChallengeCompleteDialog() {
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Some title");
+        dialog.show(fragmentManager, "fragment_challenge_complete");
     }
 
     @Override
