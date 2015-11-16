@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class ShowChallengeFragment extends Fragment
     private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
     private Uri mUri;
-
+    private Long mCurrentId = 0L;
 
     @Bind(R.id.text_challenge_title) TextView mTitleView;
     @Bind(R.id.text_challenge_description) TextView mDescriptionView;
@@ -158,6 +160,9 @@ public class ShowChallengeFragment extends Fragment
 
     @OnClick(R.id.challenge_complete)
     public void onComplete(View view) {
+        // Update challenge status to COMPLETED
+        updateChallengeStatus(mCurrentId, TaskStatus.COMPLETED.value);
+
         // Show Challenge Complete dialog
         showChallengeCompleteDialog();
 
@@ -178,6 +183,20 @@ public class ShowChallengeFragment extends Fragment
             // Increment progress
             listener.onComplete();
         }
+    }
+
+    // Refactor later? This exact method also exists in CategoryFragment
+    private void updateChallengeStatus(Long id, int status) {
+        ContentValues updateValues = new ContentValues();
+
+        updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
+
+        int rowsUpdated = getActivity().getContentResolver().update(
+                EvaContract.ChallengeEntry.buildChallengeUri(id),
+                updateValues,
+                null,           // ContentProvider takes care of this
+                null
+        );
     }
 
     private void showChallengeCompleteDialog() {
@@ -212,10 +231,11 @@ public class ShowChallengeFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
+            mCurrentId = data.getLong(COL_CHALLENGE_ID);
+
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
-
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
