@@ -57,4 +57,5 @@
 
     <!-- Challenge complete dialog -->
     <string name="congrats">Congrats!</string>
+    <string name="ok">Ok</string>
 </resources>
