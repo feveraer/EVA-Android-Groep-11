@@ -182,7 +182,7 @@ public class ShowChallengeFragment extends Fragment
 
     private void showChallengeCompleteDialog() {
         FragmentManager fragmentManager = getActivity().getFragmentManager();
-        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Some title");
+        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Congratulations!");
         dialog.show(fragmentManager, "fragment_challenge_complete");
     }
 

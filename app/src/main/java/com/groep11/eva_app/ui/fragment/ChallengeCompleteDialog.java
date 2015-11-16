@@ -9,16 +9,18 @@ import android.view.ViewGroup;
 
 import com.groep11.eva_app.R;
 
+import butterknife.Bind;
+
 
 public class ChallengeCompleteDialog extends DialogFragment {
 
     // Empty constructor is required for DialogFragment
     public ChallengeCompleteDialog() {}
 
-    public static ChallengeCompleteDialog newInstance(String arg) {
+    public static ChallengeCompleteDialog newInstance(String title) {
         ChallengeCompleteDialog dialog = new ChallengeCompleteDialog();
         Bundle args = new Bundle();
-        args.putString("arg", arg);
+        args.putString("title", title);
         dialog.setArguments(args);
         return dialog;
     }
@@ -32,5 +34,8 @@ public class ChallengeCompleteDialog extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Fetch arguments from bundle and set title (+ default value)
+        String title = getArguments().getString("title", "Congratulations!");
+        getDialog().setTitle(title);
     }
 }

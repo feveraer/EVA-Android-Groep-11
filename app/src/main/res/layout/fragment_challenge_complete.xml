@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:padding="@dimen/spacing_normal"
     android:orientation="vertical"
     tools:context="ChallengeCompleteFragment">
 
@@ -16,5 +17,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:src="@drawable/checked" />
 </LinearLayout>
