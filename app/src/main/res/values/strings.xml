@@ -55,6 +55,6 @@
     <string name="title.snack">Snack</string>
     <string name="title.social">Sociaal</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Challenge complete dialog -->
+    <string name="congrats">Congrats!</string>
 </resources>
