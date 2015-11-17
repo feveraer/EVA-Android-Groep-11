@@ -9,18 +9,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.authentication.AuthenticatorActivity;
 import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.Task;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -39,18 +42,28 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String sBaseUrl = "http://95.85.59.29:1337/api/";
     private static final String sUserId = "562ba076ce597a91722bab4c";
 
+    private final AccountManager mAccountManager;
+
     public EvaSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        mAccountManager = AccountManager.get(context);
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.d(LOG_TAG, "Starting sync");
-        List<Task> download = download();
-        updateLocalData(download);
+        Log.d(LOG_TAG, "Starting sync for account(" + account.name + ")");
+        try{// Get the auth token for the current account
+            String authToken = mAccountManager.blockingGetAuthToken(account, AuthenticatorActivity.ARG_ACCOUNT_TYPE, true);
+
+            Log.d(LOG_TAG, "account -> authToken(" + authToken + ")");
+            List<Task> download = download(authToken);
+            updateLocalData(download);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private List<Task> download() {
+    private List<Task> download(String authToken) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(sBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -58,7 +71,8 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
 
         EvaApiService service = retrofit.create(EvaApiService.class);
 
-        Call<List<Task>> call = service.listRepos(sUserId);
+        // TODO: change
+        Call<List<Task>> call = service.listRepos(authToken);
 
         Response<List<Task>> response = null;
         try {
