@@ -20,6 +20,7 @@ import com.groep11.eva_app.data.authentication.AuthenticatorActivity;
 import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
+import com.groep11.eva_app.data.remote.ServiceGenerator;
 import com.groep11.eva_app.data.remote.Task;
 
 import java.io.IOException;
@@ -64,12 +65,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private List<Task> download(String authToken) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(sBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        EvaApiService service = retrofit.create(EvaApiService.class);
+        EvaApiService service = ServiceGenerator.createService(EvaApiService.class);
 
         // TODO: change
         Call<List<Task>> call = service.listRepos(authToken);
