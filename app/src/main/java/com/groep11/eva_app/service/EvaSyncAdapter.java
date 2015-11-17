@@ -7,30 +7,28 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
-import com.groep11.eva_app.data.authentication.AuthenticatorActivity;
+import com.groep11.eva_app.data.authentication.AccountGeneral;
 import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.ServiceGenerator;
 import com.groep11.eva_app.data.remote.Task;
+import com.groep11.eva_app.ui.activity.RegistrationActivity;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = EvaSyncAdapter.class.getSimpleName();
@@ -54,7 +52,24 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(LOG_TAG, "Starting sync for account(" + account.name + ")");
         try{// Get the auth token for the current account
-            String authToken = mAccountManager.blockingGetAuthToken(account, AuthenticatorActivity.ARG_ACCOUNT_TYPE, true);
+            String authToken = mAccountManager.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+//            authToken = mAccountManager.getAuthToken(account,
+//                    AuthenticatorActivity.ARG_ACCOUNT_TYPE,
+//                    new Bundle(),
+//                    new Activity(),
+//                    new AccountManagerCallback<Bundle>() {
+//                        @Override
+//                        public void run(AccountManagerFuture<Bundle> result) {
+//
+//                        }
+//                    },
+//                    new Handler(new Handler.Callback() {
+//                        @Override
+//                        public boolean handleMessage(Message msg) {
+//                            return false;
+//                        }
+//                    })
+//            );
 
             Log.d(LOG_TAG, "account -> authToken(" + authToken + ")");
             List<Task> download = download(authToken);
@@ -65,10 +80,9 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private List<Task> download(String authToken) {
-        EvaApiService service = ServiceGenerator.createService(EvaApiService.class);
+        EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
 
-        // TODO: change
-        Call<List<Task>> call = service.listRepos(authToken);
+        Call<List<Task>> call = service.listRepos(sUserId);
 
         Response<List<Task>> response = null;
         try {
@@ -162,7 +176,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context The context used to access the account service
      * @return a fake account.
      */
-    public static Account getSyncAccount(Context context) {
+    private static Account getSyncAccount(Context context) {
         // Get an instance of the Android account manager
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
@@ -173,24 +187,25 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
 
         // If the password doesn't exist, the account doesn't exist
         if (null == accountManager.getPassword(newAccount)) {
-
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-            if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
-                return null;
-            }
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-
-            onAccountCreated(newAccount, context);
+            // launch RegistrationActivity to add an account
+            context.startActivity(new Intent(context, RegistrationActivity.class));
+            return null;
         }
         return newAccount;
+    }
+
+    public static Account createAccount(Context context, String username, String password){
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+        Account account = new Account(
+                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+
+        if (!accountManager.addAccountExplicitly(account, password, null)) {
+            return null;
+        }
+        onAccountCreated(account, context);
+        return account;
     }
 
     /**

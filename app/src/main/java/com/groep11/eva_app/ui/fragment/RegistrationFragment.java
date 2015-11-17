@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.data.authentication.AccountGeneral;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.activity.MainActivity;
 
 import butterknife.Bind;
@@ -49,8 +51,16 @@ public class RegistrationFragment extends Fragment {
         Log.i(TAG, "Signup clicked!");
         // TODO: Post registration
         // TODO: Show difficulty screen
-        Intent intent = new Intent(this.getActivity(), MainActivity.class);
-        startActivity(intent);
+
+        String username = mInputMail.getText().toString();
+        String password = mInputPassword.getText().toString();
+
+        EvaSyncAdapter.createAccount(getActivity().getApplicationContext(), username, password);
+
+        // true -> force new account
+        AccountGeneral.submit(getActivity().getApplicationContext(), username, password, true);
+
+        getActivity().finish();
     }
 
     @OnClick(R.id.text_registration_login)

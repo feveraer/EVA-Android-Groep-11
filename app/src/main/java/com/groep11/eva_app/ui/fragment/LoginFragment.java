@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.data.authentication.AccountGeneral;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.activity.MainActivity;
 
 import butterknife.Bind;
@@ -67,8 +69,16 @@ public class LoginFragment extends Fragment {
         // TODO: Authenticate login
         // TODO: Login succeeded    --> Show Main Activity (category or main fragment depending on challenge completion)
         // TODO: Login failed       --> Show toast with login error message
-        Intent intent = new Intent(this.getActivity(), MainActivity.class);
-        startActivity(intent);
+
+        String username = mInputMail.getText().toString();
+        String password = mInputPassword.getText().toString();
+
+        EvaSyncAdapter.createAccount(getActivity().getApplicationContext(), username, password);
+
+        // false -> do not add new account
+        AccountGeneral.submit(getActivity().getApplicationContext(), username, password, false);
+
+        getActivity().finish();
     }
 
 }
