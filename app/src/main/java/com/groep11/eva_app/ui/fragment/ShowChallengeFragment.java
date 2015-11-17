@@ -50,13 +50,6 @@ public class ShowChallengeFragment extends Fragment
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
     @Bind(R.id.challenge_complete) ImageView mCompleteChallengeView;
 
-
-    private OnItemClickListener listener;
-
-    public interface OnItemClickListener {
-        void onComplete();
-    }
-
     public ShowChallengeFragment() {
         // Required empty public constructor
     }
@@ -81,22 +74,6 @@ public class ShowChallengeFragment extends Fragment
         fragment.setArguments(args);
 
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity activity;
-        if (context instanceof Activity) {
-            activity = (Activity) context;
-
-            if (activity instanceof OnItemClickListener) {
-                listener = (OnItemClickListener) activity;
-            } else {
-                throw new ClassCastException(activity.toString() +
-                        " must implement OnItemClickListener");
-            }
-        }
     }
 
     @Override
@@ -175,14 +152,6 @@ public class ShowChallengeFragment extends Fragment
 
         transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
         transaction.commit();
-
-        // Make sure listener is set.
-        listener = (OnItemClickListener) getActivity();
-
-        if (listener != null) {
-            // Increment progress
-            listener.onComplete();
-        }
     }
 
     // Refactor later? This exact method also exists in CategoryFragment
