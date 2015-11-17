@@ -1,0 +1,69 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.groep11.eva_app.ui.fragment.RegistrationFragment">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/input_registration_mail"
+            android:editable="true"
+            android:password="false"
+            android:hint="@string/registration.hint.mail" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/input_registration_password"
+            android:editable="true"
+            android:password="true"
+            android:hint="@string/registration.hint.password" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registration.signup"
+            android:id="@+id/btn_registration_signup"
+            android:layout_marginTop="@dimen/spacing_huge"
+            android:textColor="@color/white_1000"
+            android:background="@color/light_green_500"
+            android:elevation="10dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/image_registration_logo"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/leaf"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:contentDescription="@string/registration.logo.description" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/registration.login.redirect"
+        android:id="@+id/text_registration_login"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:textSize="18sp"
+        android:textIsSelectable="false"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:textColor="@color/white_1000" />
+
+</FrameLayout>

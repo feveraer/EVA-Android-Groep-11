@@ -54,4 +54,13 @@
     <string name="title.restaurant">Uit eten</string>
     <string name="title.snack">Snack</string>
     <string name="title.social">Sociaal</string>
+
+    <!-- Registration Strings -->
+    <string name="registration.signup">Registreer</string>
+    <string name="registration.signup.redirect">Nog geen lid ? Registreer hier !</string>
+    <string name="registration.login.redirect">Al lid ? Meld je hier aan!</string>
+    <string name="registration.login">Aanmelden</string>
+    <string name="registration.hint.mail">e-mail</string>
+    <string name="registration.hint.password">password</string>
+    <string name="registration.logo.description">Image that represents EVAs logo</string>
 </resources>
