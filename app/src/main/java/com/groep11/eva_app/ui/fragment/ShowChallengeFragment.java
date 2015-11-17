@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
 
@@ -40,20 +42,13 @@ public class ShowChallengeFragment extends Fragment
     private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
     private Uri mUri;
-
+    private Long mCurrentId = 0L;
 
     @Bind(R.id.text_challenge_title) TextView mTitleView;
     @Bind(R.id.text_challenge_description) TextView mDescriptionView;
     @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
     @Bind(R.id.challenge_complete) ImageView mCompleteChallengeView;
-
-
-    private OnItemClickListener listener;
-
-    public interface OnItemClickListener {
-        void onComplete();
-    }
 
     public ShowChallengeFragment() {
         // Required empty public constructor
@@ -79,22 +74,6 @@ public class ShowChallengeFragment extends Fragment
         fragment.setArguments(args);
 
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity activity;
-        if (context instanceof Activity) {
-            activity = (Activity) context;
-
-            if (activity instanceof OnItemClickListener) {
-                listener = (OnItemClickListener) activity;
-            } else {
-                throw new ClassCastException(activity.toString() +
-                        " must implement OnItemClickListener");
-            }
-        }
     }
 
     @Override
@@ -158,6 +137,12 @@ public class ShowChallengeFragment extends Fragment
 
     @OnClick(R.id.challenge_complete)
     public void onComplete(View view) {
+        // Update challenge status to COMPLETED
+        updateChallengeStatus(mCurrentId, TaskStatus.COMPLETED.value);
+
+        // Show Challenge Complete dialog
+        showChallengeCompleteDialog();
+
         // Remove current challenge card
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -167,14 +152,26 @@ public class ShowChallengeFragment extends Fragment
 
         transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
         transaction.commit();
+    }
 
-        // Make sure listener is set.
-        listener = (OnItemClickListener) getActivity();
+    // Refactor later? This exact method also exists in CategoryFragment
+    private void updateChallengeStatus(Long id, int status) {
+        ContentValues updateValues = new ContentValues();
 
-        if (listener != null) {
-            // Increment progress
-            listener.onComplete();
-        }
+        updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
+
+        int rowsUpdated = getActivity().getContentResolver().update(
+                EvaContract.ChallengeEntry.buildChallengeUri(id),
+                updateValues,
+                null,           // ContentProvider takes care of this
+                null
+        );
+    }
+
+    private void showChallengeCompleteDialog() {
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Congratulations!");
+        dialog.show(fragmentManager, "fragment_challenge_complete");
     }
 
     @Override
@@ -203,10 +200,11 @@ public class ShowChallengeFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
+            mCurrentId = data.getLong(COL_CHALLENGE_ID);
+
             String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
-
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,

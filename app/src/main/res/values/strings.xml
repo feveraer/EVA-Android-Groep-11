@@ -63,4 +63,9 @@
     <string name="registration.hint.mail">e-mail</string>
     <string name="registration.hint.password">password</string>
     <string name="registration.logo.description">Image that represents EVAs logo</string>
+
+    <!-- Challenge complete dialog -->
+    <string name="complete.congratulations">Congrats!</string>
+    <string name="complete.confirm">Ok</string>
+
 </resources>
