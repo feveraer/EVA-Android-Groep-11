@@ -42,7 +42,7 @@
             android:syncable="true" />
 
         <!-- EvaAdapter's dummy authentication service -->
-        <service android:name=".service.EvaAuthenticatorService" >
+        <service android:name=".data.authentication.EvaAuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
