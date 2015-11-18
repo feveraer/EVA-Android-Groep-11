@@ -7,8 +7,8 @@ import com.groep11.eva_app.R;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.fragment.CategoryFragment;
 import com.groep11.eva_app.ui.fragment.ChallengeCompleteDialog;
-import com.groep11.eva_app.ui.fragment.ShowChallengeFragment;
 import com.groep11.eva_app.ui.fragment.ShowProgressFragment;
+import com.groep11.eva_app.ui.fragment.interfaces.IOnFocusListenable;
 import com.groep11.eva_app.util.DateFaker;
 
 public class MainActivity extends TransparentBarActivity implements ChallengeCompleteDialog.OnItemClickListener{
@@ -36,6 +36,19 @@ public class MainActivity extends TransparentBarActivity implements ChallengeCom
         setOnBackStackChangedListener();
 
         EvaSyncAdapter.initializeSyncAdapter(this);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        CategoryFragment categoryFragment = (CategoryFragment) getFragmentManager()
+                .findFragmentByTag(CategoryFragment.TAG);
+
+        if( categoryFragment != null &&
+            categoryFragment instanceof IOnFocusListenable ) {
+            ((IOnFocusListenable) categoryFragment).onWindowFocusChanged(hasFocus);
+        }
     }
 
     @Override

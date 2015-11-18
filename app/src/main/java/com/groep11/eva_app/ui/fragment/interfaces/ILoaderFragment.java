@@ -1,4 +1,4 @@
-package com.groep11.eva_app.ui.fragment;
+package com.groep11.eva_app.ui.fragment.interfaces;
 import com.groep11.eva_app.data.EvaContract;
 
 public interface ILoaderFragment {

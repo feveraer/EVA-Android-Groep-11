@@ -1,13 +1,11 @@
 package com.groep11.eva_app.ui.fragment;
 
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -22,6 +20,7 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
 import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
