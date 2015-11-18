@@ -4,6 +4,7 @@
     package="com.groep11.eva_app" >
 
     <!-- This permission is necessary for the API call. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Permissions required by the sync adapter -->

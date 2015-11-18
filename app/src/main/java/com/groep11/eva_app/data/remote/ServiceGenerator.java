@@ -13,6 +13,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 public class ServiceGenerator {
+    private static final String LOG_TAG = ServiceGenerator.class.getSimpleName();
 
     public static final String API_BASE_URL = "http://95.85.59.29:1337/api/";
 
@@ -28,7 +29,7 @@ public class ServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
         if (authToken != null) {
-            Log.d("ServiceGenerator", "createService() authToken("+authToken+")");
+            Log.d("ServiceGenerator", "createService(service=" + serviceClass.getSimpleName() + ", authToken=" + authToken + ")");
             httpClient.interceptors().clear();
             httpClient.interceptors().add(new Interceptor() {
                 @Override
@@ -44,8 +45,8 @@ public class ServiceGenerator {
                     return chain.proceed(request);
                 }
             });
-        }else{
-            Log.d("ServiceGenerator", "createService() authToken is empty");
+        } else {
+            Log.d("ServiceGenerator", "createService(service=" + serviceClass.getSimpleName() + ", authToken=NULL)");
         }
 
         Retrofit retrofit = builder.client(httpClient).build();

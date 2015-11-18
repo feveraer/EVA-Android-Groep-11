@@ -16,6 +16,7 @@ import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.authentication.AccountGeneral;
 import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.activity.MainActivity;
+import com.groep11.eva_app.ui.activity.RegistrationActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,13 +73,9 @@ public class LoginFragment extends Fragment {
 
         String username = mInputMail.getText().toString();
         String password = mInputPassword.getText().toString();
-
-        EvaSyncAdapter.createAccount(getActivity().getApplicationContext(), username, password);
-
-        // false -> do not add new account
-        AccountGeneral.submit(getActivity().getApplicationContext(), username, password, false);
-
-        getActivity().finish();
+        boolean createNewAccount = false;
+        AccountGeneral.submit(this.getActivity().getApplicationContext(), username, password, createNewAccount);
+        this.getActivity().finish();
     }
 
 }

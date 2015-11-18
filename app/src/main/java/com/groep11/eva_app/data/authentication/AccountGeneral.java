@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 
 public class AccountGeneral {
     public static final String AUTHTOKEN_TYPE_FULL_ACCESS = "full_access";
@@ -22,13 +23,17 @@ public class AccountGeneral {
         new AsyncTask<Void, Void, Intent>() {
             @Override
             protected Intent doInBackground(Void... params) {
-                String authToken = sServerAuthenticate.userSignIn(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
+                String authToken;
+                if (isAddingNewAccount)
+                    authToken = sServerAuthenticate.userSignUp(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
+                else
+                    authToken = sServerAuthenticate.userSignIn(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
                 final Intent res = new Intent();
                 res.putExtra(AccountManager.KEY_ACCOUNT_NAME, userName);
                 res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, context.getString(R.string.sync_account_type));
                 res.putExtra(AccountManager.KEY_AUTHTOKEN, authToken);
                 res.putExtra(PARAM_USER_PASS, userPass);
-                res.putExtra(PARAM_USER_PASS, isAddingNewAccount);
+                res.putExtra(ARG_IS_ADDING_NEW_ACCOUNT, isAddingNewAccount);
                 return res;
             }
 
@@ -46,20 +51,22 @@ public class AccountGeneral {
 
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
-        final Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
-        if (intent.getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)) {
-            String authtoken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
-            String authtokenType = AUTHTOKEN_TYPE_FULL_ACCESS;
-            // Creating the account on the device and setting the auth token we got
-            // (Not setting the auth token will cause another call to the server to authenticate the user)
-            // TODO: userdata add _id?
-            accountManager.addAccountExplicitly(account, accountPassword, null);
-            accountManager.setAuthToken(account, authtokenType, authtoken);
-        } else {
-            accountManager.setPassword(account, accountPassword);
-        }
-//        setAccountAuthenticatorResult(intent.getExtras());
-//        setResult(RESULT_OK, intent);
-//        finish();
+        String accountType = intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
+        boolean isAddingNewAccount = intent.getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false);
+
+        final Account account = new Account(accountName, accountType);
+
+        String authtoken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
+        String authtokenType = AUTHTOKEN_TYPE_FULL_ACCESS;
+
+        // TODO: userdata add _id?
+        // Creating the account on the device and setting the auth token we got
+        accountManager.addAccountExplicitly(account, accountPassword, null);
+        // (Not setting the auth token will cause another call to the server to authenticate the user)
+        accountManager.setAuthToken(account, authtokenType, authtoken);
+
+
+        EvaSyncAdapter.onAccountCreated(context, account);
+        EvaSyncAdapter.initializeSyncAdapter(context);
     }
 }
