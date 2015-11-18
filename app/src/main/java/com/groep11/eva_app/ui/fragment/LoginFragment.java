@@ -1,32 +1,33 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.accounts.Account;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.authentication.AccountGeneral;
-import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.ui.activity.MainActivity;
-import com.groep11.eva_app.ui.activity.RegistrationActivity;
+import com.groep11.eva_app.data.authentication.SignInFinishedCallback;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements SignInFinishedCallback {
     private static final String TAG = "LOGIN";
 
-    @Bind(R.id.input_login_mail) EditText mInputMail;
-    @Bind(R.id.input_login_password) EditText mInputPassword;
+    @Bind(R.id.input_login_mail)
+    EditText mInputMail;
+    @Bind(R.id.input_login_password)
+    EditText mInputPassword;
 
 
     public LoginFragment() {
@@ -67,15 +68,22 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.btn_login_login)
     public void showMain() {
         Log.i(TAG, "Login clicked!");
-        // TODO: Authenticate login
-        // TODO: Login succeeded    --> Show Main Activity (category or main fragment depending on challenge completion)
-        // TODO: Login failed       --> Show toast with login error message
-
         String username = mInputMail.getText().toString();
         String password = mInputPassword.getText().toString();
-        boolean createNewAccount = false;
-        AccountGeneral.submit(this.getActivity().getApplicationContext(), username, password, createNewAccount);
-        this.getActivity().finish();
+        AccountGeneral.submit(this.getActivity().getApplicationContext(), username, password, AccountGeneral.LOGIN, this);
     }
 
+    @Override
+    public void signInFinished(Account account) {
+        // login failed
+        if (account == null) {
+            // TODO: cleanup with resources etc
+            Toast.makeText(this.getActivity().getApplicationContext(), "Failed to login, is your email and password correct?", Toast.LENGTH_LONG).show();
+            mInputPassword.getText().clear();
+            return;
+        }
+        // login succeeded
+        Toast.makeText(this.getActivity().getApplicationContext(), "Login succeeded", Toast.LENGTH_SHORT).show();
+        this.getActivity().finish();
+    }
 }
