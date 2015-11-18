@@ -1,9 +1,18 @@
 package com.groep11.eva_app.data.authentication;
 
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.groep11.eva_app.data.remote.EvaApiService;
+import com.groep11.eva_app.data.remote.ServiceGenerator;
+import com.groep11.eva_app.data.remote.TokenResponse;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit.Call;
+import retrofit.Response;
 
 public class ServerAuthenticate {
     private static final String LOG_TAG = ServerAuthenticate.class.getSimpleName();
@@ -18,14 +27,35 @@ public class ServerAuthenticate {
     }
 
     String userSignIn(String userName, String userPass, String mAuthTokenType) {
-        User user = users.get(userName);
-        if (user != null) {
-            Log.d(LOG_TAG, String.format("User signin succeeded: name(%s), pass(%s), token(%s)", user.name, user.password, user.token));
-        } else {
-            Log.d(LOG_TAG, String.format("User signin FAILED: name(%s), pass(%s), tokenType(%s)", userName, userPass, mAuthTokenType));
+        EvaApiService api = ServiceGenerator.createService(EvaApiService.class);
+        Call<TokenResponse> call = api.getToken(new com.groep11.eva_app.data.remote.User(userName, userPass));
 
+        Response<TokenResponse> response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error ", e);
         }
-        return user != null && user.password.equals(userPass) ? user.token : null;
+
+        if (response == null || !response.isSuccess()) {
+            Log.e(LOG_TAG, "signin call to api didn't work, response == null or !isSuccess : response=" + response);
+            return null;
+        }
+        TokenResponse tokenResponse = response.body();
+        if (tokenResponse == null) {
+            Log.e(LOG_TAG, "TokenResponse is null");
+            return null;
+        }
+
+        String token = tokenResponse.getToken();
+        Log.v(LOG_TAG, "TokenResponse: " + tokenResponse);
+
+        if(TextUtils.isEmpty(token)){
+            Log.w(LOG_TAG, "Token from server is empty");
+            return null;
+        }
+
+        return token;
     }
 
     String userSignUp(String userName, String userPass, String mAuthTokenType) {
