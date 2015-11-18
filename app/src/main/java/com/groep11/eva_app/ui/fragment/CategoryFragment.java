@@ -30,6 +30,8 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.ui.ToggleSwipeViewPager;
+import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.ui.fragment.interfaces.IOnFocusListenable;
 import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CategoryFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment, IOnFocusListenable {
 
     public static final String TAG = "CATEGORY";
 
@@ -55,6 +57,7 @@ public class CategoryFragment extends Fragment
     private PagerAdapter mPagerAdapter;
     private AnimatorSet selectionAnimation;
     private View mSelectedContainer;
+    private boolean mHasFocusedOnce = false;
 
     @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 }) List<LinearLayout> mCategoryContainers;
     @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 }) List<ImageView> mCategoryIcons;
@@ -81,6 +84,20 @@ public class CategoryFragment extends Fragment
         editor.apply();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called with: " + "mHasFocuseOnce = [" + mHasFocusedOnce + "]");
+        if(mHasFocusedOnce) {
+            selectCategoryAnimation(mSelectedContainer, false);
+            mHasFocusedOnce = true;
+            mPreviewsPager.setCurrentItem(getClickedCategoryIndex(mSelectedContainer.getId()));
+
+            // Change our save button's text
+            updateSaveButtonText();
+        }
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -91,7 +108,6 @@ public class CategoryFragment extends Fragment
         SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         int previousSelected = prefs.getInt("selectedCategoryIndex", 0);
         mSelectedContainer = mCategoryContainers.get(previousSelected);
-
     }
 
     @Override
@@ -105,6 +121,24 @@ public class CategoryFragment extends Fragment
         ButterKnife.bind(this, rootView);
 
         return rootView;
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.d(TAG, "onWindowFocusChanged() called with: " + "hasFocus = [" + hasFocus + "] && hasFocusedOnce = [" + mHasFocusedOnce + "]");
+        if(!mHasFocusedOnce && hasFocus) {
+            // Select the right category with an animation
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    selectCategoryAnimation(mSelectedContainer, false);
+                    mHasFocusedOnce = true;
+                    mPreviewsPager.setCurrentItem(getClickedCategoryIndex(mSelectedContainer.getId()));
+
+                    // Change our save button's text
+                    updateSaveButtonText();
+                }
+            }, 1000);
+        }
     }
 
     @Override
@@ -140,18 +174,6 @@ public class CategoryFragment extends Fragment
                 // Link the adapter to the Pager and disable swiping
                 mPreviewsPager.setAdapter(mPagerAdapter);
                 mPreviewsPager.setSwipingEnabled(false);
-
-                // After data is loaded, select the right one (animation bug fix...)
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        selectCategoryAnimation(mSelectedContainer, false);
-                        mPreviewsPager.setCurrentItem(getClickedCategoryIndex(mSelectedContainer.getId()));
-
-                        // Change our save button's text
-                        updateSaveButtonText();
-                    }
-                }, 1000);
 
             } else {
                 Log.e(TAG, "We need 3 challenges!");

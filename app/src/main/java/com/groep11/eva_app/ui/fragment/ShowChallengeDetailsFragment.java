@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
 
 import java.util.List;
 
