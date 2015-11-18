@@ -15,6 +15,6 @@ public interface EvaApiService {
     @POST("authenticate")
     Call<TokenResponse> getToken(@Body User user);
 
-    @POST("users")
+    @POST("register")
     Call<TokenResponse> register(@Body User user);
 }

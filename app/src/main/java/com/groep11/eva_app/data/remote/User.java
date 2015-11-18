@@ -3,8 +3,6 @@ package com.groep11.eva_app.data.remote;
 public class User {
     private String email;
     private String password;
-    private String name;
-    private String loginType;
 
     public User() {
     }
@@ -12,8 +10,6 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-        this.name = "nameFoo";
-        this.loginType = "loginTypeFoo";
     }
 
     public String getEmail() {
@@ -30,22 +26,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLoginType() {
-        return loginType;
-    }
-
-    public void setLoginType(String loginType) {
-        this.loginType = loginType;
     }
 
     @Override
