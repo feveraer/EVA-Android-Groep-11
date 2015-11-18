@@ -1,5 +1,6 @@
 package com.groep11.eva_app.ui.activity;
 
+import android.accounts.AccountManager;
 import android.app.FragmentTransaction;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -16,6 +17,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RegistrationActivity extends TransparentBarActivity {
+    public static final String ARG_ACCOUNT_TYPE = "argAuthType";
+    public static final String ARG_AUTH_TYPE = "argAuthType";
+    public static final String ARG_IS_ADDING_NEW_ACCOUNT = "argIsAddingNewAccount";
+
     @Bind(R.id.video_registration)
     VideoView mVideo;
 

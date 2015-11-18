@@ -1,4 +1,4 @@
-package com.groep11.eva_app.service;
+package com.groep11.eva_app.data.authentication;
 
 import android.app.Service;
 import android.content.Intent;

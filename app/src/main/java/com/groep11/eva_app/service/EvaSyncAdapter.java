@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -15,21 +16,22 @@ import android.util.Log;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
+import com.groep11.eva_app.data.authentication.AccountGeneral;
 import com.groep11.eva_app.data.remote.Category;
 import com.groep11.eva_app.data.remote.Challenge;
 import com.groep11.eva_app.data.remote.EvaApiService;
+import com.groep11.eva_app.data.remote.ServiceGenerator;
 import com.groep11.eva_app.data.remote.Task;
+import com.groep11.eva_app.ui.activity.RegistrationActivity;
 
 import java.io.IOException;
 import java.util.List;
 
 import retrofit.Call;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
-    public final String LOG_TAG = EvaSyncAdapter.class.getSimpleName();
+    public final static String LOG_TAG = EvaSyncAdapter.class.getSimpleName();
 
     // Interval at which to sync with the challenges, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
@@ -39,24 +41,32 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String sBaseUrl = "http://95.85.59.29:1337/api/";
     private static final String sUserId = "562ba076ce597a91722bab4c";
 
+    private final AccountManager mAccountManager;
+
     public EvaSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        mAccountManager = AccountManager.get(context);
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.d(LOG_TAG, "Starting sync");
-        List<Task> download = download();
-        updateLocalData(download);
+        Log.d(LOG_TAG, "Starting sync for account(" + account.name + ")");
+        try {// Get the auth token for the current account
+            Log.v(LOG_TAG, "Getting authToken");
+            String authToken = mAccountManager.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+
+            Log.v(LOG_TAG, "account -> authToken(" + authToken + ")");
+            List<Task> download = download(authToken);
+            Log.v(LOG_TAG, "Downloaded tasks(" + download.size() + ")");
+            updateLocalData(download);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(LOG_TAG, "ERROR: failed to sync: " + e);
+        }
     }
 
-    private List<Task> download() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(sBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        EvaApiService service = retrofit.create(EvaApiService.class);
+    private List<Task> download(String authToken) {
+        EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
 
         Call<List<Task>> call = service.listRepos(sUserId);
 
@@ -152,35 +162,22 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context The context used to access the account service
      * @return a fake account.
      */
-    public static Account getSyncAccount(Context context) {
+    private static Account getSyncAccount(Context context) {
         // Get an instance of the Android account manager
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+        AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
 
-        // Create the account type and default account
-        Account newAccount = new Account(
-                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
-
-        // If the password doesn't exist, the account doesn't exist
-        if (null == accountManager.getPassword(newAccount)) {
-
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
-            if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
-                return null;
-            }
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-
-            onAccountCreated(newAccount, context);
+        Account[] accounts = accountManager.getAccountsByType(context.getString(R.string.sync_account_type));
+        if (accounts.length > 1) {
+            Log.w(LOG_TAG, "More than one account(" + accounts.length + ") found of type(" + context.getString(R.string.sync_account_type) + "), using first");
         }
-        return newAccount;
+
+        if (accounts.length < 1) {
+            // launch RegistrationActivity to add an account
+            context.startActivity(new Intent(context, RegistrationActivity.class));
+            return null;
+        }
+
+        return accounts[0];
     }
 
     /**
@@ -191,20 +188,17 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
 
-        // Create the account type and default account
-        Account newAccount = new Account(
-                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+        Account[] accounts = accountManager.getAccountsByType(context.getString(R.string.sync_account_type));
 
-        // If the password exists, the account exists
-        if (null != accountManager.getPassword(newAccount)) {
+        for (Account account : accounts) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                boolean success = accountManager.removeAccountExplicitly(newAccount);
-                Log.d(EvaSyncAdapter.class.getSimpleName(), "Deleted account: " + success);
+                boolean success = accountManager.removeAccountExplicitly(account);
+                Log.d(LOG_TAG, "Deleted account: " + success);
             }
         }
     }
 
-    private static void onAccountCreated(Account newAccount, Context context) {
+    public static void onAccountCreated(Context context, Account newAccount) {
         /*
          * Since we've created an account
          */
