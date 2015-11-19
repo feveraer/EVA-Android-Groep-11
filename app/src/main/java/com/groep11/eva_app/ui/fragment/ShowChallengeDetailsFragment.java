@@ -1,7 +1,10 @@
 package com.groep11.eva_app.ui.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -18,15 +21,18 @@ import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeDetailsFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+    OnDetailsSaveCategoryListener mCallback;
 
     public static final String DETAIL_URI = "URI";
     public static final String PREVIEW = "PREVIEW";
@@ -81,6 +87,8 @@ public class ShowChallengeDetailsFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+
+        mCallback = (OnDetailsSaveCategoryListener) getFragmentManager().findFragmentByTag(CategoryFragment.TAG);
     }
 
     @Override
@@ -119,6 +127,16 @@ public class ShowChallengeDetailsFragment extends Fragment
         }
     }
 
+    @OnClick(R.id.details_button_save)
+    public void saveSelectedCategory(View view){
+        // Navigate back to Category Fragment
+        getActivity().getActionBar().hide();
+        getFragmentManager().popBackStack();
+
+        // Notify Category fragment that the user wants to do this challenge
+        mCallback.onDetailsSaveCategory();
+    }
+
     private void setLeavesOpacity(int diff) {
         //Set opacity leaf #3
         mDifficultyViews.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
@@ -135,5 +153,9 @@ public class ShowChallengeDetailsFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    public interface OnDetailsSaveCategoryListener {
+        public void onDetailsSaveCategory();
     }
 }
