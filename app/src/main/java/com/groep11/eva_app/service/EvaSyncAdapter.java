@@ -68,7 +68,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     private List<Task> download(String authToken) {
         EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
 
-        Call<List<Task>> call = service.listRepos(sUserId);
+        Call<List<Task>> call = service.getTasks(sUserId);
 
         Response<List<Task>> response = null;
         try {
