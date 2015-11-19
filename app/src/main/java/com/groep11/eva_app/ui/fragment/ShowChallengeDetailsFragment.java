@@ -8,9 +8,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ public class ShowChallengeDetailsFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
 
     public static final String DETAIL_URI = "URI";
+    public static final String PREVIEW = "PREVIEW";
     public static final String TAG = "SHOW_CHALLENGE_DETAILS";
 
     private static final String CATEGORY_PREFIX = "category_";
@@ -37,14 +40,16 @@ public class ShowChallengeDetailsFragment extends Fragment
     @Bind(R.id.text_challenge_title) TextView mTitleView;
     @Bind(R.id.text_challenge_description) TextView mDescriptionView;
     @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyViews;
+    @Bind(R.id.details_button_save) Button mSaveButton;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
     }
 
     public static ShowChallengeDetailsFragment newInstance() {
-        return new ShowChallengeDetailsFragment();
+        ShowChallengeDetailsFragment fragment = new ShowChallengeDetailsFragment();
+        return fragment;
     }
 
     @Override
@@ -59,6 +64,12 @@ public class ShowChallengeDetailsFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_show_challenge_details, container, false);
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
+
+        Log.i(TAG, "args" + arguments + arguments.getBoolean(PREVIEW));
+        // If this is the daily preview, show the save category button
+        if (arguments != null && !arguments.getBoolean(PREVIEW)) {
+            mSaveButton.setVisibility(View.GONE);
+        }
 
         // Show the action bar for navigation
         getActivity().getActionBar().show();
@@ -110,9 +121,9 @@ public class ShowChallengeDetailsFragment extends Fragment
 
     private void setLeavesOpacity(int diff) {
         //Set opacity leaf #3
-        mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        mDifficultyViews.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
         //Set opacity leaf #2
-        mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
+        mDifficultyViews.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
     private void setCategoryIcon(String category) {

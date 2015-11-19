@@ -11,6 +11,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,15 +99,22 @@ public class ShowChallengeFragment extends Fragment
         return rootView;
     }
 
+    private boolean isPreviewChallenge(){
+        return mCompleteChallengeView.getVisibility() == View.GONE;
+    }
+
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
 
         // Create arguments (uri)
         Bundle arguments = new Bundle();
         arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
+        arguments.putBoolean(PREVIEW, isPreviewChallenge());
 
         // Create new challengeDetailsFragment and set it's arguments
+        Log.i(TAG, "prev : " + isPreviewChallenge());
         ShowChallengeDetailsFragment challengeDetailsFragment = ShowChallengeDetailsFragment.newInstance();
+
         challengeDetailsFragment.setArguments(arguments);
 
         // Get the activity's fragment manager (important for categoryFragment with the viewpager!)
