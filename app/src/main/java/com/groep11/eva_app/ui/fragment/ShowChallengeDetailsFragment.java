@@ -88,7 +88,12 @@ public class ShowChallengeDetailsFragment extends Fragment
         getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
 
-        mCallback = (OnDetailsSaveCategoryListener) getFragmentManager().findFragmentByTag(CategoryFragment.TAG);
+        try{
+            mCallback = (OnDetailsSaveCategoryListener) getFragmentManager().findFragmentByTag(CategoryFragment.TAG);
+        } catch (ClassCastException ex) {
+            throw new ClassCastException("ShowChallengeDetailsFragment may not be started from another fragment than ShowChallengeFragment");
+        }
+
     }
 
     @Override
