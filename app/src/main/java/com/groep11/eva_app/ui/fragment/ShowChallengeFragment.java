@@ -1,16 +1,25 @@
 package com.groep11.eva_app.ui.fragment;
 
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +28,15 @@ import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
+import com.groep11.eva_app.data.authentication.AccountGeneral;
+import com.groep11.eva_app.data.remote.EvaApiService;
+import com.groep11.eva_app.data.remote.ServiceGenerator;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.ui.activity.RegistrationActivity;
 import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
 import com.groep11.eva_app.util.TaskStatus;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.Bind;
@@ -43,17 +57,22 @@ public class ShowChallengeFragment extends Fragment
     private Uri mUri;
     private Long mCurrentId = 0L;
 
-    @Bind(R.id.text_challenge_title) TextView mTitleView;
-    @Bind(R.id.text_challenge_description) TextView mDescriptionView;
-    @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
-    @Bind(R.id.challenge_complete) ImageView mCompleteChallengeView;
+    @Bind(R.id.text_challenge_title)
+    TextView mTitleView;
+    @Bind(R.id.text_challenge_description)
+    TextView mDescriptionView;
+    @Bind(R.id.circle_challenge_image)
+    CircleImageView mCircleImageView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3})
+    List<ImageView> mDifficultyView;
+    @Bind(R.id.challenge_complete)
+    ImageView mCompleteChallengeView;
 
     public ShowChallengeFragment() {
         // Required empty public constructor
     }
 
-    public static ShowChallengeFragment newInstance(boolean isPreview){
+    public static ShowChallengeFragment newInstance(boolean isPreview) {
         ShowChallengeFragment fragment = new ShowChallengeFragment();
         if (isPreview) {
             Bundle args = new Bundle();
@@ -63,7 +82,7 @@ public class ShowChallengeFragment extends Fragment
         return new ShowChallengeFragment();
     }
 
-    public static ShowChallengeFragment newInstance(Uri uri, boolean isPreview){
+    public static ShowChallengeFragment newInstance(Uri uri, boolean isPreview) {
         ShowChallengeFragment fragment = new ShowChallengeFragment();
         Bundle args = new Bundle();
         args.putParcelable(URI, uri);
@@ -119,7 +138,7 @@ public class ShowChallengeFragment extends Fragment
         // Replace current fragments with challengeDetailsFragment
         Fragment categoryFragment = fragmentManager.findFragmentByTag(CategoryFragment.TAG);
 
-        if(categoryFragment != null) {
+        if (categoryFragment != null) {
             // If category fragment is on the backstack, replace it with challengeDetails
             transaction.replace(R.id.fragment_main_container, challengeDetailsFragment, TAG);
         } else {
@@ -154,7 +173,7 @@ public class ShowChallengeFragment extends Fragment
     }
 
     // Refactor later? This exact method also exists in CategoryFragment
-    private void updateChallengeStatus(Long id, int status) {
+    private void updateChallengeStatus(final Long id, final int status) {
         ContentValues updateValues = new ContentValues();
 
         updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
@@ -165,6 +184,39 @@ public class ShowChallengeFragment extends Fragment
                 null,           // ContentProvider takes care of this
                 null
         );
+
+        // Get an instance of the Android account manager
+        final AccountManager accountManager =
+                (AccountManager) getActivity().getSystemService(Context.ACCOUNT_SERVICE);
+        // Make sure account is in list of remembered accounts
+        final Account[] accounts = accountManager.getAccountsByType("eva_app.groep11.com");
+        // Accounts can only be empty, never null
+        if (accounts.length > 0) {
+            final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(accounts[0],
+                    AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, getActivity(), null, null);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        Bundle authTokenBundle = future.getResult();
+                        if (authTokenBundle.containsKey(AccountManager.KEY_AUTHTOKEN)) {
+                            String authToken = authTokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
+
+                            EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
+                            // TODO: get userid somehow
+                            //service.updateTaskStatus("someid", "" + id, status);
+                        }
+                    } catch (OperationCanceledException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (AuthenticatorException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            }.execute();
+        }
     }
 
     private void showChallengeCompleteDialog() {
@@ -207,7 +259,7 @@ public class ShowChallengeFragment extends Fragment
 
             mTitleView.setText(challengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
-                    challengeDescription.indexOf(" ", 25)+1) + "...");
+                    challengeDescription.indexOf(" ", 25) + 1) + "...");
             setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
             setLeavesOpacity(Integer.parseInt(challengeDifficulty));
         } else {
