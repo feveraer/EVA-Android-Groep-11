@@ -58,6 +58,7 @@ public class CategoryFragment extends Fragment
     private AnimatorSet mSelectionAnimation;
     private View mSelectedContainer;
     private boolean mHasFocusedOnce = false;
+    private boolean mDelayedAnimationStarting = false;
     private boolean mIsFragmentRestoration = false;
 
     @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 }) List<LinearLayout> mCategoryContainers;
@@ -298,6 +299,8 @@ public class CategoryFragment extends Fragment
     }
 
     private boolean isAnimationAllowed(){
+        // Previously selected icon animation is starting, animation not allowed!
+        if(mDelayedAnimationStarting) return false;
         // Nothing selected yet, so yeah :)
         if(mSelectionAnimation == null) return true;
         // Something is selected, only when it's not still animating!
@@ -305,6 +308,7 @@ public class CategoryFragment extends Fragment
     }
 
     private void selectPreviouslyChosenCategory() {
+        mDelayedAnimationStarting = true;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -314,6 +318,8 @@ public class CategoryFragment extends Fragment
 
                 // Change our save button's text
                 updateSaveButtonText();
+
+                mDelayedAnimationStarting = false;
             }
         }, 1000);
     }
