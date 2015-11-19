@@ -80,5 +80,10 @@
             android:text="@string/challenge.description.long"
             style="@style/DetailsContentText" />
 
+        <Button
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="wrap_content"
+            android:id="@+id/details_button_save"
+            style="@style/CategorySaveButton" />
     </LinearLayout>
 </ScrollView>

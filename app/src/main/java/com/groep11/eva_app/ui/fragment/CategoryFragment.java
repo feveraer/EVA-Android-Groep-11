@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CategoryFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment, IOnFocusListenable {
+        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment, IOnFocusListenable, ShowChallengeDetailsFragment.OnDetailsSaveCategoryListener {
 
     public static final String TAG = "CATEGORY";
 
@@ -58,7 +58,9 @@ public class CategoryFragment extends Fragment
     private AnimatorSet mSelectionAnimation;
     private View mSelectedContainer;
     private boolean mHasFocusedOnce = false;
+    private boolean mDelayedAnimationStarting = false;
     private boolean mIsFragmentRestoration = false;
+    private boolean mSavedInDetails = false;
 
     @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 }) List<LinearLayout> mCategoryContainers;
     @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 }) List<ImageView> mCategoryIcons;
@@ -93,8 +95,13 @@ public class CategoryFragment extends Fragment
         // Not the first time onResume is being called
         // and it's being called after a fragment transaction
         if(mHasFocusedOnce && mIsFragmentRestoration) {
-            // Select the right category with an animation
-            selectPreviouslyChosenCategory();
+            if(mSavedInDetails){
+                saveSelectedCategory();
+            } else {
+                // Select the right category with an animation
+                selectPreviouslyChosenCategory();
+            }
+
         }
     }
 
@@ -218,7 +225,7 @@ public class CategoryFragment extends Fragment
     }
 
     @OnClick(R.id.category_button_save)
-    public void saveSelectedCategory(View view){
+    public void saveSelectedCategory(){
         // Get the index of the category the user clicked on
         int selectedIndex = getClickedCategoryIndex(mSelectedContainer.getId());
 
@@ -298,6 +305,8 @@ public class CategoryFragment extends Fragment
     }
 
     private boolean isAnimationAllowed(){
+        // Previously selected icon animation is starting, animation not allowed!
+        if(mDelayedAnimationStarting) return false;
         // Nothing selected yet, so yeah :)
         if(mSelectionAnimation == null) return true;
         // Something is selected, only when it's not still animating!
@@ -305,6 +314,7 @@ public class CategoryFragment extends Fragment
     }
 
     private void selectPreviouslyChosenCategory() {
+        mDelayedAnimationStarting = true;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -314,6 +324,8 @@ public class CategoryFragment extends Fragment
 
                 // Change our save button's text
                 updateSaveButtonText();
+
+                mDelayedAnimationStarting = false;
             }
         }, 1000);
     }
@@ -341,6 +353,11 @@ public class CategoryFragment extends Fragment
 
         // Set the currently selected category icon, we'll be able to reverse it's animation later on
         mSelectedContainer = isReversed ? null : categoryView;
+    }
+
+    @Override
+    public void onDetailsSaveCategory() {
+        mSavedInDetails = true;
     }
 
     // Regulate the fragments being shown in our ViewPager

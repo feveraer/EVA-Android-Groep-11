@@ -1,32 +1,41 @@
 package com.groep11.eva_app.ui.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeDetailsFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+    OnDetailsSaveCategoryListener mCallback;
 
     public static final String DETAIL_URI = "URI";
+    public static final String PREVIEW = "PREVIEW";
     public static final String TAG = "SHOW_CHALLENGE_DETAILS";
 
     private static final String CATEGORY_PREFIX = "category_";
@@ -37,14 +46,16 @@ public class ShowChallengeDetailsFragment extends Fragment
     @Bind(R.id.text_challenge_title) TextView mTitleView;
     @Bind(R.id.text_challenge_description) TextView mDescriptionView;
     @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
-    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
+    @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyViews;
+    @Bind(R.id.details_button_save) Button mSaveButton;
 
     public ShowChallengeDetailsFragment() {
         // Required empty public constructor
     }
 
     public static ShowChallengeDetailsFragment newInstance() {
-        return new ShowChallengeDetailsFragment();
+        ShowChallengeDetailsFragment fragment = new ShowChallengeDetailsFragment();
+        return fragment;
     }
 
     @Override
@@ -60,6 +71,12 @@ public class ShowChallengeDetailsFragment extends Fragment
         // Non-activity binding for butterknife
         ButterKnife.bind(this, rootView);
 
+        Log.i(TAG, "args" + arguments + arguments.getBoolean(PREVIEW));
+        // If this is the daily preview, show the save category button
+        if (arguments != null && !arguments.getBoolean(PREVIEW)) {
+            mSaveButton.setVisibility(View.GONE);
+        }
+
         // Show the action bar for navigation
         getActivity().getActionBar().show();
 
@@ -70,6 +87,13 @@ public class ShowChallengeDetailsFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+
+        try{
+            mCallback = (OnDetailsSaveCategoryListener) getFragmentManager().findFragmentByTag(CategoryFragment.TAG);
+        } catch (ClassCastException ex) {
+            throw new ClassCastException("ShowChallengeDetailsFragment may not be started from another fragment than ShowChallengeFragment");
+        }
+
     }
 
     @Override
@@ -108,11 +132,21 @@ public class ShowChallengeDetailsFragment extends Fragment
         }
     }
 
+    @OnClick(R.id.details_button_save)
+    public void saveSelectedCategory(View view){
+        // Navigate back to Category Fragment
+        getActivity().getActionBar().hide();
+        getFragmentManager().popBackStack();
+
+        // Notify Category fragment that the user wants to do this challenge
+        mCallback.onDetailsSaveCategory();
+    }
+
     private void setLeavesOpacity(int diff) {
         //Set opacity leaf #3
-        mDifficultyView.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
+        mDifficultyViews.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
         //Set opacity leaf #2
-        mDifficultyView.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
+        mDifficultyViews.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
     }
 
     private void setCategoryIcon(String category) {
@@ -124,5 +158,9 @@ public class ShowChallengeDetailsFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    public interface OnDetailsSaveCategoryListener {
+        public void onDetailsSaveCategory();
     }
 }
