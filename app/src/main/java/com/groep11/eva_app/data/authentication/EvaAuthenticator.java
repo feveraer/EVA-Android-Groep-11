@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.groep11.eva_app.data.remote.TokenResponse;
 import com.groep11.eva_app.ui.activity.RegistrationActivity;
 
 /**
@@ -76,7 +77,8 @@ public class EvaAuthenticator extends AbstractAccountAuthenticator {
         if (TextUtils.isEmpty(authToken)) {
             final String password = am.getPassword(account);
             if (!TextUtils.isEmpty(password)) {
-                authToken = sServerAuthenticate.userSignIn(account.name, password, authTokenType);
+                TokenResponse tokenResponse = sServerAuthenticate.userSignIn(account.name, password, authTokenType);
+                authToken = tokenResponse.getToken();
             }
         }
 

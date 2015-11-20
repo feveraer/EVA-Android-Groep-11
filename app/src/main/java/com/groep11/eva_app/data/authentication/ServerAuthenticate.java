@@ -24,7 +24,7 @@ public class ServerAuthenticate {
         return instance;
     }
 
-    private String getToken(Call<TokenResponse> call, String failureLocation){
+    private TokenResponse getToken(Call<TokenResponse> call, String failureLocation){
         Response<TokenResponse> response = null;
         try {
             response = call.execute();
@@ -50,16 +50,16 @@ public class ServerAuthenticate {
             return null;
         }
 
-        return token;
+        return tokenResponse;
     }
 
-    String userSignIn(String userName, String userPass, String mAuthTokenType) {
+    TokenResponse userSignIn(String userName, String userPass, String mAuthTokenType) {
         EvaApiService api = ServiceGenerator.createService(EvaApiService.class);
         Call<TokenResponse> call = api.getToken(new User(userName, userPass));
         return getToken(call, "userSignIn");
     }
 
-    String userSignUp(String userName, String userPass, String mAuthTokenType) {
+    TokenResponse userSignUp(String userName, String userPass, String mAuthTokenType) {
         EvaApiService api = ServiceGenerator.createService(EvaApiService.class);
         Call<TokenResponse> call = api.register(new User(userName, userPass));
         return getToken(call, "userSignUp");

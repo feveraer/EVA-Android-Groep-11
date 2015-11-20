@@ -17,7 +17,6 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.data.authentication.AccountGeneral;
 import com.groep11.eva_app.data.remote.Category;
@@ -26,6 +25,7 @@ import com.groep11.eva_app.data.remote.EvaApiService;
 import com.groep11.eva_app.data.remote.ServiceGenerator;
 import com.groep11.eva_app.data.remote.Task;
 import com.groep11.eva_app.ui.activity.RegistrationActivity;
+import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.util.List;
@@ -59,7 +59,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.v(LOG_TAG, "Getting authToken");
             String authToken = mAccountManager.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
 
-            int numberUpdated = pushChangedChallenges(provider, authToken);
+            int numberUpdated = pushChangedChallenges(provider, account, authToken);
 
             if (numberUpdated < 0) {
                 Log.e(LOG_TAG, "ERROR: failed to update, skipping sync!");
@@ -99,11 +99,15 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         return response.body();
     }
 
-    private int pushChangedChallenges(ContentProviderClient provider, String authToken) {
+    private int pushChangedChallenges(ContentProviderClient provider, Account account, String authToken) {
         EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
 
-        String[] projection = new String[]{ChallengeEntry.COLUMN_STATUS};
+        String[] projection = new String[]{
+                ChallengeEntry.COLUMN_STATUS,
+                ChallengeEntry.COLUMN_REMOTE_TASK_ID
+        };
         int COLUMN_STATUS_INDEX = 0;
+        int COLUMN_TASK_ID = 1;
         Cursor cursor = null;
         try {
             cursor = provider.query(ChallengeEntry.buildChallengedStatusChanged(), projection,
@@ -114,21 +118,40 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
 
         if (cursor == null) return -1;
 
+        String userId = mAccountManager.getUserData(account, AccountGeneral.USER_ID);
+
+        if (userId == null) {
+            Log.e(LOG_TAG, "userId is null, stopping update");
+            return -1;
+        }
+
         int successCounter = 0;
         int cursorSize = 0;
         while (cursor.moveToNext()) {
             cursorSize++;
-            Call<Task> call = service.updateTaskStatus(sUserId,
-                    sTaskId,
-                    cursor.getInt(COLUMN_STATUS_INDEX));
+            String taskId = cursor.getString(COLUMN_TASK_ID);
+            int status = cursor.getInt(COLUMN_STATUS_INDEX);
+            Call<Task> call = service.updateTaskStatus(userId,
+                    taskId,
+                    status);
             Response<Task> response = null;
             try {
                 response = call.execute();
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
             }
-            if (response == null || !response.isSuccess()) {
-                Log.e(LOG_TAG, "SYNC DIDN'T WORK D:, alert Brian");
+            if (response == null) {
+                Log.e(LOG_TAG, "PUT failed, response is null");
+            } else if (!response.isSuccess()) {
+                Log.e(LOG_TAG, "PUT failed, response unsuccesful: ");
+                Task task = response.body();
+                Log.v(LOG_TAG, "Task: " + task);
+                ResponseBody responseBody = response.errorBody();
+                try {
+                    Log.v(LOG_TAG, "errorBody: " + responseBody.string());
+                } catch (Exception e) {
+
+                }
             } else {
                 successCounter++;
             }
@@ -169,7 +192,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         values.put(ChallengeEntry.COLUMN_TITLE, challenge.getTitle());
         values.put(ChallengeEntry.COLUMN_DESCRIPTION, challenge.getDescription());
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
-        values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
+        values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, task.get_id());
         values.put(ChallengeEntry.COLUMN_CATEGORY, category.getName());
         values.put(ChallengeEntry.COLUMN_STATUS, task.getStatus());
         values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate().split("T")[0]);

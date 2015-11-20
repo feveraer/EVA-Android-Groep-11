@@ -185,38 +185,7 @@ public class ShowChallengeFragment extends Fragment
                 null
         );
 
-        // Get an instance of the Android account manager
-        final AccountManager accountManager =
-                (AccountManager) getActivity().getSystemService(Context.ACCOUNT_SERVICE);
-        // Make sure account is in list of remembered accounts
-        final Account[] accounts = accountManager.getAccountsByType("eva_app.groep11.com");
-        // Accounts can only be empty, never null
-        if (accounts.length > 0) {
-            final AccountManagerFuture<Bundle> future = accountManager.getAuthToken(accounts[0],
-                    AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, getActivity(), null, null);
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        Bundle authTokenBundle = future.getResult();
-                        if (authTokenBundle.containsKey(AccountManager.KEY_AUTHTOKEN)) {
-                            String authToken = authTokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
-
-                            EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
-                            // TODO: get userid somehow
-                            //service.updateTaskStatus("someid", "" + id, status);
-                        }
-                    } catch (OperationCanceledException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (AuthenticatorException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-            }.execute();
-        }
+        EvaSyncAdapter.syncImmediately(getActivity());
     }
 
     private void showChallengeCompleteDialog() {

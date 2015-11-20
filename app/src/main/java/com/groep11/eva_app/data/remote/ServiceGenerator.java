@@ -38,7 +38,7 @@ public class ServiceGenerator {
 
                     // Request customization: add request headers
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", authToken)
+                            .header("x-access-token", authToken)
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
