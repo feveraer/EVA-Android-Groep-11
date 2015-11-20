@@ -10,11 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.data.authentication.AccountGeneral;
 import com.groep11.eva_app.data.remote.Category;
@@ -40,6 +43,7 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String sBaseUrl = "http://95.85.59.29:1337/api/";
     private static final String sUserId = "562ba076ce597a91722bab4c";
+    private static final String sTaskId = "564edce74cd36fe00bc9c55a";
 
     private final AccountManager mAccountManager;
 
@@ -54,6 +58,17 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         try {// Get the auth token for the current account
             Log.v(LOG_TAG, "Getting authToken");
             String authToken = mAccountManager.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
+
+            int numberUpdated = pushChangedChallenges(provider, authToken);
+
+            if (numberUpdated < 0) {
+                Log.e(LOG_TAG, "ERROR: failed to update, skipping sync!");
+                //TODO: retry another time
+                //TODO: invalidate auth token?
+                return;
+            }
+
+            Log.v(LOG_TAG, "Updated " + numberUpdated + " tasks in API");
 
             Log.v(LOG_TAG, "account -> authToken(" + authToken + ")");
             List<Task> download = download(authToken);
@@ -82,6 +97,45 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
             return null;
         }
         return response.body();
+    }
+
+    private int pushChangedChallenges(ContentProviderClient provider, String authToken) {
+        EvaApiService service = ServiceGenerator.createService(EvaApiService.class, authToken);
+
+        String[] projection = new String[]{ChallengeEntry.COLUMN_STATUS};
+        int COLUMN_STATUS_INDEX = 0;
+        Cursor cursor = null;
+        try {
+            cursor = provider.query(ChallengeEntry.buildChallengedStatusChanged(), projection,
+                    null, null, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        if (cursor == null) return -1;
+
+        int successCounter = 0;
+        int cursorSize = 0;
+        while (cursor.moveToNext()) {
+            cursorSize++;
+            Call<Task> call = service.updateTaskStatus(sUserId,
+                    sTaskId,
+                    cursor.getInt(COLUMN_STATUS_INDEX));
+            Response<Task> response = null;
+            try {
+                response = call.execute();
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Error ", e);
+            }
+            if (response == null || !response.isSuccess()) {
+                Log.e(LOG_TAG, "SYNC DIDN'T WORK D:, alert Brian");
+            } else {
+                successCounter++;
+            }
+        }
+
+        Log.d(LOG_TAG, "Updated " + successCounter + " / " + cursorSize);
+        return successCounter;
     }
 
     private void updateLocalData(List<Task> tasks) {
