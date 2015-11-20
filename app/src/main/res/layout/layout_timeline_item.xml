@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/timeline_entry_line"
+        android:src="#ff2a2a"
+        android:contentDescription="@string/timeline.entry.line" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/timeline.entry.title"
+        android:id="@+id/timeline_enty_title" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/timeline_entry_leaf_1"
+        android:src="@drawable/leaf"
+        android:contentDescription="@string/timeline.entry.difficulty" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/leaf"
+        android:id="@+id/timeline_entry_leaf_2"
+        android:contentDescription="@string/timeline.entry.difficulty" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/timeline_entry_leaf_3"
+        android:src="@drawable/leaf"
+        android:contentDescription="@string/timeline.entry.difficulty" />
+</LinearLayout>

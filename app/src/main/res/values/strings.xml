@@ -68,4 +68,9 @@
     <string name="complete.congratulations">Congrats!</string>
     <string name="complete.confirm">Ok</string>
 
+    <!-- Timeline Strings -->
+    <string name="timeline.entry.title">Challenge title</string>
+    <string name="timeline.entry.line">Image that represents the completed state of the entry</string>
+    <string name="timeline.entry.difficulty">Image that represents the difficulty</string>
+
 </resources>
