@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeDetailsFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+        implements LoaderManager.LoaderCallbacks<Cursor>, IColumnConstants {
 
     public static final String DETAIL_URI = "URI";
     public static final String TAG = "SHOW_CHALLENGE_DETAILS";

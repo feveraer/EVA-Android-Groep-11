@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
 import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
@@ -31,7 +31,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+        implements LoaderManager.LoaderCallbacks<Cursor>, IColumnConstants {
 
     public static final String URI = "URI";
     public static final String PREVIEW = "PREVIEW";

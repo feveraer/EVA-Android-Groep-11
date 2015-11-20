@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.ui.ToggleSwipeViewPager;
-import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
 import com.groep11.eva_app.ui.fragment.interfaces.IOnFocusListenable;
 import com.groep11.eva_app.util.TaskStatus;
 
@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CategoryFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment, IOnFocusListenable {
+        implements LoaderManager.LoaderCallbacks<Cursor>, IColumnConstants, IOnFocusListenable {
 
     public static final String TAG = "CATEGORY";
 
