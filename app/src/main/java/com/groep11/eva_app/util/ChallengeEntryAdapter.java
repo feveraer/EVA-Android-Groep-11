@@ -37,7 +37,7 @@ public class ChallengeEntryAdapter extends CursorAdapter implements IColumnConst
         ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
 
-        return null;
+        return view;
     }
 
     @Override
