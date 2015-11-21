@@ -49,10 +49,9 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader() called with: " + "id = [" + id + "], args = [" + args + "]");
         CursorLoader loader = new CursorLoader(
                 this.getActivity(),
-                EvaContract.ChallengeEntry.buildChallengesTodayURI(), //TODO: only completed challenges URI
+                EvaContract.ChallengeEntry.buildCompletedChallenges(), //TODO: only completed challenges URI
                 TABLE_COLUMNS,
                 null,
                 null,
