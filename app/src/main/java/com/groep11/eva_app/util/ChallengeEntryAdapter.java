@@ -48,7 +48,8 @@ public class ChallengeEntryAdapter extends CursorAdapter implements IColumnConst
         // Get values from cursor
         String title = cursor.getString(COL_CHALLENGE_TITLE);
         int diff = cursor.getInt(COL_CHALLENGE_DIFFICULTY);
-        Log.d(TAG, "bindView: " + diff);
+
+        Log.d(TAG, "bindView: " + cursor.getPosition());
 
         // Set challenge title
         holder.entryTitle.setText(title);
@@ -58,13 +59,13 @@ public class ChallengeEntryAdapter extends CursorAdapter implements IColumnConst
         // Set opacity leaf #2
         holder.entryLeaves.get(1).setAlpha(diff < 2 ? LEAF_DISABLED_OPACITY : 1);
 
-        // Entry is the latest challenge, don't draw a top line (no challenge above it)
-        if(cursor.getPosition() != 0)
-            holder.entryLineTop.setBackgroundColor(Color.parseColor("#696b71"));
+        // Latest completed challenge is transparent
+        boolean isFirst = cursor.getPosition() == 0;
+        holder.entryLineTop.setBackgroundColor(Color.parseColor( isFirst ? "#00FFFFFF" : "#696b71"));
 
         // Entry is the last challenge, don't draw bottom line (no challenge below it)
-        if(cursor.getPosition() != cursor.getCount()-1)
-            holder.entryLineBottom.setBackgroundColor(Color.parseColor("#696b71"));
+        boolean isLast = cursor.getPosition() == cursor.getCount()-1;
+        holder.entryLineBottom.setBackgroundColor(Color.parseColor( isLast ? "#00FFFFFF" : "#696b71" ));
     }
 
     static class ViewHolder {
