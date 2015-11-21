@@ -234,14 +234,16 @@ public class CategoryFragment extends Fragment
 
         // Create new progress & challenge fragment
         ShowProgressFragment progressFragment = ShowProgressFragment.newInstance();
-        ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance(false);
+        //ShowChallengeFragment challengeFragment = ShowChallengeFragment.newInstance(false);
+        TimelineFragment timelineFragment = TimelineFragment.newInstance();     // TODO: find a new spot for this :)
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         // Replace Category fragment with Progress & Challenge fragment
         transaction.remove(fragmentManager.findFragmentByTag(CategoryFragment.TAG));
         transaction.add(R.id.fragment_main_container, progressFragment, ShowProgressFragment.TAG);
-        transaction.add(R.id.fragment_main_container, challengeFragment, ShowChallengeFragment.TAG);
+        // transaction.add(R.id.fragment_main_container, challengeFragment, ShowChallengeFragment.TAG);
+        transaction.add(R.id.fragment_main_container, timelineFragment, TimelineFragment.TAG);
 
         transaction.commit();
     }

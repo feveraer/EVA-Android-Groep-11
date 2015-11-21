@@ -73,4 +73,7 @@
     <string name="timeline.entry.line">Image that represents the completed state of the entry</string>
     <string name="timeline.entry.difficulty">Image that represents the difficulty</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
