@@ -171,7 +171,6 @@ public class EvaProvider extends ContentProvider {
     private Cursor getCurrentCategories(Uri uri, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
         String[] selectionArgs = new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate())};
-
         //Only category column will be returned
         return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, sortOrder);
     }

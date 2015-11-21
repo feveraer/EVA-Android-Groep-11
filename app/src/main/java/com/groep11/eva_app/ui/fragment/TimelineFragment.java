@@ -55,7 +55,7 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
                 TABLE_COLUMNS,
                 null,
                 null,
-                null
+                EvaContract.ChallengeEntry.COLUMN_DATE + " DESC"
         );
 
         return loader;
