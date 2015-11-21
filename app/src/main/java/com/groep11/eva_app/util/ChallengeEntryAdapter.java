@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 public class ChallengeEntryAdapter extends CursorAdapter implements IColumnConstants {
     public static final String TAG = "ENTRY_ADAPTER";
 
+    private static final String CATEGORY_PREFIX = "category_";
     private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
     public ChallengeEntryAdapter(Context context, Cursor c, int flags) {
@@ -47,12 +48,19 @@ public class ChallengeEntryAdapter extends CursorAdapter implements IColumnConst
 
         // Get values from cursor
         String title = cursor.getString(COL_CHALLENGE_TITLE);
+        String category = cursor.getString(COL_CHALLENGE_CATEGORY);
         int diff = cursor.getInt(COL_CHALLENGE_DIFFICULTY);
 
         Log.d(TAG, "bindView: " + cursor.getPosition());
 
         // Set challenge title
         holder.entryTitle.setText(title);
+
+        // Set category Icon
+        holder.entryCategoryIcon.setImageResource(context.getResources().getIdentifier(
+                CATEGORY_PREFIX + category,
+                "drawable",
+                context.getPackageName()));
 
         // Set opacity leaf #3
         holder.entryLeaves.get(2).setAlpha(diff < 3 ? LEAF_DISABLED_OPACITY : 1);
