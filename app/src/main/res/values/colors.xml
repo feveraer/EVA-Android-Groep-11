@@ -48,6 +48,7 @@
     <color name="light_green_300">#AED581</color>
     <color name="light_green_400">#9CCC65</color>
     <color name="light_green_500">#8BC34A</color>
+    <color name="light_green_500_50">#338BC34A</color>
     <color name="light_green_600">#7CB342</color>
     <color name="light_green_700">#689F38</color>
     <color name="light_green_800">#558B2F</color>
