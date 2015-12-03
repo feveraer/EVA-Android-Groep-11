@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
-import com.groep11.eva_app.ui.fragment.interfaces.ILoaderFragment;
+import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
 import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+        implements LoaderManager.LoaderCallbacks<Cursor>, IColumnConstants {
 
     public static final String URI = "URI";
     public static final String PREVIEW = "PREVIEW";
@@ -150,7 +150,10 @@ public class ShowChallengeFragment extends Fragment
         // Show Challenge Complete dialog
         showChallengeCompleteDialog();
 
-        // Remove current challenge card
+        // Create Timeline fragment
+        TimelineFragment timelineFragment = TimelineFragment.newInstance();
+
+        // Remove current challenge card and add the timeline
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -158,6 +161,7 @@ public class ShowChallengeFragment extends Fragment
                 android.R.animator.fade_in, android.R.animator.fade_out);
 
         transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
+        transaction.add(R.id.fragment_main_container, timelineFragment, TimelineFragment.TAG);
         transaction.commit();
     }
 

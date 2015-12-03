@@ -1,7 +1,7 @@
 package com.groep11.eva_app.ui.fragment.interfaces;
 import com.groep11.eva_app.data.EvaContract;
 
-public interface ILoaderFragment {
+public interface IColumnConstants {
     int LOADER = 0;
 
     String[] TABLE_COLUMNS = {
