@@ -5,9 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.groep11.eva_app.ui.activity.RegistrationActivity">
-
-    <VideoView
-        android:layout_width="1500dp"
+    
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/video_registration" />
+        android:id="@+id/imageView"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:src="@drawable/registration_bg" />
 </FrameLayout>
