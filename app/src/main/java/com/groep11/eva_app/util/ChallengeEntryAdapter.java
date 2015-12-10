@@ -42,6 +42,11 @@ public class ChallengeEntryAdapter extends CursorAdapter implements IColumnConst
     }
 
     @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
+    @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Log.d(TAG, "bindView() called with: " + "view = [" + view + "], context = [" + context + "], cursor = [" + cursor + "]");
         ViewHolder holder = (ViewHolder) view.getTag();
