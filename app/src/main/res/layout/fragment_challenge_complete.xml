@@ -21,9 +21,25 @@
         android:layout_gravity="center"
         android:src="@drawable/checked" />
 
-    <Button
-        android:id="@+id/dialog_btn_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/complete.confirm" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/dialog_btn_share"
+            android:src="@drawable/share_icon"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/complete.share.description" />
+
+        <Button
+            android:id="@+id/dialog_btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/complete.confirm" />
+
+    </LinearLayout>
+
 </LinearLayout>
