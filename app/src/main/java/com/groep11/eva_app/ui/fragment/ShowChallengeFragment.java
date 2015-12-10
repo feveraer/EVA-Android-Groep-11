@@ -41,6 +41,7 @@ public class ShowChallengeFragment extends Fragment
     private static final String CATEGORY_PREFIX = "category_";
     private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
+    private String currentChallengeTitle;
     private Uri mUri;
     private Long mCurrentId = 0L;
 
@@ -181,7 +182,7 @@ public class ShowChallengeFragment extends Fragment
 
     private void showChallengeCompleteDialog() {
         FragmentManager fragmentManager = getActivity().getFragmentManager();
-        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Congratulations!");
+        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Congratulations!", currentChallengeTitle);
         dialog.show(fragmentManager, "fragment_challenge_complete");
     }
 
@@ -213,11 +214,11 @@ public class ShowChallengeFragment extends Fragment
         if (data != null && data.moveToFirst()) {
             mCurrentId = data.getLong(COL_CHALLENGE_ID);
 
-            String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
+            currentChallengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
-            mTitleView.setText(challengeTitle);
+            mTitleView.setText(currentChallengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
                     challengeDescription.indexOf(" ", 25)+1) + "...");
             setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());
