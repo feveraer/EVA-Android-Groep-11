@@ -8,6 +8,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.os.Build;
@@ -39,12 +40,15 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     private static final String sBaseUrl = "http://95.85.59.29:1337/api/";
-    private static final String sUserId = "562ba076ce597a91722bab4c";
+    private String sUserId = "562ba076ce597a91722bab4c";
 
     private final AccountManager mAccountManager;
 
     public EvaSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        SharedPreferences prefs = context.getApplicationContext().getSharedPreferences("com.groep11.eva_app", Context.MODE_PRIVATE);
+        sUserId = prefs.getString(AccountGeneral.PARAM_USER_ID, "562ba076ce597a91722bab4c");
+
         mAccountManager = AccountManager.get(context);
     }
 

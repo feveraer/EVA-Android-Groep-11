@@ -4,6 +4,7 @@ public class TokenResponse {
     private boolean success;
     private String message;
     private String token;
+    private String userId;
 
     public TokenResponse() {}
 
@@ -30,6 +31,10 @@ public class TokenResponse {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public String getUserId() { return userId; }
+
+    public void setUserId(String userId) { this.userId = userId; }
 
     @Override
     public String toString() {

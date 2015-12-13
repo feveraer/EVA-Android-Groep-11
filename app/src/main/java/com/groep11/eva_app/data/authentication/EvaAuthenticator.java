@@ -76,7 +76,8 @@ public class EvaAuthenticator extends AbstractAccountAuthenticator {
         if (TextUtils.isEmpty(authToken)) {
             final String password = am.getPassword(account);
             if (!TextUtils.isEmpty(password)) {
-                authToken = sServerAuthenticate.userSignIn(account.name, password, authTokenType);
+                String[] signData = sServerAuthenticate.userSignIn(account.name, password, authTokenType);
+                authToken = signData[0];
             }
         }
 

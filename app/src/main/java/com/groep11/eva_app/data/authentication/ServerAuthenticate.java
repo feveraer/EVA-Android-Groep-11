@@ -1,5 +1,6 @@
 package com.groep11.eva_app.data.authentication;
 
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -24,7 +25,7 @@ public class ServerAuthenticate {
         return instance;
     }
 
-    private String getToken(Call<TokenResponse> call, String failureLocation){
+    private String[] getToken(Call<TokenResponse> call, String failureLocation){
         Response<TokenResponse> response = null;
         try {
             response = call.execute();
@@ -45,21 +46,26 @@ public class ServerAuthenticate {
         String token = tokenResponse.getToken();
         Log.v(LOG_TAG, "TokenResponse: " + tokenResponse);
 
+        String userId = tokenResponse.getUserId();
+        Log.v(LOG_TAG, "UserId: " + userId);
+
         if (TextUtils.isEmpty(token)) {
             Log.w(LOG_TAG, "Token from server is empty");
             return null;
         }
 
-        return token;
+
+
+        return new String[]{token, userId};
     }
 
-    String userSignIn(String userName, String userPass, String mAuthTokenType) {
+    String[] userSignIn(String userName, String userPass, String mAuthTokenType) {
         EvaApiService api = ServiceGenerator.createService(EvaApiService.class);
         Call<TokenResponse> call = api.getToken(new User(userName, userPass));
         return getToken(call, "userSignIn");
     }
 
-    String userSignUp(String userName, String userPass, String mAuthTokenType) {
+    String[] userSignUp(String userName, String userPass, String mAuthTokenType) {
         EvaApiService api = ServiceGenerator.createService(EvaApiService.class);
         Call<TokenResponse> call = api.register(new User(userName, userPass));
         return getToken(call, "userSignUp");
