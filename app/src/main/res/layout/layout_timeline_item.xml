@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:baselineAligned="false"
+    android:paddingLeft="@dimen/spacing_normal">
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,53 +13,41 @@
         android:gravity="center_horizontal">
 
         <ImageView
-            android:layout_width="5dp"
-            android:layout_height="20dp"
             android:id="@+id/timeline_entry_line_top"
-            android:contentDescription="@string/timeline.entry.line" />
+            style="@style/TimelineConnection" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
             android:id="@+id/timeline_entry_icon"
-            android:src="@drawable/category_undefined"
-            android:contentDescription="@string/timeline.entry.line"
-            android:padding="0dp"
-            android:adjustViewBounds="false"
-            android:scaleType="centerCrop" />
+            style="@style/TimelineCategory" />
 
         <ImageView
-            android:layout_width="5dp"
-            android:layout_height="20dp"
             android:id="@+id/timeline_entry_line_bottom"
-            android:contentDescription="@string/timeline.entry.line" />
+            style="@style/TimelineConnection" />
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/timeline.entry.title"
-        android:id="@+id/timeline_enty_title" />
+        android:id="@+id/timeline_enty_title"
+        android:paddingLeft="@dimen/spacing_normal" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/timeline_entry_leaf_1"
-        android:src="@drawable/leaf"
-        android:contentDescription="@string/timeline.entry.difficulty" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TimelineLeavesContainer">
+        <ImageView
+            android:id="@+id/timeline_entry_leaf_1"
+            style="@style/TimelineDifficultyLeaf"/>
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/leaf"
-        android:id="@+id/timeline_entry_leaf_2"
-        android:contentDescription="@string/timeline.entry.difficulty" />
+        <ImageView
+            android:id="@+id/timeline_entry_leaf_2"
+            style="@style/TimelineDifficultyLeaf"/>
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/timeline_entry_leaf_3"
-        android:src="@drawable/leaf"
-        android:contentDescription="@string/timeline.entry.difficulty" />
+        <ImageView
+            android:id="@+id/timeline_entry_leaf_3"
+            style="@style/TimelineDifficultyLeaf"/>
+    </LinearLayout>
 
 </LinearLayout>

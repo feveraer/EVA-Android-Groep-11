@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +18,7 @@ public class AccountGeneral {
 
     // used to communicate async between submit() and finishLogin()
     private static final String PARAM_USER_PASS = "PARAM_USER_PASS";
+    public static final String PARAM_USER_ID = "PARAM_USER_ID";
     private static final String ARG_IS_ADDING_NEW_ACCOUNT = "ARG_IS_ADDING_NEW_ACCOUNT";
 
     private static ServerAuthenticate sServerAuthenticate = ServerAuthenticate.getInstance();
@@ -29,15 +31,19 @@ public class AccountGeneral {
         new AsyncTask<Void, Void, Intent>() {
             @Override
             protected Intent doInBackground(Void... params) {
-                String authToken;
+                String[] signData = new String[2];
+
                 if (isAddingNewAccount)
-                    authToken = sServerAuthenticate.userSignUp(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
+                    signData = sServerAuthenticate.userSignUp(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
                 else
-                    authToken = sServerAuthenticate.userSignIn(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
+                    signData = sServerAuthenticate.userSignIn(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
+                String authToken = signData[0];
+                String userId = signData[1];
                 final Intent res = new Intent();
                 res.putExtra(AccountManager.KEY_ACCOUNT_NAME, userName);
                 res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, context.getString(R.string.sync_account_type));
                 res.putExtra(AccountManager.KEY_AUTHTOKEN, authToken);
+                res.putExtra(PARAM_USER_ID, userId);
                 res.putExtra(PARAM_USER_PASS, userPass);
                 res.putExtra(ARG_IS_ADDING_NEW_ACCOUNT, isAddingNewAccount);
                 return res;
@@ -50,17 +56,26 @@ public class AccountGeneral {
         }.execute();
     }
 
+    private static void saveUserIdInPrefs(Context context, String userId) {
+        SharedPreferences prefs = context.getApplicationContext().getSharedPreferences("com.groep11.eva_app", Context.MODE_PRIVATE);
+        prefs.edit().putString(PARAM_USER_ID, userId).apply();
+        Log.d("PREFS", "saveUserIdInPrefs: " + userId);
+    }
+
     private static void finishLogin(Context context, Intent intent, SignInFinishedCallback cb) {
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
         String accountType = intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
         String authtoken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
+        String userId = intent.getStringExtra(PARAM_USER_ID);
 
         if(TextUtils.isEmpty(authtoken)){
             cb.signInFinished(null);
             Log.w(LOG_TAG, String.format("Failed to authenticate with server: name(%s) pass(%S) type(%s) token(%s)", accountName, accountPassword, accountType, authtoken));
             return;
         }
+
+        saveUserIdInPrefs(context, userId);
 
         // Get an instance of the Android account manager
         AccountManager accountManager =
