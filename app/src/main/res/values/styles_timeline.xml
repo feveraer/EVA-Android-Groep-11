@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <style name="TimelineDifficultyLeaf">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:src">@drawable/leaf</item>
+        <item name="android:contentDescription">@string/timeline.entry.difficulty</item>
+    </style>
+
+    <style name="TimelineLeavesContainer">
+        <item name="android:gravity">end</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="TimelineConnection">
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:contentDescription">@string/timeline.entry.line</item>
+    </style>
+
+    <style name="TimelineCategory">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:src">@drawable/category_undefined</item>
+        <item name="android:contentDescription">@string/timeline.entry.line</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:adjustViewBounds">false</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+</resources>
