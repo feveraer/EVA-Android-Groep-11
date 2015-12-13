@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:baselineAligned="false"
+    android:paddingLeft="@dimen/spacing_normal">
 
     <LinearLayout
         android:orientation="vertical"
@@ -37,27 +39,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/timeline.entry.title"
-        android:id="@+id/timeline_enty_title" />
+        android:id="@+id/timeline_enty_title"
+        android:paddingLeft="@dimen/spacing_normal" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/timeline_entry_leaf_1"
-        android:src="@drawable/leaf"
-        android:contentDescription="@string/timeline.entry.difficulty" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:paddingRight="@dimen/spacing_normal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/timeline_entry_leaf_1"
+            android:src="@drawable/leaf"
+            android:contentDescription="@string/timeline.entry.difficulty" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/leaf"
-        android:id="@+id/timeline_entry_leaf_2"
-        android:contentDescription="@string/timeline.entry.difficulty" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/leaf"
+            android:id="@+id/timeline_entry_leaf_2"
+            android:contentDescription="@string/timeline.entry.difficulty" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/timeline_entry_leaf_3"
-        android:src="@drawable/leaf"
-        android:contentDescription="@string/timeline.entry.difficulty" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/timeline_entry_leaf_3"
+            android:src="@drawable/leaf"
+            android:contentDescription="@string/timeline.entry.difficulty" />
+    </LinearLayout>
 
 </LinearLayout>
