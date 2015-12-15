@@ -52,12 +52,13 @@ public abstract class TransparentBarActivity extends Activity{
         getActionBar().setHomeAsUpIndicator(upArrow);
 
         // Create a transparent color drawable
-        ColorDrawable newColor = new ColorDrawable(getResources().getColor(R.color.white_1000));
-        newColor.setAlpha(256);
+        ColorDrawable newColor = new ColorDrawable(getResources().getColor(R.color.light_green_200));
+        //newColor.setAlpha(256);
 
         // Use this transparent color drawable to make our action bar transparent
         getActionBar().setBackgroundDrawable(newColor);
         getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setElevation(0);
 
         Window window = getWindow();
 
