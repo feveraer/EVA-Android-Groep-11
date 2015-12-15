@@ -11,9 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_height_normal"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="0dp"
-        card_view:contentPadding="@dimen/card_content_padding_normal">
+        card_view:contentPadding="@dimen/card_content_padding_normal"
+        card_view:cardBackgroundColor="@color/light_green_100">
 
         <LinearLayout
             android:layout_width="fill_parent"
