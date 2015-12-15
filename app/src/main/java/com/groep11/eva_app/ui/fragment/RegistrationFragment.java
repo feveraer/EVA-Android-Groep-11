@@ -55,7 +55,6 @@ public class RegistrationFragment extends Fragment implements SignInFinishedCall
         String password = mInputPassword.getText().toString();
         boolean createNewAccount = true;
         AccountGeneral.submit(this.getActivity().getApplicationContext(), username, password, createNewAccount, this);
-        this.getActivity().finish();
     }
 
     @OnClick(R.id.text_registration_login)
