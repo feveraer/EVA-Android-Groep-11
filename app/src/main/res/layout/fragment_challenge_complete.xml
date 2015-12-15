@@ -10,7 +10,6 @@
 
     <TextView
         android:id="@+id/dialog_txt_congrats"
-        android:text="@string/complete.congratulations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

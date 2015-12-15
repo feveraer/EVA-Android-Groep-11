@@ -65,11 +65,12 @@
     <string name="registration.logo.description">Image that represents EVAs logo</string>
 
     <!-- Challenge complete dialog -->
-    <string name="complete.congratulations">Congrats!</string>
+    <string name="complete.congrats.prefix">Proficiat met het voltooien van uitdaging \"</string>
+    <string name="complete.congrats.postfix">\". Doe zo verder! :)</string>
     <string name="complete.confirm">Ok</string>
     <string name="complete.share.description">Icon that represents the standard android share icon</string>
-    <string name="complete.share.body.prefix">Ik heb de challenge "</string>
-    <string name="complete.share.body.postfix">" voltooid! Doe mee met de 21 dagen challenge app van EVA, bezoek http://www.evavzw.be voor meer info.</string>
+    <string name="complete.share.body.prefix">Ik heb de challenge \"</string>
+    <string name="complete.share.body.postfix">\" voltooid! Doe mee met de 21 dagen challenge app van EVA, bezoek http://www.evavzw.be voor meer info.</string>
 
     <!-- Timeline Strings -->
     <string name="timeline.entry.title">Challenge title</string>
