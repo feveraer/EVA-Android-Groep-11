@@ -92,7 +92,7 @@
 
                 <TextView
                     android:id="@+id/text_challenge_description"
-                    android:layout_width="fill_parent"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_small"
                     android:text="@string/challenge.description.short" />
