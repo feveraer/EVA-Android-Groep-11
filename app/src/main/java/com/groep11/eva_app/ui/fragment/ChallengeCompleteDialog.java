@@ -31,7 +31,7 @@ public class ChallengeCompleteDialog extends DialogFragment {
     @Bind(R.id.dialog_btn_ok)
     Button mBtnConfirm;
     @Bind(R.id.dialog_btn_share)
-    ImageButton mShareButton;
+    Button mShareButton;
     @Bind(R.id.dialog_txt_congrats)
     TextView mTxtCongrats;
 
