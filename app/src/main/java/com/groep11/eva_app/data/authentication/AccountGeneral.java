@@ -37,8 +37,8 @@ public class AccountGeneral {
                     signData = sServerAuthenticate.userSignUp(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
                 else
                     signData = sServerAuthenticate.userSignIn(userName, userPass, AUTHTOKEN_TYPE_FULL_ACCESS);
-                String authToken = signData[0];
-                String userId = signData[1];
+                String authToken = signData != null ? signData[0] : "";
+                String userId = signData != null ? signData[1] : "";
                 final Intent res = new Intent();
                 res.putExtra(AccountManager.KEY_ACCOUNT_NAME, userName);
                 res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, context.getString(R.string.sync_account_type));
