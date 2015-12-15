@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.groep11.eva_app.R;
 
+import org.w3c.dom.Text;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,13 +28,18 @@ import butterknife.OnClick;
 public class ChallengeCompleteDialog extends DialogFragment {
     private static final String TAG = "COMPLETE";
 
-    @Bind(R.id.dialog_btn_ok) Button mBtnConfirm;
-    @Bind(R.id.dialog_btn_share) ImageButton mShareButton;
+    @Bind(R.id.dialog_btn_ok)
+    Button mBtnConfirm;
+    @Bind(R.id.dialog_btn_share)
+    Button mShareButton;
+    @Bind(R.id.dialog_txt_congrats)
+    TextView mTxtCongrats;
 
     private String mCompletedChallenge = "";
 
     // Empty constructor is required for DialogFragment
-    public ChallengeCompleteDialog() {}
+    public ChallengeCompleteDialog() {
+    }
 
     public static ChallengeCompleteDialog newInstance(String title, String completedChallenge) {
         ChallengeCompleteDialog dialog = new ChallengeCompleteDialog();
@@ -68,6 +75,7 @@ public class ChallengeCompleteDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.completeDialog);
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_challenge_complete, container, false);
         // Non-activity binding for butterknife
@@ -80,10 +88,14 @@ public class ChallengeCompleteDialog extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Fetch arguments from bundle and set title (+ default value)
-        String title = getArguments().getString("title", "Congratulations!");
+        String title = getArguments().getString("title", "Uitdaging voltooid!");
         mCompletedChallenge = getArguments().getString("completed_challenge", "Challenge niet gevonden :(");
 
         getDialog().setTitle(title);
+        mTxtCongrats.setText(new StringBuilder()
+                .append(getString(R.string.complete_congrats_prefix))
+                .append(mCompletedChallenge)
+                .append(getString(R.string.complete_congrats_postfix)).toString());
     }
 
     @OnClick(R.id.dialog_btn_ok)

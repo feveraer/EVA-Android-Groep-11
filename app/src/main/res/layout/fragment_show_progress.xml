@@ -44,11 +44,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/progressbar_height"
             app:rcProgressColor="@color/light_green_700"
-            app:rcBackgroundColor="@color/grey_500"
+            app:rcBackgroundColor="@color/light_green_100"
             app:rcBackgroundPadding="@dimen/spacing_none"
             app:rcMax="@string/progress.counter.max"
             app:rcProgress="@string/progress.counter.start"
-            app:rcRadius="@dimen/spacing_none" />
+            app:rcRadius="@dimen/spacing_none"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginRight="@dimen/spacing_normal" />
 
         <TextView
             android:id="@+id/progress_counter"

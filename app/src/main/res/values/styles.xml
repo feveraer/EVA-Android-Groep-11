@@ -10,10 +10,11 @@
     <style name="MainActivity">
         <item name="android:padding">@dimen/spacing_none</item>
         <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@color/light_green_200</item>
     </style>
 
     <style name="ShowChallengeFragment">
-        <item name="android:background">@color/grey_300</item>
+        <item name="android:background">@color/light_green_200</item>
     </style>
 </resources>
 
