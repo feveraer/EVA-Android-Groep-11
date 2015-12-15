@@ -16,6 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
+            android:id="@+id/input_registration_name"
+            android:hint="@string/registration.hint.name"
+            android:text=""
+            style="@style/RegistrationEditText"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:id="@+id/input_registration_mail"
             android:hint="@string/registration.hint.mail"
             style="@style/RegistrationEditText"/>

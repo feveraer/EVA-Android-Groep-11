@@ -60,6 +60,7 @@
     <string name="registration.signup.redirect">Nog geen lid ? Registreer hier !</string>
     <string name="registration.login.redirect">Al lid ? Meld je hier aan!</string>
     <string name="registration.login">Aanmelden</string>
+    <string name="registration.hint.name">naam</string>
     <string name="registration.hint.mail">e-mail</string>
     <string name="registration.hint.password">password</string>
     <string name="registration.logo.description">Image that represents EVAs logo</string>
