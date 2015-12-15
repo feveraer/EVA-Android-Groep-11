@@ -178,6 +178,7 @@ public class ShowChallengeFragment extends Fragment
                 null,           // ContentProvider takes care of this
                 null
         );
+//        EvaSyncAdapter.syncImmediately(getActivity());
     }
 
     private void showChallengeCompleteDialog() {

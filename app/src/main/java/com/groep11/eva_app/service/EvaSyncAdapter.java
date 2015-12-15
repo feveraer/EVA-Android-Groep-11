@@ -11,11 +11,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.groep11.eva_app.R;
+import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.data.EvaContract.ChallengeEntry;
 import com.groep11.eva_app.data.authentication.AccountGeneral;
 import com.groep11.eva_app.data.remote.Category;
@@ -59,14 +61,26 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.v(LOG_TAG, "Getting authToken");
             String authToken = mAccountManager.blockingGetAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, true);
 
+
             Log.v(LOG_TAG, "account -> authToken(" + authToken + ")");
             List<Task> download = download(authToken);
             Log.v(LOG_TAG, "Downloaded tasks(" + download.size() + ")");
             updateLocalData(download);
+            logAllInDatabase(getContext());
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(LOG_TAG, "ERROR: failed to sync: " + e);
         }
+    }
+
+    public static void logAllInDatabase(Context context) {
+        Cursor cursor = context.getContentResolver().query(ChallengeEntry.CONTENT_URI,
+                new String[]{ChallengeEntry.COLUMN_TITLE, ChallengeEntry.COLUMN_STATUS}, null, null, null);
+        Log.v("EVA DB LOCAL", "START LOGGING>>>");
+        while(cursor.moveToNext()){
+            Log.v("EVA DB LOCAL", cursor.getInt(1) + " --> "+ cursor.getString(0));
+        }
+        Log.v("EVA DB LOCAL", "STOP LOGGING>>>");
     }
 
     private List<Task> download(String authToken) {
@@ -121,6 +135,8 @@ public class EvaSyncAdapter extends AbstractThreadedSyncAdapter {
         values.put(ChallengeEntry.COLUMN_DIFFICULTY, challenge.getDifficulty());
         values.put(ChallengeEntry.COLUMN_REMOTE_TASK_ID, 1);
         values.put(ChallengeEntry.COLUMN_CATEGORY, category.getName());
+        if(task.getStatus() == 2)
+            Log.w("STATUS DOWNLOAD", "2");
         values.put(ChallengeEntry.COLUMN_STATUS, task.getStatus());
         values.put(ChallengeEntry.COLUMN_DATE, task.getDueDate().split("T")[0]);
         return values;

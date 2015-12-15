@@ -65,12 +65,13 @@ public class ShowProgressFragment extends Fragment {
     public void onResume() {
         //Find our values in the sharedPreferences
         SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-        mProgressCounter = prefs.getInt("progressCounter", 0);
+        mProgressCounter = prefs.getInt("progressCounter", 1);
         updateProgressBar();
 
         //Only show the full animation when the user has some progress and he's not returning from another fragment
         if (mProgressCounter == 0 || mIsFragmentRestoration) {
             mProgressImage.setBackground(getLastAnimationFrame(this.getActivity()));
+            mProgressCounter = 1;
         } else {
             AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), true);
             mProgressImage.setBackground(progressAnimation);

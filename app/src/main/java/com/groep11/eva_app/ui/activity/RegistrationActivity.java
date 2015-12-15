@@ -1,11 +1,14 @@
 package com.groep11.eva_app.ui.activity;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.ui.fragment.LoginFragment;
 import com.groep11.eva_app.ui.fragment.CategoryFragment;
+import com.groep11.eva_app.util.DateFaker;
 
 public class RegistrationActivity extends TransparentBarActivity {
     public static final String ARG_ACCOUNT_TYPE = "argAuthType";
@@ -32,5 +35,6 @@ public class RegistrationActivity extends TransparentBarActivity {
         fragmentTransaction.commit();
 
         setOnBackStackChangedListener();
+        new DateFaker(this).nextDay();
     }
 }

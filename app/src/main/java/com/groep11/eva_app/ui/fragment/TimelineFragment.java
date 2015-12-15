@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
+import com.groep11.eva_app.service.EvaSyncAdapter;
 import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
 import com.groep11.eva_app.util.ChallengeEntryAdapter;
 
@@ -49,6 +50,8 @@ public class TimelineFragment extends ListFragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        EvaSyncAdapter.logAllInDatabase(getActivity());
+        Log.d("TIMELINE LOADER", "timeline");
         CursorLoader loader = new CursorLoader(
                 this.getActivity(),
                 EvaContract.ChallengeEntry.buildCompletedChallenges(), //TODO: only completed challenges URI
