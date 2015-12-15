@@ -25,6 +25,7 @@ public class EvaProvider extends ContentProvider {
     static final int CHALLENGE_WITH_ID = 102;
     static final int CHALLENGE_CURRENT_CATEGORIES = 103;
     static final int CHALLENGES_TODAY = 104;
+    static final int CHALLENGES_COMPLETED = 105;
 
     /*
         This UriMatcher will match each URI to the CHALLENGE, CHALLENGE_CURRENT and
@@ -44,6 +45,7 @@ public class EvaProvider extends ContentProvider {
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE, CHALLENGE);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/today", CHALLENGES_TODAY);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current", CHALLENGE_CURRENT);
+        matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/completed", CHALLENGES_COMPLETED);
         // Delete?
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/current_categories", CHALLENGE_CURRENT_CATEGORIES);
         matcher.addURI(authority, EvaContract.PATH_CHALLENGE + "/*", CHALLENGE_WITH_ID);
@@ -70,6 +72,10 @@ public class EvaProvider extends ContentProvider {
             // "challenge/today"
             case CHALLENGES_TODAY:
                 retCursor = getChallengesToday(uri, projection, sortOrder);
+                break;
+            // "challenge/completed"
+            case CHALLENGES_COMPLETED:
+                retCursor = getChallengesCompleted(uri, projection, sortOrder);
                 break;
             // "challenge/*"
             case CHALLENGE_WITH_ID:
@@ -146,12 +152,25 @@ public class EvaProvider extends ContentProvider {
     }
 
     /**
+     * select * where status = completed
+     * @param uri
+     * @param projection
+     * @param sortOrder
+     * @return
+     */
+    private Cursor getChallengesCompleted(Uri uri, String[] projection, String sortOrder) {
+        String selection = ChallengeEntry.COLUMN_STATUS + " = ? ";
+        String[] selectionArgs = new String[]{ ""+TaskStatus.COMPLETED.value };
+        return getChallenge(projection, selection, selectionArgs, sortOrder);
+    }
+
+
+    /**
      * Delete? I don't need this.
      */
     private Cursor getCurrentCategories(Uri uri, String sortOrder) {
         String selection = ChallengeEntry.COLUMN_DATE + " = ? ";
         String[] selectionArgs = new String[]{DateConversion.formatDate(new DateFaker(getContext()).getCurrentDate())};
-
         //Only category column will be returned
         return getChallenge(new String[]{ChallengeEntry.COLUMN_CATEGORY}, selection, selectionArgs, sortOrder);
     }
@@ -172,6 +191,8 @@ public class EvaProvider extends ContentProvider {
             case CHALLENGE_WITH_ID:
                 return ChallengeEntry.CONTENT_TYPE;
             case CHALLENGE_CURRENT:
+                return ChallengeEntry.CONTENT_TYPE;
+            case CHALLENGES_COMPLETED:
                 return ChallengeEntry.CONTENT_TYPE;
             case CHALLENGE_CURRENT_CATEGORIES:
                 return ChallengeEntry.CONTENT_TYPE;

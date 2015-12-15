@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:baselineAligned="false"
+    android:paddingLeft="@dimen/spacing_normal">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/timeline_entry_line_top"
+            style="@style/TimelineConnection" />
+
+        <ImageView
+            android:id="@+id/timeline_entry_icon"
+            style="@style/TimelineCategory" />
+
+        <ImageView
+            android:id="@+id/timeline_entry_line_bottom"
+            style="@style/TimelineConnection" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/timeline.entry.title"
+        android:id="@+id/timeline_enty_title"
+        android:paddingLeft="@dimen/spacing_normal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TimelineLeavesContainer">
+        <ImageView
+            android:id="@+id/timeline_entry_leaf_1"
+            style="@style/TimelineDifficultyLeaf"/>
+
+        <ImageView
+            android:id="@+id/timeline_entry_leaf_2"
+            style="@style/TimelineDifficultyLeaf"/>
+
+        <ImageView
+            android:id="@+id/timeline_entry_leaf_3"
+            style="@style/TimelineDifficultyLeaf"/>
+    </LinearLayout>
+
+</LinearLayout>

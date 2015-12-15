@@ -1,8 +1,5 @@
 package com.groep11.eva_app.ui.fragment;
 
-
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +17,6 @@ import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.groep11.eva_app.R;
-import com.groep11.eva_app.util.DateFaker;
 import com.plattysoft.leonids.ParticleSystem;
 import com.plattysoft.leonids.modifiers.ScaleModifier;
 
@@ -39,8 +34,8 @@ public class ShowProgressFragment extends Fragment {
     private static final int PARTICLE_EMITTER_AMOUNT = 120;
     private static final int PARTICLE_EMITTER_LIFETIME = 1500;
 
-    private int progressCounter = 0;
-    private boolean isFragmentRestoration = false;
+    private int mProgressCounter = 0;
+    private boolean mIsFragmentRestoration = false;
 
     @Bind(R.id.image_progress) ImageView mProgressImage;
     @Bind(R.id.emitter_anchor) ImageView mEmitterAnchor;
@@ -56,15 +51,6 @@ public class ShowProgressFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        SharedPreferences.Editor editor = this.getActivity().getPreferences(Context.MODE_PRIVATE).edit();
-        editor.putBoolean("isFragmentRestoration", false);
-        editor.apply();
-
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -77,16 +63,13 @@ public class ShowProgressFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.i(TAG, "resuming fragment");
-
         //Find our values in the sharedPreferences
         SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-        progressCounter = prefs.getInt("progressCounter", 0);
+        mProgressCounter = prefs.getInt("progressCounter", 0);
         updateProgressBar();
-        isFragmentRestoration = prefs.getBoolean("isFragmentRestoration", false);
 
         //Only show the full animation when the user has some progress and he's not returning from another fragment
-        if (progressCounter == 0 || isFragmentRestoration) {
+        if (mProgressCounter == 0 || mIsFragmentRestoration) {
             mProgressImage.setBackground(getLastAnimationFrame(this.getActivity()));
         } else {
             AnimationDrawable progressAnimation = createAnimationFromXMLArray(this.getActivity(), true);
@@ -99,28 +82,28 @@ public class ShowProgressFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Log.i(TAG, "pausing fragment");
-
-        //Save the progressCounter and isFragmentRestoration values in our sharedPreferences
+        // Save the mProgressCounter and mIsFragmentRestoration values in our sharedPreferences
         SharedPreferences.Editor editor = this.getActivity().getPreferences(Context.MODE_PRIVATE).edit();
-        editor.putInt("progressCounter", progressCounter);
-        editor.putBoolean("isFragmentRestoration", true);
+        editor.putInt("progressCounter", mProgressCounter);
         editor.apply();
+
+        // Fragment onPause called, next onResume call will be a restoration
+        mIsFragmentRestoration = true;
 
         super.onPause();
     }
 
     public void clearProgression() {
-        progressCounter = 0;
+        mProgressCounter = 0;
         mProgressImage.setBackgroundResource(R.drawable.tree_frame_01);
         updateProgressBar();
     }
 
     public void increaseProgress() {
-        // Increase progressCounter if possible,
+        // Increase mProgressCounter if possible,
         // update the progressbar to show our current progress
-        if (progressCounter < 21) {
-            progressCounter++;
+        if (mProgressCounter < 21) {
+            mProgressCounter++;
             updateProgressBar();
         }
 
@@ -133,10 +116,10 @@ public class ShowProgressFragment extends Fragment {
         progressAnimation.start();
     }
 
-    // Update progress bar's text and visuals to represent the current progressCounter
+    // Update progress bar's text and visuals to represent the current mProgressCounter
     private void updateProgressBar() {
-        mProgressBar.setProgress(progressCounter);
-        mProgressCounterView.setText(String.valueOf(progressCounter));
+        mProgressBar.setProgress(mProgressCounter);
+        mProgressCounterView.setText(String.valueOf(mProgressCounter));
     }
 
     //This will restart our application do this after completing a challenge in the demo TODO: remove for production
@@ -154,15 +137,15 @@ public class ShowProgressFragment extends Fragment {
     }
 
     /**
-     * Creates an AnimationDrawable from the tree_animation_array.xml file based on the progressCounter
+     * Creates an AnimationDrawable from the tree_animation_array.xml file based on the mProgressCounter
      * @param fromStart starts animation from the first day when true
      */
     private AnimationDrawable createAnimationFromXMLArray(Context context, boolean fromStart) {
         AnimationDrawable animation = new AnimationDrawable();
         //Start animation from the first day when fromStart is true
-        int startDay = fromStart ? 1 : progressCounter;
+        int startDay = fromStart ? 1 : mProgressCounter;
 
-        for (int dayIndex = startDay; dayIndex <= progressCounter; dayIndex++) {
+        for (int dayIndex = startDay; dayIndex <= mProgressCounter; dayIndex++) {
             //Find the array with the animation frames for dayIndex
             TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(dayIndex));
 
@@ -182,11 +165,11 @@ public class ShowProgressFragment extends Fragment {
 
     private Drawable getLastAnimationFrame(Context context) {
         //If the user hasn't made any progress yet, show him the first frame
-        if (progressCounter == 0)
+        if (mProgressCounter == 0)
             return ContextCompat.getDrawable(context, R.drawable.tree_frame_01);
 
         //Get the last frame from our current day array
-        TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(progressCounter));
+        TypedArray array = context.getResources().obtainTypedArray(getArrayIdFromDay(mProgressCounter));
         Drawable lastFrame = array.getDrawable(array.length() - 1);
         array.recycle();
 

@@ -1,0 +1,54 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.groep11.eva_app.ui.fragment.LoginFragment">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/input_login_mail"
+            android:hint="@string/registration.hint.mail"
+            style="@style/RegistrationEditText"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/input_login_password"
+            android:hint="@string/registration.hint.password"
+            style="@style/RegistrationEditText"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registration.login"
+            android:id="@+id/btn_login_login"
+            style="@style/RegistrationButton" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/registration.signup.redirect"
+        android:id="@+id/text_login_signup"
+        android:autoText="false"
+        style="@style/RegistrationSwapText"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="125dp"
+        android:id="@+id/image_login_logo"
+        android:layout_gravity="center_horizontal|top"
+        android:src="@drawable/registration_logo"
+        android:layout_marginTop="@dimen/spacing_huge"
+        android:contentDescription="@string/registration.logo.description" />
+</FrameLayout>

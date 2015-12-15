@@ -54,4 +54,29 @@
     <string name="title.restaurant">Uit eten</string>
     <string name="title.snack">Snack</string>
     <string name="title.social">Sociaal</string>
+
+    <!-- Registration Strings -->
+    <string name="registration.signup">Registreer</string>
+    <string name="registration.signup.redirect">Nog geen lid ? Registreer hier !</string>
+    <string name="registration.login.redirect">Al lid ? Meld je hier aan!</string>
+    <string name="registration.login">Aanmelden</string>
+    <string name="registration.hint.mail">e-mail</string>
+    <string name="registration.hint.password">password</string>
+    <string name="registration.logo.description">Image that represents EVAs logo</string>
+
+    <!-- Challenge complete dialog -->
+    <string name="complete.congratulations">Congrats!</string>
+    <string name="complete.confirm">Ok</string>
+    <string name="complete.share.description">Icon that represents the standard android share icon</string>
+    <string name="complete.share.body.prefix">Ik heb de challenge "</string>
+    <string name="complete.share.body.postfix">" voltooid! Doe mee met de 21 dagen challenge app van EVA, bezoek http://www.evavzw.be voor meer info.</string>
+
+    <!-- Timeline Strings -->
+    <string name="timeline.entry.title">Challenge title</string>
+    <string name="timeline.entry.line">Image that represents the completed state of the entry</string>
+    <string name="timeline.entry.difficulty">Image that represents the difficulty</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

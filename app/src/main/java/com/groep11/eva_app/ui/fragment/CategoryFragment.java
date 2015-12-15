@@ -30,6 +30,8 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.ui.ToggleSwipeViewPager;
+import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
+import com.groep11.eva_app.ui.fragment.interfaces.IOnFocusListenable;
 import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.ArrayList;
@@ -41,7 +43,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CategoryFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+        implements LoaderManager.LoaderCallbacks<Cursor>, IColumnConstants, IOnFocusListenable, ShowChallengeDetailsFragment.OnDetailsSaveCategoryListener {
+
 
     public static final String TAG = "CATEGORY";
 
@@ -53,8 +56,12 @@ public class CategoryFragment extends Fragment
     private List<String> mDbCategoryTitles = new ArrayList<>();
     private List<Long> mCurrentIds = new LinkedList<>();
     private PagerAdapter mPagerAdapter;
-    private AnimatorSet selectionAnimation;
+    private AnimatorSet mSelectionAnimation;
     private View mSelectedContainer;
+    private boolean mHasFocusedOnce = false;
+    private boolean mDelayedAnimationStarting = false;
+    private boolean mIsFragmentRestoration = false;
+    private boolean mSavedInDetails = false;
 
     @Bind({ R.id.category_1, R.id.category_2, R.id.category_3 }) List<LinearLayout> mCategoryContainers;
     @Bind({ R.id.category_icon_1, R.id.category_icon_2, R.id.category_icon_3 }) List<ImageView> mCategoryIcons;
@@ -79,8 +86,25 @@ public class CategoryFragment extends Fragment
         SharedPreferences.Editor editor = this.getActivity().getPreferences(Context.MODE_PRIVATE).edit();
         editor.putInt("selectedCategoryIndex", getClickedCategoryIndex(mSelectedContainer.getId()));
         editor.apply();
+
+        mIsFragmentRestoration = true;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Not the first time onResume is being called
+        // and it's being called after a fragment transaction
+        if(mHasFocusedOnce && mIsFragmentRestoration) {
+            if(mSavedInDetails){
+                saveSelectedCategory();
+            } else {
+                // Select the right category with an animation
+                selectPreviouslyChosenCategory();
+            }
+
+        }
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -91,7 +115,6 @@ public class CategoryFragment extends Fragment
         SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         int previousSelected = prefs.getInt("selectedCategoryIndex", 0);
         mSelectedContainer = mCategoryContainers.get(previousSelected);
-
     }
 
     @Override
@@ -105,6 +128,19 @@ public class CategoryFragment extends Fragment
         ButterKnife.bind(this, rootView);
 
         return rootView;
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.d(TAG, "onWindowFocusChanged() called with: " + "hasFocus = [" + hasFocus + "] && hasFocusedOnce = [" + mHasFocusedOnce + "]");
+
+        // Focus changed which means that the app is in the background,
+        // the category will still be selected. No animation needed when returning to the app
+        mIsFragmentRestoration = false;
+
+        if(!mHasFocusedOnce && hasFocus) {
+            // Select the right category with an animation
+            selectPreviouslyChosenCategory();
+        }
     }
 
     @Override
@@ -140,18 +176,6 @@ public class CategoryFragment extends Fragment
                 // Link the adapter to the Pager and disable swiping
                 mPreviewsPager.setAdapter(mPagerAdapter);
                 mPreviewsPager.setSwipingEnabled(false);
-
-                // After data is loaded, select the right one (animation bug fix...)
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        selectCategoryAnimation(mSelectedContainer, false);
-                        mPreviewsPager.setCurrentItem(getClickedCategoryIndex(mSelectedContainer.getId()));
-
-                        // Change our save button's text
-                        updateSaveButtonText();
-                    }
-                }, 1000);
 
             } else {
                 Log.e(TAG, "We need 3 challenges!");
@@ -202,7 +226,7 @@ public class CategoryFragment extends Fragment
     }
 
     @OnClick(R.id.category_button_save)
-    public void saveSelectedCategory(View view){
+    public void saveSelectedCategory(){
         // Get the index of the category the user clicked on
         int selectedIndex = getClickedCategoryIndex(mSelectedContainer.getId());
 
@@ -224,8 +248,8 @@ public class CategoryFragment extends Fragment
 
         // Replace Category fragment with Progress & Challenge fragment
         transaction.remove(fragmentManager.findFragmentByTag(CategoryFragment.TAG));
-        transaction.add(R.id.fragment_container, progressFragment, ShowProgressFragment.TAG);
-        transaction.add(R.id.fragment_container, challengeFragment, ShowChallengeFragment.TAG);
+        transaction.add(R.id.fragment_main_container, progressFragment, ShowProgressFragment.TAG);
+        transaction.add(R.id.fragment_main_container, challengeFragment, ShowChallengeFragment.TAG);
 
         transaction.commit();
     }
@@ -282,10 +306,29 @@ public class CategoryFragment extends Fragment
     }
 
     private boolean isAnimationAllowed(){
+        // Previously selected icon animation is starting, animation not allowed!
+        if(mDelayedAnimationStarting) return false;
         // Nothing selected yet, so yeah :)
-        if(selectionAnimation == null) return true;
+        if(mSelectionAnimation == null) return true;
         // Something is selected, only when it's not still animating!
-        return !selectionAnimation.isRunning();
+        return !mSelectionAnimation.isRunning();
+    }
+
+    private void selectPreviouslyChosenCategory() {
+        mDelayedAnimationStarting = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                selectCategoryAnimation(mSelectedContainer, false);
+                mHasFocusedOnce = true;
+                mPreviewsPager.setCurrentItem(getClickedCategoryIndex(mSelectedContainer.getId()));
+
+                // Change our save button's text
+                updateSaveButtonText();
+
+                mDelayedAnimationStarting = false;
+            }
+        }, 1000);
     }
 
     private void selectCategoryAnimation(View categoryView, boolean isReversed){
@@ -302,15 +345,20 @@ public class CategoryFragment extends Fragment
         ObjectAnimator animateScaleY = ObjectAnimator.ofFloat(categoryView, "scaleY", scaleValue);
 
         // Create a set for the animators and play the animation as one
-        selectionAnimation = new AnimatorSet();
-        selectionAnimation.playTogether(animateTranslateY, animateScaleX, animateScaleY);
+        mSelectionAnimation = new AnimatorSet();
+        mSelectionAnimation.playTogether(animateTranslateY, animateScaleX, animateScaleY);
         // Set the duration and interpolation of the animation
-        selectionAnimation.setDuration(1000);
-        selectionAnimation.setInterpolator(new BounceInterpolator());
-        selectionAnimation.start();
+        mSelectionAnimation.setDuration(1000);
+        mSelectionAnimation.setInterpolator(new BounceInterpolator());
+        mSelectionAnimation.start();
 
         // Set the currently selected category icon, we'll be able to reverse it's animation later on
         mSelectedContainer = isReversed ? null : categoryView;
+    }
+
+    @Override
+    public void onDetailsSaveCategory() {
+        mSavedInDetails = true;
     }
 
     // Regulate the fragments being shown in our ViewPager

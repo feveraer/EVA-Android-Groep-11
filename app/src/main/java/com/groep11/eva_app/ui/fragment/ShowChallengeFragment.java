@@ -1,17 +1,17 @@
 package com.groep11.eva_app.ui.fragment;
 
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
-import android.content.Context;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.groep11.eva_app.R;
 import com.groep11.eva_app.data.EvaContract;
 import com.groep11.eva_app.service.EvaSyncAdapter;
+import com.groep11.eva_app.ui.fragment.interfaces.IColumnConstants;
+import com.groep11.eva_app.util.TaskStatus;
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowChallengeFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ILoaderFragment {
+        implements LoaderManager.LoaderCallbacks<Cursor>, IColumnConstants {
 
     public static final String URI = "URI";
     public static final String PREVIEW = "PREVIEW";
@@ -39,21 +41,15 @@ public class ShowChallengeFragment extends Fragment
     private static final String CATEGORY_PREFIX = "category_";
     private static final float LEAF_DISABLED_OPACITY = 0.5f;
 
+    private String currentChallengeTitle;
     private Uri mUri;
-
+    private Long mCurrentId = 0L;
 
     @Bind(R.id.text_challenge_title) TextView mTitleView;
     @Bind(R.id.text_challenge_description) TextView mDescriptionView;
     @Bind(R.id.circle_challenge_image) CircleImageView mCircleImageView;
     @Bind({R.id.image_leaf_1, R.id.image_leaf_2, R.id.image_leaf_3}) List<ImageView> mDifficultyView;
     @Bind(R.id.challenge_complete) ImageView mCompleteChallengeView;
-
-
-    private OnItemClickListener listener;
-
-    public interface OnItemClickListener {
-        void onComplete();
-    }
 
     public ShowChallengeFragment() {
         // Required empty public constructor
@@ -82,22 +78,6 @@ public class ShowChallengeFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Activity activity;
-        if (context instanceof Activity) {
-            activity = (Activity) context;
-
-            if (activity instanceof OnItemClickListener) {
-                listener = (OnItemClickListener) activity;
-            } else {
-                throw new ClassCastException(activity.toString() +
-                        " must implement OnItemClickListener");
-            }
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -120,15 +100,22 @@ public class ShowChallengeFragment extends Fragment
         return rootView;
     }
 
+    private boolean isPreviewChallenge(){
+        return mCompleteChallengeView.getVisibility() == View.GONE;
+    }
+
     @OnClick(R.id.card_challenge)
     public void showDetailsActivity(View view) {
 
         // Create arguments (uri)
         Bundle arguments = new Bundle();
         arguments.putParcelable(ShowChallengeDetailsFragment.DETAIL_URI, mUri);
+        arguments.putBoolean(PREVIEW, isPreviewChallenge());
 
         // Create new challengeDetailsFragment and set it's arguments
+        Log.i(TAG, "prev : " + isPreviewChallenge());
         ShowChallengeDetailsFragment challengeDetailsFragment = ShowChallengeDetailsFragment.newInstance();
+
         challengeDetailsFragment.setArguments(arguments);
 
         // Get the activity's fragment manager (important for categoryFragment with the viewpager!)
@@ -143,12 +130,12 @@ public class ShowChallengeFragment extends Fragment
 
         if(categoryFragment != null) {
             // If category fragment is on the backstack, replace it with challengeDetails
-            transaction.replace(R.id.fragment_container, challengeDetailsFragment, TAG);
+            transaction.replace(R.id.fragment_main_container, challengeDetailsFragment, TAG);
         } else {
             // Category fragment is not on the backstack, so we'll replace Progress & Challenge with challengeDetails
             transaction.remove(getFragmentManager().findFragmentByTag(ShowProgressFragment.TAG));
             transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
-            transaction.add(R.id.fragment_container, challengeDetailsFragment, TAG);
+            transaction.add(R.id.fragment_main_container, challengeDetailsFragment, TAG);
         }
 
         // Adds challengeFragment to backStack
@@ -158,7 +145,16 @@ public class ShowChallengeFragment extends Fragment
 
     @OnClick(R.id.challenge_complete)
     public void onComplete(View view) {
-        // Remove current challenge card
+        // Update challenge status to COMPLETED
+        updateChallengeStatus(mCurrentId, TaskStatus.COMPLETED.value);
+
+        // Show Challenge Complete dialog
+        showChallengeCompleteDialog();
+
+        // Create Timeline fragment
+        TimelineFragment timelineFragment = TimelineFragment.newInstance();
+
+        // Remove current challenge card and add the timeline
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
@@ -166,15 +162,28 @@ public class ShowChallengeFragment extends Fragment
                 android.R.animator.fade_in, android.R.animator.fade_out);
 
         transaction.remove(getFragmentManager().findFragmentByTag(ShowChallengeFragment.TAG));
+        transaction.add(R.id.fragment_main_container, timelineFragment, TimelineFragment.TAG);
         transaction.commit();
+    }
 
-        // Make sure listener is set.
-        listener = (OnItemClickListener) getActivity();
+    // Refactor later? This exact method also exists in CategoryFragment
+    private void updateChallengeStatus(Long id, int status) {
+        ContentValues updateValues = new ContentValues();
 
-        if (listener != null) {
-            // Increment progress
-            listener.onComplete();
-        }
+        updateValues.put(EvaContract.ChallengeEntry.COLUMN_STATUS, status);
+
+        int rowsUpdated = getActivity().getContentResolver().update(
+                EvaContract.ChallengeEntry.buildChallengeUri(id),
+                updateValues,
+                null,           // ContentProvider takes care of this
+                null
+        );
+    }
+
+    private void showChallengeCompleteDialog() {
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        ChallengeCompleteDialog dialog = ChallengeCompleteDialog.newInstance("Congratulations!", currentChallengeTitle);
+        dialog.show(fragmentManager, "fragment_challenge_complete");
     }
 
     @Override
@@ -203,12 +212,13 @@ public class ShowChallengeFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-            String challengeTitle = data.getString(COL_CHALLENGE_TITLE);
+            mCurrentId = data.getLong(COL_CHALLENGE_ID);
+
+            currentChallengeTitle = data.getString(COL_CHALLENGE_TITLE);
             String challengeDescription = data.getString(COL_CHALLENGE_DESCRIPTION);
             String challengeDifficulty = data.getString(COL_CHALLENGE_DIFFICULTY);
 
-
-            mTitleView.setText(challengeTitle);
+            mTitleView.setText(currentChallengeTitle);
             mDescriptionView.setText(challengeDescription.replace("\n", "").substring(0,
                     challengeDescription.indexOf(" ", 25)+1) + "...");
             setCategoryIcon(data.getString(COL_CHALLENGE_CATEGORY).toLowerCase());

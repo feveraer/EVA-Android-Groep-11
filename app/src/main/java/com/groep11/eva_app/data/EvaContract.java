@@ -56,6 +56,13 @@ public class EvaContract {
         }
 
         /**
+         * returns all completed challenges
+         */
+        public static Uri buildCompletedChallenges() {
+            return CONTENT_URI.buildUpon().appendPath("completed").build();
+        }
+
+        /**
          * only returns the task of today with status CHOSEN or COMPLETED
          * // TODO: update where used
          */
