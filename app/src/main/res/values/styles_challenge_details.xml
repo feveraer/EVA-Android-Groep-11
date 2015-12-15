@@ -9,7 +9,7 @@
 
     <style name="DetailsContentText">
         <item name="android:textSize">@dimen/font_tiny</item>
-        <item name="android:background">@color/grey_300</item>
+        <item name="android:background">@color/light_green_50</item>
         <item name="android:textColor">@color/grey_700</item>
         <item name="android:paddingStart">@dimen/spacing_large</item>
         <item name="android:paddingEnd">@dimen/spacing_large</item>
