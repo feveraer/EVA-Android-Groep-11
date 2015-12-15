@@ -83,6 +83,7 @@ public class ChallengeCompleteDialog extends DialogFragment {
         String title = getArguments().getString("title", "Congratulations!");
         mCompletedChallenge = getArguments().getString("completed_challenge", "Challenge niet gevonden :(");
 
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.completeDialog);
         getDialog().setTitle(title);
     }
 
